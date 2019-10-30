@@ -25,7 +25,7 @@ class SmartAttribute;
  * It implements most of all functions from the BlockInterface
  * and provides convenience functions often used in Block implementations.
  */
-class BlockBase : public BlockInterface, public ObjectWithProperties
+class BlockBase : public BlockInterface, public ObjectWithAttributes
 {
 	Q_OBJECT
 

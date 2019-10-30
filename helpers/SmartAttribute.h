@@ -7,14 +7,14 @@
 #include <QJsonObject>
 #include <QColor>
 
-class ObjectWithProperties;
+class ObjectWithAttributes;
 
 class SmartAttribute : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit SmartAttribute(ObjectWithProperties* block, QString name, bool persistent);
+    explicit SmartAttribute(ObjectWithAttributes* owa, QString name, bool persistent);
     explicit SmartAttribute(void*, QObject* parent, QString name, bool persistent);
 
 public slots:
@@ -39,7 +39,7 @@ class DoubleAttribute : public SmartAttribute
     Q_PROPERTY(double max READ getMax WRITE setMax NOTIFY maxChanged)
 
 public:
-    explicit DoubleAttribute(ObjectWithProperties* block, QString name, double initialValue = 0.0, double min = 0.0, double max = 1.0, bool persistent = true);
+    explicit DoubleAttribute(ObjectWithAttributes* block, QString name, double initialValue = 0.0, double min = 0.0, double max = 1.0, bool persistent = true);
     explicit DoubleAttribute(void*, QObject* parent, QString name, double initialValue = 0.0, double min = 0.0, double max = 1.0, bool persistent = true);
     operator double() const { return m_value; }
     DoubleAttribute& operator=(double value) { setValue(value); return *this; }
@@ -78,7 +78,7 @@ class IntegerAttribute : public SmartAttribute
     Q_PROPERTY(int max READ getMax WRITE setMax NOTIFY maxChanged)
 
 public:
-    explicit IntegerAttribute(ObjectWithProperties* block, QString name, int initialValue = 0, int min = 0, int max = 100, bool persistent = true);
+    explicit IntegerAttribute(ObjectWithAttributes* block, QString name, int initialValue = 0, int min = 0, int max = 100, bool persistent = true);
     explicit IntegerAttribute(void*, QObject* parent, QString name, int initialValue = 0, int min = 0, int max = 100, bool persistent = true);
     operator int() const { return m_value; }
     IntegerAttribute& operator=(int value) { setValue(value); return *this; }
@@ -115,7 +115,7 @@ class StringAttribute : public SmartAttribute
     Q_PROPERTY(QString val READ getValue WRITE setValue NOTIFY valueChanged)
 
 public:
-    explicit StringAttribute(ObjectWithProperties* block, QString name, QString initialValue = "", bool persistent = true);
+    explicit StringAttribute(ObjectWithAttributes* block, QString name, QString initialValue = "", bool persistent = true);
     explicit StringAttribute(void*, QObject* parent, QString name, QString initialValue = "", bool persistent = true);
     operator QString() const { return m_value; }
     StringAttribute& operator=(QString value) { setValue(value); return *this; }
@@ -142,7 +142,7 @@ class BoolAttribute : public SmartAttribute
     Q_PROPERTY(bool val READ getValue WRITE setValue NOTIFY valueChanged)
 
 public:
-    explicit BoolAttribute(ObjectWithProperties* block, QString name, bool initialValue = false, bool persistent = true);
+    explicit BoolAttribute(ObjectWithAttributes* block, QString name, bool initialValue = false, bool persistent = true);
     explicit BoolAttribute(void*, QObject* parent, QString name, bool initialValue = false, bool persistent = true);
     operator bool() const { return m_value; }
     BoolAttribute& operator=(bool value) { setValue(value); return *this; }
@@ -182,7 +182,7 @@ class RgbAttribute : public SmartAttribute
     Q_PROPERTY(QColor glow READ getGlow NOTIFY valueChanged)
 
 public:
-    explicit RgbAttribute(ObjectWithProperties* block, QString name, const RGB& initialValue = {0, 0, 0}, bool persistent = true);
+    explicit RgbAttribute(ObjectWithAttributes* block, QString name, const RGB& initialValue = {0, 0, 0}, bool persistent = true);
     explicit RgbAttribute(void*, QObject* parent, QString name, const RGB& initialValue = {0, 0, 0}, bool persistent = true);
     operator RGB() const { return m_value; }
     RgbAttribute& operator=(const RGB& value) { setValue(value); return *this; }
@@ -236,7 +236,7 @@ class HsvAttribute : public SmartAttribute
     Q_PROPERTY(double val READ val WRITE setVal NOTIFY valueChanged)
 
 public:
-    explicit HsvAttribute(ObjectWithProperties* block, QString name, const HSV& initialValue = {0, 0, 0}, bool persistent = true);
+    explicit HsvAttribute(ObjectWithAttributes* block, QString name, const HSV& initialValue = {0, 0, 0}, bool persistent = true);
     explicit HsvAttribute(void*, QObject* parent, QString name, const HSV& initialValue = {0, 0, 0}, bool persistent = true);
     operator HSV() const { return m_value; }
     HsvAttribute& operator=(const HSV& value) { setValue(value); return *this; }

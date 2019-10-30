@@ -8,11 +8,11 @@
 class SmartAttribute;
 
 
-class ObjectWithProperties {
+class ObjectWithAttributes {
 
 
 public:
-    ObjectWithProperties(QObject* parent);
+    ObjectWithAttributes(QObject* parent);
 
     QObject* parent() { return m_parent; }
 

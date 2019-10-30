@@ -18,7 +18,7 @@ RESOURCES += \
 
 HEADERS += \
     $$PWD/CoreController.h \
-    $$PWD/helpers/ObjectWithProperties.h \
+    $$PWD/helpers/ObjectWithAttributes.h \
     $$PWD/helpers/constants.h \
     $$PWD/helpers/utils.h \
     $$PWD/qtquick_items/BarGraphItem.h \
@@ -65,7 +65,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/CoreController.cpp \
-    $$PWD/helpers/ObjectWithProperties.cpp \
+    $$PWD/helpers/ObjectWithAttributes.cpp \
     $$PWD/qtquick_items/BarGraphItem.cpp \
     $$PWD/qtquick_items/BezierCurve.cpp \
     $$PWD/qtquick_items/CustomImagePainter.cpp \

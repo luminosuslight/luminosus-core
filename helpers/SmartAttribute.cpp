@@ -1,15 +1,15 @@
 #include "SmartAttribute.h"
 
-#include "core/helpers/ObjectWithProperties.h"
+#include "core/helpers/ObjectWithAttributes.h"
 #include "core/helpers/utils.h"
 
 
-SmartAttribute::SmartAttribute(ObjectWithProperties* owp, QString name, bool persistent)
-    : QObject(owp->parent())
+SmartAttribute::SmartAttribute(ObjectWithAttributes* owa, QString name, bool persistent)
+    : QObject(owa->parent())
     , m_name(name)
     , m_persistent(persistent)
 {
-    owp->registerAttribute(this);
+    owa->registerAttribute(this);
 }
 
 SmartAttribute::SmartAttribute(void*, QObject* parent, QString name, bool persistent)
@@ -20,7 +20,7 @@ SmartAttribute::SmartAttribute(void*, QObject* parent, QString name, bool persis
 
 }
 
-DoubleAttribute::DoubleAttribute(ObjectWithProperties* block, QString name, double initialValue, double min, double max, bool persistent)
+DoubleAttribute::DoubleAttribute(ObjectWithAttributes* block, QString name, double initialValue, double min, double max, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
     , m_min(min)
@@ -54,7 +54,7 @@ void DoubleAttribute::setValue(double value) {
 }
 
 
-IntegerAttribute::IntegerAttribute(ObjectWithProperties* block, QString name, int initialValue, int min, int max, bool persistent)
+IntegerAttribute::IntegerAttribute(ObjectWithAttributes* block, QString name, int initialValue, int min, int max, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
     , m_min(min)
@@ -88,7 +88,7 @@ void IntegerAttribute::setValue(int value) {
 }
 
 
-StringAttribute::StringAttribute(ObjectWithProperties* block, QString name, QString initialValue, bool persistent)
+StringAttribute::StringAttribute(ObjectWithAttributes* block, QString name, QString initialValue, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
 {
@@ -111,7 +111,7 @@ void StringAttribute::readFrom(const QJsonObject& state) {
 }
 
 
-BoolAttribute::BoolAttribute(ObjectWithProperties* block, QString name, bool initialValue, bool persistent)
+BoolAttribute::BoolAttribute(ObjectWithAttributes* block, QString name, bool initialValue, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
 {
@@ -133,7 +133,7 @@ void BoolAttribute::readFrom(const QJsonObject& state) {
     setValue(state[m_name].toBool());
 }
 
-RgbAttribute::RgbAttribute(ObjectWithProperties* block, QString name, const RGB& initialValue, bool persistent)
+RgbAttribute::RgbAttribute(ObjectWithAttributes* block, QString name, const RGB& initialValue, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
 {
@@ -221,7 +221,7 @@ QColor RgbAttribute::getGlow() const {
     }
 }
 
-HsvAttribute::HsvAttribute(ObjectWithProperties* block, QString name, const HSV& initialValue, bool persistent)
+HsvAttribute::HsvAttribute(ObjectWithAttributes* block, QString name, const HSV& initialValue, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
 {

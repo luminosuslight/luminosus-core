@@ -22,7 +22,7 @@ QString getNewUid() {
 
 BlockBase::BlockBase(CoreController* controller, QString uid)
   : BlockInterface(controller)
-  , ObjectWithProperties(this)
+  , ObjectWithAttributes(this)
   , m_uid(uid)
   , m_controller(controller)
   , m_guiX(0.0)
@@ -306,7 +306,7 @@ void BlockBase::makeBlocksConnectedToInputsVisible() {
 }
 
 QObject* BlockBase::attr(QString name) {
-    ObjectWithProperties::attr(name);
+    ObjectWithAttributes::attr(name);
 }
 
 void BlockBase::createGuiItem() {
