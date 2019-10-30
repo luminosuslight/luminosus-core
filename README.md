@@ -11,4 +11,4 @@ Cross-platform framework for modular applications
 
 ## Intergration
 
-Add this repository using `git submodule add git@github.com:luminosuslight/luminosus-core.git core` to your project and add `include core/luminosus-core.pri` to your qmake (.pro) file.
+Add this repository using `git submodule add git@github.com:luminosuslight/luminosus-core.git core` to your project and add `include(core/luminosus-core.pri)` to your qmake (.pro) file.
