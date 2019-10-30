@@ -36,3 +36,15 @@ Things you don't need to take care of anymore by using this framework:
 ## Integration
 
 Add this repository to your project using `git submodule add git@github.com:luminosuslight/luminosus-core.git core` and add `include(core/luminosus-core.pri)` to your qmake (.pro) file.
+
+## Possible Use-Cases
+
+Here are some examples of apps that I already built with code from this frameworks:
+
+* node-based lighting controller
+* speech assistant with modular conversation editor
+* smart home controller
+* personal cloud including image database server and image viewer client
+* health diary
+* social network app
+* cellular image analysis software
