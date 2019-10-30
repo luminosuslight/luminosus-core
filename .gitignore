@@ -39,3 +39,7 @@ Makefile*
 
 # Python Compiled Files
 *.pyc
+
+# Certificates
+*.cert
+*.key
