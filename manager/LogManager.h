@@ -8,7 +8,7 @@
 #include <QTimer>
 
 // forward declaration to prevent dependency loop
-class MainController;
+class CoreController;
 
 /**
  * @brief The LogManagerConstants namespace contains all constants used in LogManager.
@@ -37,7 +37,7 @@ public:
      * this class.
      * @param controller
      */
-    explicit LogManager(MainController* controller);
+    explicit LogManager(CoreController* controller);
 
     /**
       * @brief ~LogManager restores the default QDebug message handler
@@ -81,7 +81,7 @@ protected:
     /**
      * @brief m_controller a pointer to the main controller
      */
-    QPointer<MainController> const m_controller;
+    QPointer<CoreController> const m_controller;
 
     /**
      * @brief m_log the list of logged messages (for size see LogManagerConstants::historyLength)

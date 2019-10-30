@@ -1,13 +1,15 @@
-#ifndef BLOCKLIST
-#define BLOCKLIST
+#ifndef BLOCKLIST_H
+#define BLOCKLIST_H
 
-#include "core/block_data/BlockInterface.h"
-#include "utils.h"
+#include "core/block_basics/BlockInterface.h"
+#include "core/helpers/utils.h"
 
 #include <QObject>
 #include <QString>
 #include <QVector>
 #include <map>
+
+class CoreController;
 
 /**
  * @brief The BlockList class manages the information about all available block types.
@@ -20,7 +22,7 @@ public:
     /**
      * @brief BlockList creates a BlockList object and adds all available blocks
      */
-    explicit BlockList(MainController* controller);
+    explicit BlockList(CoreController* controller);
 
 public slots:
 	/**
@@ -94,9 +96,9 @@ private:
 
 protected:
     /**
-     * @brief m_controller a pointer to the MainController
+     * @brief m_controller a pointer to the CoreController
      */
-    MainController* const m_controller;
+    CoreController* const m_controller;
 	/**
      * @brief m_availabilityRequirements is a set of all available hard- and software dependencies
 	 */
@@ -129,5 +131,5 @@ protected:
 
 
 
-#endif // BLOCKLIST
+#endif // BLOCKLIST_H
 

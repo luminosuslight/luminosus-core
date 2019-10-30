@@ -1,11 +1,12 @@
 #include "AnchorManager.h"
 
-#include "core/MainController.h"
+#include "core/CoreController.h"
+#include "core/manager/GuiManager.h"
 
 #include <QQuickWindow>
 
 
-AnchorManager::AnchorManager(MainController* controller)
+AnchorManager::AnchorManager(CoreController* controller)
     : m_controller(controller)
     , m_presentationMode(false)
     , m_currentIndex(0)

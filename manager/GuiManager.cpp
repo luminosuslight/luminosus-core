@@ -1,6 +1,7 @@
 #include "GuiManager.h"
 
-#include "core/MainController.h"
+#include "core/CoreController.h"
+#include "core/manager/ProjectManager.h"
 
 #include <QQuickWindow>
 #include <QQuickItem>
@@ -9,7 +10,7 @@
 #include <QScreen>
 
 
-GuiManager::GuiManager(MainController* controller, QQmlApplicationEngine& qmlEngine)
+GuiManager::GuiManager(CoreController* controller, QQmlApplicationEngine& qmlEngine)
     : m_controller(controller)
     , m_qmlEngine(qmlEngine)
     , m_backgroundName(LuminosusConstants::defaultBackgroundName)
@@ -56,7 +57,7 @@ void GuiManager::setBackgroundName(QString value) {
 }
 
 void GuiManager::createAndShowWindow() {
-    // make this MainController accessable from QML with a context variable
+    // make this CoreController accessable from QML with a context variable
     // the access to all other manager instances is done using this controller
     m_qmlEngine.rootContext()->setContextProperty("controller", m_controller);
     m_qmlEngine.rootContext()->setContextProperty("guiManager", this);
@@ -76,7 +77,7 @@ void GuiManager::createAndShowWindow() {
 #ifdef Q_OS_LINUX
     // ----------- Anti-Aliasing ---------------
     QSurfaceFormat format(m_window->format());
-    if (m_qmlEngine.rootContext()->contextProperty("dp").toFloat() > 1.5
+    if (m_qmlEngine.rootContext()->contextProperty("dp").toFloat() > 1.5f
             || m_window->screen()->devicePixelRatio() > 1.5) {
         qInfo() << "AntiAliasing: Not forced (HighDPI screen)";
         format.setSamples(-1);
@@ -171,8 +172,8 @@ void GuiManager::moveToGrid(QQuickItem* block) {
     const double dp = getGuiScaling();
     const double gridWidth = 30.0*dp;
 
-    const int finalX = qRound(block->x() / gridWidth) * gridWidth;
-    const int finalY = qRound((block->y() + block->height()) / gridWidth) * gridWidth - block->height();
+    const int finalX = int(qRound(block->x() / gridWidth) * gridWidth);
+    const int finalY = int(qRound((block->y() + block->height()) / gridWidth) * gridWidth - block->height());
 
     QMetaObject::invokeMethod(block, "moveAnimatedTo", Q_ARG(QVariant, finalX), Q_ARG(QVariant, finalY));
 }

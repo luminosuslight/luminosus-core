@@ -1,8 +1,9 @@
 #ifndef BLOCKBASE_H
 #define BLOCKBASE_H
 
-#include "core/block_data/BlockInterface.h"
-#include "core/SmartAttribute.h"
+#include "core/block_basics/BlockInterface.h"
+#include "core/helpers/SmartAttribute.h"
+#include "core/helpers/ObjectWithProperties.h"
 
 #include <QObject>
 #include <QJsonObject>
@@ -11,7 +12,7 @@
 #include <QPointer>
 
 // forward declaration to prevent dependency loop
-class MainController;
+class CoreController;
 
 // forward declaration to reduce dependencies
 class NodeBase;
@@ -24,7 +25,7 @@ class SmartAttribute;
  * It implements most of all functions from the BlockInterface
  * and provides convenience functions often used in Block implementations.
  */
-class BlockBase : public BlockInterface
+class BlockBase : public BlockInterface, public ObjectWithProperties
 {
 	Q_OBJECT
 
@@ -42,7 +43,7 @@ public:
      * @param uid set this to restore a block or leave empty to create new uid
      * @param qmlUrl path to QML file to load
      */
-    explicit BlockBase(MainController* controller, QString uid);
+    explicit BlockBase(CoreController* controller, QString uid);
     /**
      * @brief ~BlockBase deletes Nodes that were created on the heap
      */
@@ -63,7 +64,6 @@ public:
     virtual QJsonObject getNodeMergeModes() const override;
     virtual void setNodeMergeModes(const QJsonObject& state) override;
     virtual bool renderIfNotVisible() const override { return false; }
-    virtual void registerAttribute(SmartAttribute* attr) override;
     virtual void setGuiItemCode(QString code) override;
 
     // convenience methods:
@@ -91,9 +91,6 @@ public:
     void removeNode(NodeBase* node);
 
     QQuickItem* createQmlItem(QString qmlPath, QQuickItem* parent);
-
-    void writeAttributesTo(QJsonObject& state) const;
-    void readAttributesFrom(const QJsonObject& state);
 
 signals:
     /**
@@ -185,7 +182,7 @@ protected:
 	/**
 	 * @brief m_controller is a pointer to the main controller
 	 */
-	MainController* const m_controller;
+    CoreController* const m_controller;
 
     /**
      * @brief m_guiX is the x position of the GUI item relative to its parent
@@ -261,16 +258,6 @@ protected:
      * @brief m_controllerFunctionSelected is the currently "selected" function by pressing the controller
      */
     int m_controllerFunctionSelected;
-
-    /**
-     * @brief m_blockAttributes contains all BlockAttributes of this block
-     */
-    QMap<QString, QPointer<SmartAttribute>> m_blockAttributes;
-
-    /**
-     * @brief m_persistentAttributes contains pointers to all attributes that should be persistet
-     */
-    QVector<QPointer<SmartAttribute>> m_persistentAttributes;
 
 
     // -------------- Scene Data ------------------

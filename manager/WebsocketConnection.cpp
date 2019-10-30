@@ -1,6 +1,6 @@
 #include "WebsocketConnection.h"
 
-#include "core/MainController.h"
+#include "core/CoreController.h"
 
 #include <QWebSocketServer>
 #include <QUuid>
@@ -134,7 +134,7 @@ private:
 };
 
 
-WebsocketConnection::WebsocketConnection(MainController* controller)
+WebsocketConnection::WebsocketConnection(CoreController* controller)
     : QObject(controller)
     , m_controller(controller)
     , m_imageProvider(nullptr)

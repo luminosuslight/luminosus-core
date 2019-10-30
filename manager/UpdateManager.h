@@ -7,7 +7,7 @@
 
 
 // Forward declaration to reduce dependencies
-class MainController;
+class CoreController;
 
 /**
  * @brief The UpdateManagerConstants namespace contains all constants used in UpdateManager
@@ -53,9 +53,9 @@ public:
 
     /**
      * @brief UpdateManager creates an UpdateManager object
-     * @param controller a pointer to the MainController
+     * @param controller a pointer to the CoreController
      */
-    explicit UpdateManager(MainController* controller);
+    explicit UpdateManager(CoreController* controller);
 
     /**
      * @brief getState returns the current state to persist it
@@ -130,9 +130,9 @@ private:
 
 protected:
     /**
-     * @brief m_controller pointer to MainController instance
+     * @brief m_controller pointer to CoreController instance
      */
-    MainController* const m_controller;
+    CoreController* const m_controller;
 
     /**
      * @brief m_uid is the UID of this installation

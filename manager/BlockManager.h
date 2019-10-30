@@ -1,9 +1,9 @@
 #ifndef BLOCKMANAGER_H
 #define BLOCKMANAGER_H
 
-#include "core/block_data/BlockList.h"
-#include "core/QCircularBuffer.h"
-#include "utils.h"
+#include "core/manager/BlockList.h"
+#include "core/helpers/QCircularBuffer.h"
+#include "core/helpers/utils.h"
 
 #include <QObject>
 #include <QPointer>
@@ -13,7 +13,7 @@
 
 
 // forward declaration to reduce dependencies
-class MainController;
+class CoreController;
 class BlockInterface;
 class NodeBase;
 
@@ -51,9 +51,9 @@ class BlockManager : public QObject
 public:
 	/**
 	 * @brief BlockManager creates an instance of this manager
-	 * @param controller pointer to the MainController
+     * @param controller pointer to the CoreController
 	 */
-    explicit BlockManager(MainController* controller);
+    explicit BlockManager(CoreController* controller);
 
 public slots:
 
@@ -310,9 +310,9 @@ protected:
 	 */
 	QPointer<BlockInterface> m_focusedBlock;
 	/**
-	 * @brief m_controller a pointer to the MainController
+     * @brief m_controller a pointer to the CoreController
 	 */
-	MainController* const m_controller;
+    CoreController* const m_controller;
 	/**
 	 * @brief m_startChannel is the start channel for the next added device block
 	 */

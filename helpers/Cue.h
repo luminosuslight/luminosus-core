@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QPointer>
 
-#include "core/block_data/BlockInterface.h"
+#include "core/block_basics/BlockInterface.h"
 #include "block_implementations/Theater/PresetBlock.h"
 
 

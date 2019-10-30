@@ -1,9 +1,11 @@
 #include "ProjectManager.h"
 
-#include "core/MainController.h"
+#include "core/CoreController.h"
+#include "core/manager/AnchorManager.h"
 #include "core/manager/BlockManager.h"
-#include "core/Nodes.h"
-#include "utils.h"
+#include "core/manager/FileSystemManager.h"
+#include "core/manager/GuiManager.h"
+#include "core/connections/Nodes.h"
 
 #include <QFileInfo>
 #include <QQuickWindow>
@@ -14,7 +16,7 @@ namespace PMC = ProjectManagerConstants;
 
 // ------------------------------- Public ----------------------------
 
-ProjectManager::ProjectManager(MainController* controller)
+ProjectManager::ProjectManager(CoreController* controller)
 	: QObject(controller)
 	, m_controller(controller)
 	, m_currentProjectName("")
@@ -61,7 +63,8 @@ void ProjectManager::createAndLoad(QString name) {
 	// reset workspace:
 	m_currentProjectName = "";
     m_controller->blockManager()->deleteAllBlocks(/*immediate*/ true);
-    m_controller->midiMapping()->clearMapping();
+    // FIXME: create signal and move this to MidiManager!
+    // m_controller->midiMapping()->clearMapping();
 	// reset plane position:
     m_controller->guiManager()->setWorkspacePosition(0, 0);
 	// save with new name:
@@ -144,7 +147,8 @@ QJsonObject ProjectManager::getCurrentProjectState() const {
     projectState["displayedGroup"] = m_controller->blockManager()->getDisplayedGroup();
     projectState["anchors"] = m_controller->anchorManager()->getState();
     projectState["backgroundName"] = m_controller->guiManager()->getBackgroundName();
-    projectState["midiMapping"] = m_controller->midiMapping()->getState();
+    // FIXME: create signal and move this to MidiManager!
+    // projectState["midiMapping"] = m_controller->midiMapping()->getState();
 
     return projectState;
 }
@@ -349,7 +353,8 @@ void ProjectManager::loadProjectState(QString name, bool animated) {
     m_controller->blockManager()->setDisplayedGroup(projectState["displayedGroup"].toString());
     m_controller->anchorManager()->setState(projectState["anchors"].toObject());
     m_controller->guiManager()->setBackgroundName(projectState["backgroundName"].toString());
-    m_controller->midiMapping()->setState(projectState["midiMapping"].toObject());
+    // FIXME: create signal and move this to MidiManager!
+    // m_controller->midiMapping()->setState(projectState["midiMapping"].toObject());
 
     // restoring the blocks often takes longer than one frame
     // to revent frames being skipped, the blocks are created in multiple chuncks

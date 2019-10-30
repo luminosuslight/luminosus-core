@@ -1,7 +1,7 @@
 #include "ConversationLogicBlock.h"
 
-#include "core/MainController.h"
-#include "core/Nodes.h"
+#include "core/CoreController.h"
+#include "core/connections/Nodes.h"
 #include "block_implementations/Conversation/LogicResultBlock.h"
 #include "conversation/Command.h"
 

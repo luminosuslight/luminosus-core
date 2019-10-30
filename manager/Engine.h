@@ -1,7 +1,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include "utils.h"
+#include "core/helpers/utils.h"
 
 #include <QObject>
 #include <QTimer>

@@ -8,7 +8,7 @@
 #include <QTimer>
 
 // forward declaration to prevent dependency loop
-class MainController;
+class CoreController;
 
 /**
  * @brief The ProjectManagerConstants namespace contains all constants used in ProjectManager.
@@ -54,9 +54,9 @@ class ProjectManager : public QObject
 public:
 	/**
 	 * @brief ProjectManager creates an instance and initializes the attributes
-	 * @param controller a pointer to the MainController
+     * @param controller a pointer to the CoreController
 	 */
-    explicit ProjectManager(MainController* controller);
+    explicit ProjectManager(CoreController* controller);
 
     friend class MidiMappingManager;  // TODO: why is this required?
 
@@ -112,7 +112,7 @@ public slots:
 	 */
 	void deleteProject(QString name);
 
-	// functions called by MainController:
+    // functions called by CoreController:
 	/**
 	 * @brief saveCurrentProject saves the current state in the file of the currently loaded project
 	 */
@@ -232,9 +232,9 @@ private:
 
 protected:
 	/**
-	 * @brief m_controller a pointer to the MainController
+     * @brief m_controller a pointer to the CoreController
 	 */
-	MainController* const m_controller;
+    CoreController* const m_controller;
 
 	/**
 	 * @brief m_currentProjectName the name of the currently loaded project

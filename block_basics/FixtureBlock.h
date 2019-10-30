@@ -1,7 +1,7 @@
 #ifndef FIXTUREBLOCK_H
 #define FIXTUREBLOCK_H
 
-#include "core/block_data/InOutBlock.h"
+#include "core/block_basics/InOutBlock.h"
 
 
 class FixtureBlock : public InOutBlock

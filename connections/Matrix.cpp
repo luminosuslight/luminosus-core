@@ -1,4 +1,4 @@
-#include "core/Matrix.h"
+#include "core/connections/Matrix.h"
 
 #include <QDebug>
 #include <cmath>

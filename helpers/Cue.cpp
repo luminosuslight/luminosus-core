@@ -1,6 +1,6 @@
 #include "core/Cue.h"
 
-#include "core/MainController.h"
+#include "core/CoreController.h"
 #include "block_implementations/Theater/PresetBlock.h"
 
 

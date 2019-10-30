@@ -1,7 +1,7 @@
-#include "core/Nodes.h"
+#include "core/connections/Nodes.h"
 
-#include "core/block_data/BlockInterface.h"
-#include "core/MainController.h"  // for LuminosusConstants
+#include "core/block_basics/BlockInterface.h"
+#include "core/CoreController.h"  // for LuminosusConstants
 
 // ------------------------ NodeBase -----------------------------------------------------------
 

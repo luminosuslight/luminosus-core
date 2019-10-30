@@ -1,6 +1,6 @@
 #include "InOutBlock.h"
 
-#include "core/Nodes.h"  // for QPointer<NodeBase>
+#include "core/connections/Nodes.h"  // for QPointer<NodeBase>
 
 InOutBlock::InOutBlock(MainController* controller, QString uid)
 	: BlockBase(controller, uid)

@@ -1,6 +1,6 @@
 #include "HandoffManager.h"
 
-#include "core/MainController.h"
+#include "core/CoreController.h"
 
 #include <QJsonDocument>
 #include <QJsonObject>

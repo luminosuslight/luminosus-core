@@ -1,7 +1,7 @@
 #ifndef ANCHORMANAGER_H
 #define ANCHORMANAGER_H
 
-#include "core/block_data/BlockInterface.h"
+#include "core/block_basics/BlockInterface.h"
 
 #include <QObject>
 #include <QMap>
@@ -10,7 +10,7 @@
 
 
 // forward declaration to prevent dependency loop
-class MainController;
+class CoreController;
 
 namespace AnchorManagerConstants {
 
@@ -28,7 +28,7 @@ class AnchorManager : public QObject
 
 public:
 
-    explicit AnchorManager(MainController* controller);
+    explicit AnchorManager(CoreController* controller);
 
     // ------------------- Persistence --------------------
 
@@ -80,7 +80,7 @@ private slots:
 
 protected:
 
-    MainController* const m_controller;  //!< a pointer to the MainController
+    CoreController* const m_controller;  //!< a pointer to the CoreController
 
     QMap<QString, BlockInterface*> m_anchors;
 

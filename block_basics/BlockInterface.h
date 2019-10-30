@@ -1,7 +1,8 @@
 #ifndef BLOCKINTERFACE
 #define BLOCKINTERFACE
 
-#include "core/Matrix.h"
+#include "core/CoreController.h"
+#include "core/connections/Matrix.h"
 
 #include <QObject>
 #include <QJsonObject>
@@ -11,7 +12,6 @@
 #include <functional>
 
 // forward declaration to prevent dependency loop
-class MainController;
 class BlockInterface;
 class SmartAttribute;
 
@@ -93,7 +93,7 @@ struct BlockInfo {
 	 *
 	 * The first parameter is a pointer to the main controller, the second is a UID or empty.
 	 */
-	std::function<BlockInterface*(MainController*, QString)> createInstanceOnHeap;
+    std::function<BlockInterface*(CoreController*, QString)> createInstanceOnHeap;
 
 	/**
 	 * @brief This function should be called to complete the creation of this info.
@@ -105,7 +105,7 @@ struct BlockInfo {
 		if (nameInUi.isEmpty()) {
             nameInUi = typeName;
 		}
-		createInstanceOnHeap = [](MainController* controller, QString uid) -> BlockInterface* { return new T(controller, uid); };
+        createInstanceOnHeap = [](CoreController* controller, QString uid) -> BlockInterface* { return new T(controller, uid); };
 
         // additional checks if all attributes are valid could be done here
 
@@ -124,7 +124,7 @@ class BlockInterface : public QObject {
     Q_OBJECT
 
 public:
-    BlockInterface(MainController* controller) : QObject((QObject*)controller) { }
+    BlockInterface(CoreController* controller) : QObject(static_cast<QObject*>(controller)) { }
     virtual ~BlockInterface() {}  // virtual destructor makes shure the right destructor is called
 
     /**

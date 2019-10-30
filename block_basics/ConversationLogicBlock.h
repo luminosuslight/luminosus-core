@@ -1,7 +1,7 @@
 #ifndef CONVERSATIONLOGICBLOCK_H
 #define CONVERSATIONLOGICBLOCK_H
 
-#include "core/block_data/InOutBlock.h"
+#include "core/block_basics/InOutBlock.h"
 
 #include <vector>
 

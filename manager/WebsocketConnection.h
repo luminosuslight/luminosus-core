@@ -1,8 +1,8 @@
 #ifndef WEBSOCKETCONNECTION_H
 #define WEBSOCKETCONNECTION_H
 
-#include "core/SmartAttribute.h"
-#include "core/AsyncWebSocket.h"
+#include "core/helpers/SmartAttribute.h"
+#include "core/helpers/AsyncWebSocket.h"
 
 #include <QObject>
 #include <QList>
@@ -17,7 +17,7 @@
 
 class QWebSocketServer;
 class QWebSocket;
-class MainController;
+class CoreController;
 class AsyncImageProvider;
 
 
@@ -34,7 +34,7 @@ class WebsocketConnection : public QObject {
     Q_OBJECT
 
 public:
-    explicit WebsocketConnection(MainController* controller);
+    explicit WebsocketConnection(CoreController* controller);
     ~WebsocketConnection();
 
     QJsonObject getState() const;
@@ -80,7 +80,7 @@ private slots:
     void handleSendToClientMainthread(QWebSocket* client, const QByteArray& data);
 
 private:
-    MainController* const m_controller;
+    CoreController* const m_controller;
     AsyncImageProvider* m_imageProvider;
     bool m_initialized;
 

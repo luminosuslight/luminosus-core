@@ -1,6 +1,6 @@
 #include "OneOutputBlock.h"
 
-#include "core/Nodes.h"
+#include "core/connections/Nodes.h"
 
 
 OneOutputBlock::OneOutputBlock(MainController* controller, QString uid)

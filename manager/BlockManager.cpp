@@ -1,8 +1,10 @@
 #include "BlockManager.h"
 
-#include "core/MainController.h"
-#include "core/Nodes.h"
-#include "core/SmartAttribute.h"
+#include "core/CoreController.h"
+#include "core/manager/BlockList.h"
+#include "core/manager/GuiManager.h"
+#include "core/connections/Nodes.h"
+#include "core/helpers/SmartAttribute.h"
 #include "block_implementations/Luminosus/GroupBlock.h"
 
 #include <QQmlEngine>
@@ -10,7 +12,7 @@
 #include <QQuickWindow>
 
 
-BlockManager::BlockManager(MainController* controller)
+BlockManager::BlockManager(CoreController* controller)
     : QObject(dynamic_cast<QObject*>(controller))
     , m_blockList(controller)
     , m_displayedGroup("")

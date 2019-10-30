@@ -13,6 +13,10 @@ struct HSV {
     HSV(double x, double y, double z) : h(x), s(y), v(z) {}
     HSV(const RGB& rgb);
 
+    bool operator==(const HSV& other) const {
+        return h == other.h && s == other.s && v == other.v;
+    }
+
     double h;
     double s;
     double v;
@@ -30,6 +34,10 @@ struct RGB {
     RGB() : r(0), g(0), b(0) {}
     RGB(double x, double y, double z) : r(x), g(y), b(z) {}
     RGB(const HSV& hsv);
+
+    bool operator==(const RGB& other) const {
+        return r == other.r && g == other.g && b == other.b;
+    }
 
     RGB operator*(double v) const {
         return RGB(r * v, g * v, b * v);

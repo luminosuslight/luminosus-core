@@ -1,6 +1,6 @@
 #include "BlockList.h"
 
-#include "core/MainController.h"
+#include "core/CoreController.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -11,7 +11,7 @@
  */
 
 
-BlockList::BlockList(MainController* controller)
+BlockList::BlockList(CoreController* controller)
     : QObject(controller)
     , m_controller(controller)
     , m_jsonBlockModelDeveloperMode(false)

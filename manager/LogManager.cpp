@@ -1,16 +1,18 @@
 #include "LogManager.h"
 
-#include "core/MainController.h"
+#include "core/CoreController.h"
+#include "core/manager/GuiManager.h"
 
 #include <QDebug>
 #include <QMutexLocker>
 #include <QtGlobal>
+#include <QTime>
 
 QPointer<LogManager> LogManager::s_instance = nullptr;
 
 QMutex LogManager::s_mutex;
 
-LogManager::LogManager(MainController* controller)
+LogManager::LogManager(CoreController* controller)
 	: QObject(controller)
 	, m_controller(controller)
 {
@@ -28,7 +30,7 @@ LogManager::LogManager(MainController* controller)
 }
 
 LogManager::~LogManager() {
-	qInstallMessageHandler(0);
+    qInstallMessageHandler(nullptr);
 }
 
 void LogManager::staticQDebugMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg) {

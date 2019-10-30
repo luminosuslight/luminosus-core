@@ -1,8 +1,10 @@
 #include "BlockBase.h"
 
-#include "core/MainController.h"
-#include "core/Nodes.h"
-#include "core/SmartAttribute.h"
+#include "core/CoreController.h"
+#include "core/manager/BlockManager.h"
+#include "core/manager/GuiManager.h"
+#include "core/connections/Nodes.h"
+#include "core/helpers/SmartAttribute.h"
 
 #include <QQmlEngine>
 #include <time.h>
@@ -15,11 +17,12 @@ namespace BlockBaseConstants {
 }
 
 QString getNewUid() {
-    return QString::number(time(NULL)).append(QString::number(1000 + std::rand() % 9000));
+    return QString::number(time(nullptr)).append(QString::number(1000 + std::rand() % 9000));
 }
 
-BlockBase::BlockBase(MainController* controller, QString uid)
+BlockBase::BlockBase(CoreController* controller, QString uid)
   : BlockInterface(controller)
+  , ObjectWithProperties(this)
   , m_uid(uid)
   , m_controller(controller)
   , m_guiX(0.0)
@@ -222,13 +225,6 @@ QQuickItem* BlockBase::createQmlItem(QString qmlPath, QQuickItem* parent) {
     return newGuiItem;
 }
 
-void BlockBase::registerAttribute(SmartAttribute* attr) {
-    m_blockAttributes[attr->name()] = attr;
-    if (attr->persistent()) {
-        m_persistentAttributes.append(attr);
-    }
-}
-
 void BlockBase::setGuiItemCode(QString code) {
     QQmlComponent component(m_controller->guiManager()->qmlEngine());
     component.setData(code.toLatin1(), QUrl(getBlockInfo().qmlFile));
@@ -254,20 +250,6 @@ void BlockBase::setGuiItemCode(QString code) {
     connect(m_guiItem, SIGNAL(parentChanged(QQuickItem*)), this, SIGNAL(guiIsHiddenChanged()));
 
     onGuiItemCreated();
-}
-
-void BlockBase::writeAttributesTo(QJsonObject& state) const {
-    for (SmartAttribute* attr: m_persistentAttributes) {
-        if (!attr) continue;
-        attr->writeTo(state);
-    }
-}
-
-void BlockBase::readAttributesFrom(const QJsonObject& state) {
-    for (SmartAttribute* attr: m_persistentAttributes) {
-        if (!attr) continue;
-        attr->readFrom(state);
-    }
 }
 
 QString BlockBase::getBlockName() const { return getBlockInfo().nameInUi; }
@@ -324,10 +306,7 @@ void BlockBase::makeBlocksConnectedToInputsVisible() {
 }
 
 QObject* BlockBase::attr(QString name) {
-    if (!m_blockAttributes.contains(name)) {
-        qWarning() << "Block has no attribute " << name;
-    }
-    return static_cast<QObject*>(m_blockAttributes.value(name, nullptr));
+    ObjectWithProperties::attr(name);
 }
 
 void BlockBase::createGuiItem() {

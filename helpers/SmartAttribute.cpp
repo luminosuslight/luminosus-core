@@ -1,18 +1,18 @@
 #include "SmartAttribute.h"
 
-#include "core/block_data/BlockInterface.h"
-#include "utils.h"
+#include "core/helpers/ObjectWithProperties.h"
+#include "core/helpers/utils.h"
 
 
-SmartAttribute::SmartAttribute(BlockInterface* block, QString name, bool persistent)
-    : QObject(block)
+SmartAttribute::SmartAttribute(ObjectWithProperties* owp, QString name, bool persistent)
+    : QObject(owp->parent())
     , m_name(name)
     , m_persistent(persistent)
 {
-    block->registerAttribute(this);
+    owp->registerAttribute(this);
 }
 
-SmartAttribute::SmartAttribute(QObject* parent, QString name, bool persistent)
+SmartAttribute::SmartAttribute(void*, QObject* parent, QString name, bool persistent)
     : QObject(parent)
     , m_name(name)
     , m_persistent(persistent)
@@ -20,7 +20,7 @@ SmartAttribute::SmartAttribute(QObject* parent, QString name, bool persistent)
 
 }
 
-DoubleAttribute::DoubleAttribute(BlockInterface* block, QString name, double initialValue, double min, double max, bool persistent)
+DoubleAttribute::DoubleAttribute(ObjectWithProperties* block, QString name, double initialValue, double min, double max, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
     , m_min(min)
@@ -29,8 +29,8 @@ DoubleAttribute::DoubleAttribute(BlockInterface* block, QString name, double ini
 
 }
 
-DoubleAttribute::DoubleAttribute(QObject* parent, QString name, double initialValue, double min, double max, bool persistent)
-    : SmartAttribute(parent, name, persistent)
+DoubleAttribute::DoubleAttribute(void*, QObject* parent, QString name, double initialValue, double min, double max, bool persistent)
+    : SmartAttribute(nullptr, parent, name, persistent)
     , m_value(initialValue)
     , m_min(min)
     , m_max(max)
@@ -47,14 +47,14 @@ void DoubleAttribute::readFrom(const QJsonObject& state) {
 }
 
 void DoubleAttribute::setValue(double value) {
-    // TODO: compare with limited value
+    value = limit(m_min, value, m_max);
     if (value == m_value) return;
     m_value = limit(m_min, value, m_max);
     emit valueChanged();
 }
 
 
-IntegerAttribute::IntegerAttribute(BlockInterface* block, QString name, int initialValue, int min, int max, bool persistent)
+IntegerAttribute::IntegerAttribute(ObjectWithProperties* block, QString name, int initialValue, int min, int max, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
     , m_min(min)
@@ -63,8 +63,8 @@ IntegerAttribute::IntegerAttribute(BlockInterface* block, QString name, int init
 
 }
 
-IntegerAttribute::IntegerAttribute(QObject* parent, QString name, int initialValue, int min, int max, bool persistent)
-    : SmartAttribute(parent, name, persistent)
+IntegerAttribute::IntegerAttribute(void*, QObject* parent, QString name, int initialValue, int min, int max, bool persistent)
+    : SmartAttribute(nullptr, parent, name, persistent)
     , m_value(initialValue)
     , m_min(min)
     , m_max(max)
@@ -88,15 +88,15 @@ void IntegerAttribute::setValue(int value) {
 }
 
 
-StringAttribute::StringAttribute(BlockInterface* block, QString name, QString initialValue, bool persistent)
+StringAttribute::StringAttribute(ObjectWithProperties* block, QString name, QString initialValue, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
 {
 
 }
 
-StringAttribute::StringAttribute(QObject* parent, QString name, QString initialValue, bool persistent)
-    : SmartAttribute(parent, name, persistent)
+StringAttribute::StringAttribute(void*, QObject* parent, QString name, QString initialValue, bool persistent)
+    : SmartAttribute(nullptr, parent, name, persistent)
     , m_value(initialValue)
 {
 
@@ -111,15 +111,15 @@ void StringAttribute::readFrom(const QJsonObject& state) {
 }
 
 
-BoolAttribute::BoolAttribute(BlockInterface* block, QString name, bool initialValue, bool persistent)
+BoolAttribute::BoolAttribute(ObjectWithProperties* block, QString name, bool initialValue, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
 {
 
 }
 
-BoolAttribute::BoolAttribute(QObject* parent, QString name, bool initialValue, bool persistent)
-    : SmartAttribute(parent, name, persistent)
+BoolAttribute::BoolAttribute(void*, QObject* parent, QString name, bool initialValue, bool persistent)
+    : SmartAttribute(nullptr, parent, name, persistent)
     , m_value(initialValue)
 {
 
@@ -133,15 +133,15 @@ void BoolAttribute::readFrom(const QJsonObject& state) {
     setValue(state[m_name].toBool());
 }
 
-RgbAttribute::RgbAttribute(BlockInterface* block, QString name, const RGB& initialValue, bool persistent)
+RgbAttribute::RgbAttribute(ObjectWithProperties* block, QString name, const RGB& initialValue, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
 {
 
 }
 
-RgbAttribute::RgbAttribute(QObject* parent, QString name, const RGB& initialValue, bool persistent)
-    : SmartAttribute(parent, name, persistent)
+RgbAttribute::RgbAttribute(void*, QObject* parent, QString name, const RGB& initialValue, bool persistent)
+    : SmartAttribute(nullptr, parent, name, persistent)
     , m_value(initialValue)
 {
 
@@ -161,7 +161,7 @@ void RgbAttribute::readFrom(const QJsonObject& state) {
 }
 
 double RgbAttribute::hue() const {
-    if (val() == 0 || sat() == 0) {
+    if (val() == 0.0 || sat() == 0.0) {
         return m_tempHsv.h;
     } else {
         return HSV(m_value).h;
@@ -177,7 +177,7 @@ void RgbAttribute::setHue(double value) {
 }
 
 double RgbAttribute::sat() const {
-    if (val() == 0) {
+    if (val() == 0.0) {
         return m_tempHsv.s;
     } else {
         return HSV(m_value).s;
@@ -186,7 +186,7 @@ double RgbAttribute::sat() const {
 
 void RgbAttribute::setSat(double value) {
     HSV hsv(m_value);
-    if (sat() == 0) {
+    if (sat() == 0.0) {
         hsv = HSV(m_tempHsv.h, m_tempHsv.s, m_value.max());
     }
     hsv.s = value;
@@ -197,7 +197,7 @@ void RgbAttribute::setSat(double value) {
 
 void RgbAttribute::setVal(double value) {
     HSV hsv(m_value);
-    if (m_value.max() == 0) {
+    if (m_value.max() == 0.0) {
         hsv = HSV(m_tempHsv.h, m_tempHsv.s, 0);
     }
     hsv.v = value;
@@ -221,15 +221,15 @@ QColor RgbAttribute::getGlow() const {
     }
 }
 
-HsvAttribute::HsvAttribute(BlockInterface* block, QString name, const HSV& initialValue, bool persistent)
+HsvAttribute::HsvAttribute(ObjectWithProperties* block, QString name, const HSV& initialValue, bool persistent)
     : SmartAttribute(block, name, persistent)
     , m_value(initialValue)
 {
 
 }
 
-HsvAttribute::HsvAttribute(QObject* parent, QString name, const HSV& initialValue, bool persistent)
-    : SmartAttribute(parent, name, persistent)
+HsvAttribute::HsvAttribute(void*, QObject* parent, QString name, const HSV& initialValue, bool persistent)
+    : SmartAttribute(nullptr, parent, name, persistent)
     , m_value(initialValue)
 {
 
@@ -247,6 +247,12 @@ void HsvAttribute::readFrom(const QJsonObject& state) {
     double s = state[m_name + "s"].toDouble();
     double v = state[m_name + "v"].toDouble();
     setValue({h, s, v});
+}
+
+void HsvAttribute::setValue(const HSV& value) {
+    if (value == m_value) return;
+    m_value = value;
+    emit valueChanged();
 }
 
 void HsvAttribute::setQColor(QColor value) {

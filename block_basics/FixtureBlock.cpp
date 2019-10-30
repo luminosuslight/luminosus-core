@@ -1,7 +1,7 @@
 #include "FixtureBlock.h"
 
-#include "core/MainController.h"
-#include "core/Nodes.h"
+#include "core/CoreController.h"
+#include "core/connections/Nodes.h"
 
 FixtureBlock::FixtureBlock(MainController *controller, QString uid, int footprint)
     : InOutBlock(controller, uid)

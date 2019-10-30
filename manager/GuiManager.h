@@ -7,7 +7,7 @@
 #include <QRect>
 
 // forward declaration to prevent dependency loop
-class MainController;
+class CoreController;
 class QQuickWindow;
 class QQuickItem;
 
@@ -29,7 +29,7 @@ class GuiManager : public QObject
 
 public:
 
-    explicit GuiManager(MainController* controller, QQmlApplicationEngine& qmlEngine);
+    explicit GuiManager(CoreController* controller, QQmlApplicationEngine& qmlEngine);
 
     // ------------------- Persistence --------------------
 
@@ -205,7 +205,7 @@ public slots:
 private slots:
 
 protected:
-    MainController* const m_controller;  //!< a pointer to the MainController
+    CoreController* const m_controller;  //!< a pointer to the CoreController
 
     QQmlApplicationEngine& m_qmlEngine;  //!< QQmlApplicationEngine object, created in main.cpp
 

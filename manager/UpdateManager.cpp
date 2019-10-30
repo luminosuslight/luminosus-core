@@ -1,6 +1,9 @@
 #include "UpdateManager.h"
 
-#include "core/MainController.h"
+#include "core/CoreController.h"
+#include "core/manager/BlockManager.h"
+#include "core/manager/GuiManager.h"
+#include "core/manager/ProjectManager.h"
 #include "version.h"
 
 #include <QSysInfo>
@@ -10,7 +13,7 @@
 #include <QVersionNumber>
 
 
-UpdateManager::UpdateManager(MainController* controller)
+UpdateManager::UpdateManager(CoreController* controller)
     : QObject(controller)
     , m_controller(controller)
     , m_networkManager(this)
@@ -82,7 +85,7 @@ void UpdateManager::reportStartup() {
     data << QString::number(getTimeZoneOffset());
     data << m_controller->projectManager()->getCurrentProjectName();
     data << QString::number(m_controller->blockManager()->getBlockInstanceCount());
-    data << QString::number(m_controller->eosManager()->getLatency());
+    data << "-1"; //QString::number(m_controller->eosManager()->getLatency());
     QString dataString = data.join(";");
 
     m_networkManager.post(request, dataString.toLatin1());
@@ -153,5 +156,5 @@ void UpdateManager::setNewestStableVersionNumber(QString value) {
 int UpdateManager::getTimeZoneOffset() {
     const QDateTime dateTime1 = QDateTime::currentDateTime();
     const QDateTime dateTime2 = QDateTime(dateTime1.date(), dateTime1.time(), Qt::UTC);
-    return dateTime1.secsTo(dateTime2) / 3600;
+    return int(dateTime1.secsTo(dateTime2) / 3600);
 }
