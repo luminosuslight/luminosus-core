@@ -65,6 +65,9 @@
 
 #include <QtCore/qglobal.h>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wclass-memaccess"
+
 QT_BEGIN_NAMESPACE
 
 #if defined(QT_SHARED) || !defined(QT_STATIC)
@@ -649,7 +652,7 @@ QCircularBuffer<T>::QCircularBuffer(int amount)
 	d->capacity = amount;
 
 	// Initialize memory block to zero
-	memset(d->data(), 0, amount * sizeof(T));
+        memset(d->data(), 0, amount * sizeof(T));
 }
 
 template <typename T>
@@ -1060,13 +1063,13 @@ void QCircularBuffer<T>::remove(int i, int number)
 				T *p = d->data() + ((j + d->capacity) % d->capacity);
 				p->~T();
 				//TODO: Optimize to a single memset call
-				memset(p, 0, sizeof(T));
+                                memset(p, 0, sizeof(T));
 			}
 		} else {
 			if (isLinearised()) {
 				// With a linearised buffer we can do a simple move and removal of items
-				memmove(d->data() + d->last - numToMove - number + 1, d->data() + d->last - numToMove + 1, numToMove * sizeof(T));
-				memset(d->data() + d->last - number + 1, 0, number * sizeof(T));
+                                memmove(d->data() + d->last - numToMove - number + 1, d->data() + d->last - numToMove + 1, numToMove * sizeof(T));
+                                memset(d->data() + d->last - number + 1, 0, number * sizeof(T));
 			} else {
 				// With a non-linearised buffer we need to be careful of wrapping issues
 				int srcBegin = (d->last - numToMove + 1 + d->capacity) % d->capacity;
@@ -1336,5 +1339,7 @@ Q_DECLARE_MUTABLE_SEQUENTIAL_ITERATOR(CircularBuffer)
 } //Qt3D
 
 QT_END_NAMESPACE
+
+#pragma GCC diagnostic pop
 
 #endif // QT3DCORE_QCIRCULARBUFFER_H
