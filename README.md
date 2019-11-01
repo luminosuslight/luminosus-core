@@ -37,6 +37,8 @@ Things you don't need to take care of anymore by using this framework:
 
 Add this repository to your project using `git submodule add git@github.com:luminosuslight/luminosus-core.git core` and add `include(core/luminosus-core.pri)` to your qmake (.pro) file.
 
+You can find a small example how to use this framework here: [luminosus-minimal](https://github.com/luminosuslight/luminosus-minimal)
+
 ## Possible Use-Cases
 
 Here are some examples of apps that I already built with code from this frameworks:
