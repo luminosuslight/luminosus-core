@@ -5,6 +5,7 @@
 #include <QQmlApplicationEngine>
 #include <QTimer>
 #include <QScopedPointer>
+#include <QQuickItem>
 
 class AnchorManager;
 class BlockList;
@@ -40,7 +41,7 @@ public:
      * @param qmlEngine is the QML engine to use to create the GUI
      * @param parent the QObject parent
      */
-    explicit CoreController(QQmlApplicationEngine& qmlEngine, QUrl mainQmlFile, QString templateFile, QObject *parent = nullptr);
+    explicit CoreController(QQmlApplicationEngine& qmlEngine, QUrl mainQmlFile, QString templateFile = {}, QObject *parent = nullptr);
     ~CoreController();
 
 signals:
@@ -192,6 +193,12 @@ public slots:
     void playClickSound();
     void playClickUpSound();
 
+    // dummy methods for compatibility:
+    QObject* midiMapping() { return this; }
+    void registerGuiControl(QQuickItem*, QString) {}
+    void unregisterGuiControl(QString) {}
+    void guiControlHasBeenTouched(QString) {}
+    void sendFeedback(QString, double) const {}
 
 protected:
     // Managers:
