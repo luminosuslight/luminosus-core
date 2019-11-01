@@ -3,6 +3,8 @@ This is a cross-platform framework for modular applications.
 
 It contains everything that was common in all of the apps that I built before and in addition some helpers that may be useful and don't require any further dependencies.
 
+**Attention:** This repository is still work-in-progress and currently mostly intended for my personal use. Although all features mentioned below were already implemented in previous projects, they may not be accessible yet from the API of this framework. A good starting point to see what is already working is [luminosus-minimal](https://github.com/luminosuslight/luminosus-minimal). Nevertheless creating issues and pull requests is welcome.
+
 Things you don't need to take care of anymore by using this framework:
 
 * persisting data in a fast, modern and transparent way
