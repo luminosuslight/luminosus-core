@@ -1,5 +1,5 @@
 # luminosus-core
-This is a cross-platform framework for modular applications.
+This is a cross-platform framework for modular applications using C++, Qt  and QML.
 
 It contains everything that was common in all of the apps that I built before and in addition some helpers that may be useful and don't require any further dependencies.
 
