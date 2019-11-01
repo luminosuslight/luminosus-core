@@ -17,7 +17,11 @@ public:
     QObject* parent() { return m_parent; }
 
     QObject* attr(QString name);
-
+    /**
+     * @brief registerAttribute registers an attribute to be available by attr()
+     * and to be persisted if requested
+     * @param attr a pointer to the attribute to register
+     */
     void registerAttribute(SmartAttribute* attr);
 
     void writeAttributesTo(QJsonObject& state) const;

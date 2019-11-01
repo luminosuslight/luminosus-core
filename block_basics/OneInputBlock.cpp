@@ -2,7 +2,7 @@
 
 #include "core/connections/Nodes.h"  // for QPointer<Node>
 
-OneInputBlock::OneInputBlock(MainController* controller, QString uid)
+OneInputBlock::OneInputBlock(CoreController* controller, QString uid)
 	: BlockBase(controller, uid)
 {
 	// prepare nodes:

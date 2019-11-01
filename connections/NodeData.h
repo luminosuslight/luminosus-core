@@ -1,7 +1,7 @@
 #ifndef NODEDATA_H
 #define NODEDATA_H
 
-#include "core/Matrix.h"
+#include "core/connections/Matrix.h"
 
 #include <QSize>
 #include <vector>

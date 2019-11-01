@@ -5,7 +5,7 @@
 #include "core/manager/GuiManager.h"
 #include "core/connections/Nodes.h"
 #include "core/helpers/SmartAttribute.h"
-#include "block_implementations/Luminosus/GroupBlock.h"
+#include "core/block_basics/GroupBlock.h"
 
 #include <QQmlEngine>
 #include <QQuickItem>

@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/core">
+        <file>data/luminosus_websocket.cert</file>
+        <file>data/luminosus_websocket.key</file>
+        <file>data/No Project (Crashed).lpr</file>
+        <file>data/No Project.lpr</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>sounds/click.wav</file>
+        <file>sounds/clickUp.wav</file>
+    </qresource>
+</RCC>

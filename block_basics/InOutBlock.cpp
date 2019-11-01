@@ -2,7 +2,7 @@
 
 #include "core/connections/Nodes.h"  // for QPointer<NodeBase>
 
-InOutBlock::InOutBlock(MainController* controller, QString uid)
+InOutBlock::InOutBlock(CoreController* controller, QString uid)
 	: BlockBase(controller, uid)
 {
 	// prepare nodes:

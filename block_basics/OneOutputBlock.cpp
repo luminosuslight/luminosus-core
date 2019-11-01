@@ -3,7 +3,7 @@
 #include "core/connections/Nodes.h"
 
 
-OneOutputBlock::OneOutputBlock(MainController* controller, QString uid)
+OneOutputBlock::OneOutputBlock(CoreController* controller, QString uid)
     : BlockBase(controller, uid)
     , m_value(0.0)
 {

@@ -9,7 +9,7 @@
 #include <QTimer>
 
 // forward declaration to prevent dependency loop
-class MainController;
+class CoreController;
 
 
 class HandoffManager : public QObject
@@ -17,7 +17,7 @@ class HandoffManager : public QObject
     Q_OBJECT
 
 public:
-    explicit HandoffManager(MainController* controller);
+    explicit HandoffManager(CoreController* controller);
 
 signals:
 
@@ -39,7 +39,7 @@ private slots:
     void receivedProject(QByteArray data);
 
 protected:
-    MainController* const m_controller;  //!< pointer to MainController instance
+    CoreController* const m_controller;  //!< pointer to CoreController instance
 
     // client:
    QTcpSocket m_clientSocket;

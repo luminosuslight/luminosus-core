@@ -24,7 +24,7 @@ public:
 	 * @param controller a pointer to the main controller
      * @param uid of this block or nothing if this block is new
 	 */
-    explicit OneOutputBlock(MainController* controller, QString uid);
+    explicit OneOutputBlock(CoreController* controller, QString uid);
 
 	virtual void getAdditionalState(QJsonObject& state) const override;
 

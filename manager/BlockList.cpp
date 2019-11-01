@@ -16,8 +16,7 @@ BlockList::BlockList(CoreController* controller)
     , m_controller(controller)
     , m_jsonBlockModelDeveloperMode(false)
 {
-	checkAvailableDependencies();
-	addAllBlocks();
+    checkAvailableDependencies();
 }
 
 bool BlockList::blockExists(QString name) const {

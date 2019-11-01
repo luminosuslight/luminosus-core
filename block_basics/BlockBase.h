@@ -3,7 +3,7 @@
 
 #include "core/block_basics/BlockInterface.h"
 #include "core/helpers/SmartAttribute.h"
-#include "core/helpers/ObjectWithProperties.h"
+#include "core/helpers/ObjectWithAttributes.h"
 
 #include <QObject>
 #include <QJsonObject>

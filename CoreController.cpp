@@ -13,7 +13,10 @@
 #include "core/manager/UpdateManager.h"
 #include "core/manager/WebsocketConnection.h"
 
-#include <QSysInfo>
+#include "core/helpers/constants.h"
+#include "core/helpers/utils.h"
+#include "core/version.h"
+
 #include <QJsonObject>
 #include <QFileInfo>
 
@@ -22,14 +25,14 @@
 #include <QtCore/private/qjnihelpers_p.h>
 #endif
 
-#include <string>
-
-CoreController::CoreController(QQmlApplicationEngine& qmlEngine, QString templateFile, QObject* parent)
+CoreController::CoreController(QQmlApplicationEngine& qmlEngine, QUrl mainQmlFile, QString templateFile, QObject* parent)
     : QObject(parent)
     , m_anchorManager(new AnchorManager(this))
     , m_blockManager(new BlockManager(this))
     , m_engine(new Engine(this))
+    , m_dao(new FileSystemManager())
     , m_guiManager(new GuiManager(this, qmlEngine))
+    , m_handoffManager(new HandoffManager(this))
     , m_keyboardEmulator(new KeyboardEmulator(this))
     , m_logManager(new LogManager(this))
     , m_projectManager(new ProjectManager(this))
@@ -71,7 +74,7 @@ CoreController::CoreController(QQmlApplicationEngine& qmlEngine, QString templat
     QQmlEngine::setObjectOwnership(m_updateManager.get(), QQmlEngine::CppOwnership);
     QQmlEngine::setObjectOwnership(m_websocketConnection.get(), QQmlEngine::CppOwnership);
 
-    m_guiManager->createAndShowWindow();
+    m_guiManager->createAndShowWindow(mainQmlFile);
 
     // restore app settings and last project:
     restoreApp();
@@ -95,6 +98,8 @@ CoreController::CoreController(QQmlApplicationEngine& qmlEngine, QString templat
     qInfo() << "-------------------------------------------";
 }
 
+CoreController::~CoreController() = default;
+
 void CoreController::saveAll() {
     QJsonObject appState;
     appState["version"] = 0.3;
@@ -117,7 +122,7 @@ void CoreController::restoreApp() {
     QStringList combinations{"PowerPoint Fixture.lbc"};
     for (QString filename: combinations) {
         if (!m_dao->fileExists("combinations", filename)) {
-            m_dao->importFile(":/examples/" + filename, "combinations", true);
+            m_dao->importFile(":/core/data/" + filename, "combinations", true);
         }
     }
 
@@ -132,9 +137,6 @@ void CoreController::restoreApp() {
     setDeveloperMode(appState["developerMode"].toBool());
     setClickSounds(appState["clickSounds"].toBool());
     m_websocketConnection->setState(appState["websocketConnection"].toObject());
-#ifdef WEBSOCKETS_SUPPORTED
-    m_homeAssistantManager->setState(appState["homeAssistantManager"].toObject());
-#endif
 #ifndef Q_OS_ANDROID
     if (lockExisted) {
 #else
@@ -144,7 +146,7 @@ void CoreController::restoreApp() {
         // didn't exit successfully (crashed)
         // create 'No Project' and load it (because crashes there are unlikely):
         qWarning() << "Another instance is running or the program crashed on last run!";
-        m_projectManager->importProjectFile(":/examples/No Project (Crashed).lpr", /*load=*/ true);
+        m_projectManager->importProjectFile(":/core/data/No Project (Crashed).lpr", /*load=*/ true);
         return;
     } else if (appState["version"].toDouble() < 0.2) {
         m_projectManager->setCurrentProject("empty", /*createIfNotExist*/ true);
@@ -168,7 +170,7 @@ void CoreController::onExit() {
 }
 
 void CoreController::onFirstStart() {
-    m_projectManager->importProjectFile(":/examples/No Project.lpr");
+    m_projectManager->importProjectFile(":/core/data/No Project.lpr");
     if (m_projectManager->getCurrentProjectName().isEmpty()) {
         m_projectManager->setCurrentProject(ProjectManagerConstants::defaultProjectName);
     }

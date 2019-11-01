@@ -48,7 +48,7 @@ class KineticEffect2D : public QAbstractAnimation
 	Q_PROPERTY(qreal friction MEMBER m_friction)
 
 public:
-    explicit KineticEffect2D(QAbstractAnimation* parent = 0);
+    explicit KineticEffect2D(QAbstractAnimation* parent = nullptr);
 
 signals:
 	/**

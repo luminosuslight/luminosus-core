@@ -1,8 +1,8 @@
 #ifndef NODES_H
 #define NODES_H
 
-#include "NodeData.h"
-#include "conversation/Command.h"
+#include "core/connections/NodeData.h"
+#include "core/conversation/Command.h"
 
 #include <QObject>
 #include <QPointer>

@@ -1,6 +1,6 @@
 # ------------------ General configurations -----------------------
 
-QT += qml quick svg websockets concurrent
+QT += qml quick svg websockets concurrent multimedia
 
 CONFIG += c++14
 
@@ -14,10 +14,16 @@ CONFIG += qtquickcompiler
 # ------------------ Resources (.cpp, .h, .qrc, icons) -----------------------
 
 RESOURCES += \
-    $$PWD/qml.qrc
+    $$PWD/data-core.qrc \
+    $$PWD/qml-core.qrc
 
 HEADERS += \
     $$PWD/CoreController.h \
+    $$PWD/block_basics/GroupBlock.h \
+    $$PWD/conversation/Command.h \
+    $$PWD/conversation/ConversationActionInterface.h \
+    $$PWD/conversation/SystemOutput.h \
+    $$PWD/conversation/UserInput.h \
     $$PWD/helpers/ObjectWithAttributes.h \
     $$PWD/helpers/constants.h \
     $$PWD/helpers/utils.h \
@@ -35,8 +41,6 @@ HEADERS += \
     $$PWD/qtquick_items/TouchArea.h \
     $$PWD/block_basics/BlockBase.h \
     $$PWD/block_basics/BlockInterface.h \
-    $$PWD/block_basics/ConversationLogicBlock.h \
-    $$PWD/block_basics/FixtureBlock.h \
     $$PWD/block_basics/InOutBlock.h \
     $$PWD/block_basics/OneInputBlock.h \
     $$PWD/block_basics/OneOutputBlock.h \
@@ -45,7 +49,6 @@ HEADERS += \
     $$PWD/connections/NodeData.h \
     $$PWD/connections/Nodes.h \
     $$PWD/helpers/AsyncWebSocket.h \
-    $$PWD/helpers/Cue.h \
     $$PWD/helpers/QCircularBuffer.h \
     $$PWD/helpers/SmartAttribute.h \
     $$PWD/helpers/application_setup.h \
@@ -65,6 +68,10 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/CoreController.cpp \
+    $$PWD/block_basics/GroupBlock.cpp \
+    $$PWD/conversation/Command.cpp \
+    $$PWD/conversation/SystemOutput.cpp \
+    $$PWD/conversation/UserInput.cpp \
     $$PWD/helpers/ObjectWithAttributes.cpp \
     $$PWD/qtquick_items/BarGraphItem.cpp \
     $$PWD/qtquick_items/BezierCurve.cpp \
@@ -79,8 +86,6 @@ SOURCES += \
     $$PWD/qtquick_items/StretchLayouts.cpp \
     $$PWD/qtquick_items/TouchArea.cpp \
     $$PWD/block_basics/BlockBase.cpp \
-    $$PWD/block_basics/ConversationLogicBlock.cpp \
-    $$PWD/block_basics/FixtureBlock.cpp \
     $$PWD/block_basics/InOutBlock.cpp \
     $$PWD/block_basics/OneInputBlock.cpp \
     $$PWD/block_basics/OneOutputBlock.cpp \
@@ -88,7 +93,6 @@ SOURCES += \
     $$PWD/connections/NodeData.cpp \
     $$PWD/connections/Nodes.cpp \
     $$PWD/helpers/AsyncWebSocket.cpp \
-    $$PWD/helpers/Cue.cpp \
     $$PWD/helpers/SmartAttribute.cpp \
     $$PWD/helpers/application_setup.cpp \
     $$PWD/manager/AnchorManager.cpp \

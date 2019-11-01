@@ -1,7 +1,5 @@
 #include "application_setup.h"
 
-#include "core/CoreController.h"
-
 #include "core/qtquick_items/BezierCurve.h"
 #include "core/qtquick_items/KineticEffect.h"
 #include "core/qtquick_items/KineticEffect2D.h"
@@ -15,6 +13,8 @@
 #include "core/qtquick_items/PointsItem.h"
 #include "core/qtquick_items/IrregularCircleItem.h"
 
+#include "core/CoreController.h"
+#include "core/manager/FileSystemManager.h"
 #include "core/helpers/constants.h"
 
 #include <QSysInfo>
@@ -96,6 +96,18 @@ void setupDpProperty(QQmlApplicationEngine& engine) {
 
     qInfo() << "Device Pixel Ratio (provided by Qt): " << QGuiApplication::primaryScreen()->devicePixelRatio();
     qInfo() << "Custom GUI scale factor (dp unit): " << scaleFactor;
+}
+
+void preparePauseAndShutdown(QApplication& app, QQmlApplicationEngine& engine, CoreController& controller) {
+    QObject::connect(&app, SIGNAL(aboutToQuit()), &controller, SLOT(onExit()));
+    QObject::connect(&engine, SIGNAL(quit()), &app, SLOT(quit())); // to make Qt.quit() to work
+
+    QObject::connect(&app, &QApplication::applicationStateChanged, [&controller](Qt::ApplicationState state){
+        if (state == Qt::ApplicationState::ApplicationSuspended) {
+            controller.saveAll();
+            controller.dao()->deleteFile("", "luminosus.lock");
+        }
+    });
 }
 
 }

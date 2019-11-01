@@ -1,6 +1,7 @@
 #include "WebsocketConnection.h"
 
 #include "core/CoreController.h"
+#include "core/manager/GuiManager.h"
 
 #include <QWebSocketServer>
 #include <QUuid>
@@ -17,6 +18,7 @@
 #include <QGuiApplication>
 #include <QScreen>
 #include <QtConcurrent>
+#include <QNetworkReply>
 
 #include <QDebug>
 
@@ -136,6 +138,7 @@ private:
 
 WebsocketConnection::WebsocketConnection(CoreController* controller)
     : QObject(controller)
+    , ObjectWithAttributes(this)
     , m_controller(controller)
     , m_imageProvider(nullptr)
     , m_initialized(false)
@@ -150,8 +153,8 @@ WebsocketConnection::WebsocketConnection(CoreController* controller)
     , m_connectedToServer(this, "connectedToServer", false, /*persistent*/ false)
 {
     QSslConfiguration sslConfiguration;
-    QFile certFile(QStringLiteral(":/core/luminosus_websocket.cert"));
-    QFile keyFile(QStringLiteral(":/core/luminosus_websocket.key"));
+    QFile certFile(QStringLiteral(":/core/data/luminosus_websocket.cert"));
+    QFile keyFile(QStringLiteral(":/core/data/luminosus_websocket.key"));
     certFile.open(QIODevice::ReadOnly);
     keyFile.open(QIODevice::ReadOnly);
     QSslCertificate certificate(&certFile, QSsl::Pem);

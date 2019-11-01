@@ -2,6 +2,8 @@
 
 #include "core/CoreController.h"
 #include "core/manager/ProjectManager.h"
+#include "core/helpers/constants.h"
+#include "core/helpers/utils.h"
 
 #include <QQuickWindow>
 #include <QQuickItem>
@@ -56,21 +58,21 @@ void GuiManager::setBackgroundName(QString value) {
     emit backgroundNameChanged();
 }
 
-void GuiManager::createAndShowWindow() {
+void GuiManager::createAndShowWindow(QUrl mainQmlFile) {
     // make this CoreController accessable from QML with a context variable
     // the access to all other manager instances is done using this controller
     m_qmlEngine.rootContext()->setContextProperty("controller", m_controller);
     m_qmlEngine.rootContext()->setContextProperty("guiManager", this);
 
     // load main.qml file:
-    m_qmlEngine.load(QUrl("qrc:/qml/main.qml"));
+    m_qmlEngine.load(mainQmlFile);
     if (m_qmlEngine.rootObjects().length() <= 0) {
-        qCritical() << "Error while loading main.qml file. (No root object created)";
+        qCritical() << "Error while loading main qml file. (No root object created)";
         std::exit(999);
     }
     m_window = qobject_cast<QQuickWindow*>(m_qmlEngine.rootObjects()[0]);
     if (!m_window) {
-        qCritical() << "Error while loading main.qml file. (Window could not be created)";
+        qCritical() << "Error while loading main qml file. (Window could not be created)";
         std::exit(998);
     }
 

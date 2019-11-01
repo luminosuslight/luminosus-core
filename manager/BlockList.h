@@ -69,15 +69,10 @@ private:
 	/**
 	 * @brief checkAvailableDependencies adds all available dependencies to m_availableDependencies
 	 */
-	void checkAvailableDependencies();
+    void checkAvailableDependencies();
 
 	/**
-	 * @brief addAllBlocks adds all available blocks to m_blockNames
-	 */
-	void addAllBlocks();
-
-	/**
-	 * @brief addBlock adds th info of a single block to m_blockNames
+     * @brief addBlock adds the info of a single block to m_blockNames
 	 * @param info Block info struct to add
 	 */
 	void addBlock(const BlockInfo& info);

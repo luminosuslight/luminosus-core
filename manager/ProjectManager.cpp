@@ -140,9 +140,11 @@ QJsonObject ProjectManager::getCurrentProjectState() const {
 
     // save anything else project related:
     QQuickItem* workspace = m_controller->guiManager()->getWorkspaceItem();
-    const double dp = m_controller->guiManager()->getGuiScaling();
-    projectState["planeX"] = workspace->x() / dp;
-    projectState["planeY"] = workspace->y() / dp;
+    if (workspace) {
+        const double dp = m_controller->guiManager()->getGuiScaling();
+        projectState["planeX"] = workspace->x() / dp;
+        projectState["planeY"] = workspace->y() / dp;
+    }
 
     projectState["displayedGroup"] = m_controller->blockManager()->getDisplayedGroup();
     projectState["anchors"] = m_controller->anchorManager()->getState();

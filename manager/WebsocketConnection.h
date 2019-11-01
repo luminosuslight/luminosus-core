@@ -2,6 +2,7 @@
 #define WEBSOCKETCONNECTION_H
 
 #include "core/helpers/SmartAttribute.h"
+#include "core/helpers/ObjectWithAttributes.h"
 #include "core/helpers/AsyncWebSocket.h"
 
 #include <QObject>
@@ -29,7 +30,7 @@ namespace WsRequestTypes {
 }
 
 
-class WebsocketConnection : public QObject {
+class WebsocketConnection : public QObject, public ObjectWithAttributes {
 
     Q_OBJECT
 

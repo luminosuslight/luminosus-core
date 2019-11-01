@@ -4,7 +4,7 @@
 #include "core/manager/BlockManager.h"
 #include "core/manager/GuiManager.h"
 #include "core/manager/ProjectManager.h"
-#include "version.h"
+#include "core/version.h"
 
 #include <QSysInfo>
 #include <QLocale>

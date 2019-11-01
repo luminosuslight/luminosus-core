@@ -21,7 +21,7 @@ public:
 	 * @param controller a pointer to the main controller
      * @param uid of this block or nothing if this block is new
 	 */
-    explicit OneInputBlock(MainController* controller, QString uid);
+    explicit OneInputBlock(CoreController* controller, QString uid);
 
 protected:
 	/**

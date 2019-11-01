@@ -306,7 +306,7 @@ void BlockBase::makeBlocksConnectedToInputsVisible() {
 }
 
 QObject* BlockBase::attr(QString name) {
-    ObjectWithAttributes::attr(name);
+    return ObjectWithAttributes::attr(name);
 }
 
 void BlockBase::createGuiItem() {

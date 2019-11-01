@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/core/">
         <file>qml/DefaultStyle.qml</file>
         <file>qml/jsonpath.js</file>
         <file>qml/snarkdown.js</file>

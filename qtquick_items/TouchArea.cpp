@@ -4,7 +4,7 @@
 
 
 TouchAreaEvent::TouchAreaEvent()
-    : QObject(0)
+    : QObject(nullptr)
     , m_isValid(false)
     , m_x(0)
     , m_y(0)

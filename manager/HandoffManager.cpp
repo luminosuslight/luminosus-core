@@ -1,9 +1,12 @@
 #include "HandoffManager.h"
 
 #include "core/CoreController.h"
+#include "core/manager/ProjectManager.h"
+#include "core/manager/FileSystemManager.h"
 
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QDataStream>
 
 
 // create a shorter alias for the constants namespace:
@@ -16,7 +19,7 @@ namespace HandoffManagerConstants {
 }
 
 
-HandoffManager::HandoffManager(MainController* controller)
+HandoffManager::HandoffManager(CoreController* controller)
     : QObject(controller)
     , m_controller(controller)
     , m_clientSocket(this)

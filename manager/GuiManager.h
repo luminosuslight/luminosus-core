@@ -70,8 +70,9 @@ public slots:
 
     /**
      * @brief createAndShowWindow creates the main window, loads QML file and shows it
+     * @param mainQmlFile the main QML file containing a Window
      */
-    void createAndShowWindow();
+    void createAndShowWindow(QUrl mainQmlFile);
 
     /**
      * @brief getMainWindow returns pointer to main window

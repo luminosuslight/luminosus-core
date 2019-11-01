@@ -210,13 +210,6 @@ public:
     virtual bool renderIfNotVisible() const = 0;
 
     /**
-     * @brief registerAttribute registers an attribute to be available by attr()
-     * and to be persisted if requested
-     * @param attr a pointer to the attribute to register
-     */
-    virtual void registerAttribute(SmartAttribute* attr) = 0;
-
-    /**
      * @brief setGuiItemCode replaces the GUI item with one generated from the provided QML code
      * @param code QML code
      */
