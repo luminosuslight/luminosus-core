@@ -4,7 +4,7 @@
 #include <QQuickPaintedItem>
 #include <QImage>
 
-#include "core/Matrix.h"
+#include "core/connections/Matrix.h"
 
 
 class CustomImagePainter : public QQuickPaintedItem
@@ -16,7 +16,7 @@ class CustomImagePainter : public QQuickPaintedItem
 
 public:
 
-    explicit CustomImagePainter(QQuickItem* parent = 0);
+    explicit CustomImagePainter(QQuickItem* parent = nullptr);
 
     void paint(QPainter* painter);
 
