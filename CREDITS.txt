@@ -1,6 +1,10 @@
 Using some code from Thomas BOUTROUE - Qt QML Tricks ("super-open" license)
     http://gitlab.unique-conception.org/qt-qml-tricks/
     
-QML JSONListModel (MIT License) by:
+QML JSONListModel and jsonpath (MIT License) by:
     Copyright (c) 2007 Stefan Goessner (goessner.net)
     Copyright (c) 2012 Romain Pokrzywka (KDAB) (romain@kdab.com)
+    
+Snarkdown Markdown Parser by Jason Miller (MIT License)
+    Copyright (c) 2017 Jason Miller
+    https://github.com/developit/snarkdown
