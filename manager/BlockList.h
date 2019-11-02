@@ -18,11 +18,14 @@ class BlockList : public QObject {
 
 	Q_OBJECT
 
-public:
+private:
     /**
      * @brief BlockList creates a BlockList object and adds all available blocks
      */
-    explicit BlockList(CoreController* controller);
+    explicit BlockList();
+
+public:
+    static BlockList& getInstance();
 
 public slots:
 	/**
@@ -50,14 +53,14 @@ public slots:
 	 * @brief getJsonBlockModel creates a JSON array of all available blocks
 	 * @return the string of a JSON array
 	 */
-    QString getJsonBlockModel() const;
+    QString getJsonBlockModel(bool developerMode) const;
 
 	/**
 	 * @brief getSearchResult creates a JSON array of all blocks that match the query
 	 * @param query to find matching blocks
 	 * @return the string of a JSON array
 	 */
-    QString getSearchResult(QString query) const;
+    QString getSearchResult(QString query, bool developerMode) const;
 
 	/**
 	 * @brief getAllBlockTypes returns a list of all available block type names (i.e. for debugging)
@@ -65,17 +68,17 @@ public slots:
 	 */
     QStringList getAllBlockTypes() const;
 
+    /**
+     * @brief addBlock adds the info of a single block to m_blockNames
+     * @param info Block info struct to add
+     */
+    bool addBlock(const BlockInfo& info);
+
 private:
 	/**
 	 * @brief checkAvailableDependencies adds all available dependencies to m_availableDependencies
 	 */
     void checkAvailableDependencies();
-
-	/**
-     * @brief addBlock adds the info of a single block to m_blockNames
-	 * @param info Block info struct to add
-	 */
-	void addBlock(const BlockInfo& info);
 
 	/**
 	 * @brief blockMatchesQuery checks if a block matches a query
@@ -86,14 +89,10 @@ private:
 	 */
 	bool blockMatchesQuery(const BlockInfo& info, const QString& query) const;
 
-    bool blockIsVisible(const BlockInfo& info) const;
+    bool blockIsVisible(const BlockInfo& info, bool developerMode) const;
 
 
 protected:
-    /**
-     * @brief m_controller a pointer to the CoreController
-     */
-    CoreController* const m_controller;
 	/**
      * @brief m_availabilityRequirements is a set of all available hard- and software dependencies
 	 */

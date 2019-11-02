@@ -279,7 +279,6 @@ protected:
      * @brief m_label the user-chosen label text
      */
     StringAttribute m_label;
-
 };
 
 #endif // BLOCKBASE_H

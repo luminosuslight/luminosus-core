@@ -287,7 +287,7 @@ protected:
 	/**
 	 * @brief m_blockList manages the information about all available block types
 	 */
-	BlockList m_blockList;
+    BlockList& m_blockList;
 	/**
 	 * @brief m_currentBlocks is the list of all currently existing block instances
 	 */

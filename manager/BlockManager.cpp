@@ -14,7 +14,7 @@
 
 BlockManager::BlockManager(CoreController* controller)
     : QObject(dynamic_cast<QObject*>(controller))
-    , m_blockList(controller)
+    , m_blockList(BlockList::getInstance())
     , m_displayedGroup("")
     , m_blocksInDisplayedGroup()
 	, m_focusedBlock(nullptr)

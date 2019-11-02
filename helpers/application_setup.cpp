@@ -44,7 +44,7 @@ void preQApplicationCreation() {
 }
 
 void registerQtQuickItems() {
-    qmlRegisterSingletonType(QUrl("qrc:/core/qml/DefaultStyle.qml"), "CustomStyle", 1, 0, "Style");
+    qmlRegisterSingletonType(QUrl("qrc:/core/ui/DefaultStyle.qml"), "CustomStyle", 1, 0, "Style");
     qmlRegisterType<BezierCurve>("CustomGeometry", 1, 0, "BezierCurve");
     qmlRegisterType<KineticEffect>("CustomElements", 1, 0, "KineticEffect");
     qmlRegisterType<KineticEffect2D>("CustomElements", 1, 0, "KineticEffect2D");
@@ -63,7 +63,7 @@ void registerQtQuickItems() {
 }
 
 void prepareQmlEngine(QQmlApplicationEngine& engine) {
-    engine.addImportPath("qrc:/core/qml/");
+    engine.addImportPath("qrc:/core/ui/");
     setupDpProperty(engine);
     engine.rootContext()->setContextProperty("GRAPHICAL_EFFECTS_LEVEL", LuminosusConstants::GRAPHICAL_EFFECTS_LEVEL);
 }

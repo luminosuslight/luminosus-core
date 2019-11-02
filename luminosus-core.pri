@@ -15,7 +15,8 @@ CONFIG += qtquickcompiler
 
 RESOURCES += \
     $$PWD/data-core.qrc \
-    $$PWD/qml-core.qrc
+    $$PWD/ui-core.qrc \
+    $$PWD/ui-images-core.qrc
 
 HEADERS += \
     $$PWD/CoreController.h \

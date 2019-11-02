@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/core">
+        <file>ui/images/svg/copy.svg</file>
+        <file>ui/images/svg/down_arrow_slim.svg</file>
+        <file>ui/images/svg/eye.svg</file>
+        <file>ui/images/svg/eye_crossed.svg</file>
+        <file>ui/images/svg/trash.svg</file>
+        <file>ui/images/svg/undo.svg</file>
+        <file>ui/images/svg/up_arrow_slim.svg</file>
+        <file>ui/images/add_icon.png</file>
+        <file>ui/images/combobox_arrows_blue.png</file>
+        <file>ui/images/copy_icon.png</file>
+        <file>ui/images/down_arrow_slim.png</file>
+        <file>ui/images/down_arrow_slim_blue.png</file>
+        <file>ui/images/gear_icon.png</file>
+        <file>ui/images/node_precomposed_blue.png</file>
+        <file>ui/images/node_precomposed_blue@2x.png</file>
+        <file>ui/images/node_precomposed_cyan.png</file>
+        <file>ui/images/node_precomposed_cyan@2x.png</file>
+        <file>ui/images/node_precomposed_red.png</file>
+        <file>ui/images/node_precomposed_red@2x.png</file>
+        <file>ui/images/node_rect_blue.png</file>
+        <file>ui/images/node_rect_blue@2x.png</file>
+        <file>ui/images/node_rect_cyan.png</file>
+        <file>ui/images/node_rect_cyan@2x.png</file>
+        <file>ui/images/node_rect_gold.png</file>
+        <file>ui/images/node_rect_gold@2x.png</file>
+        <file>ui/images/node_rect_red.png</file>
+        <file>ui/images/node_rect_red@2x.png</file>
+        <file>ui/images/plus_icon.png</file>
+        <file>ui/images/save_icon.png</file>
+        <file>ui/images/settings_slider_icon.png</file>
+        <file>ui/images/slider_cursor.png</file>
+        <file>ui/images/slider_cursor@2x.png</file>
+        <file>ui/images/trash_icon.png</file>
+    </qresource>
+</RCC>

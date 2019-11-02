@@ -6,6 +6,8 @@
 #include "core/connections/Nodes.h"
 
 
+bool GroupBlock::s_registered = BlockList::getInstance().addBlock(GroupBlock::info());
+
 GroupBlock::GroupBlock(CoreController* controller, QString uid)
     : BlockBase(controller, uid)
     , m_parentPosX(this, "parentPosX", 0, -1000000, 1000000)

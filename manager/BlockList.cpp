@@ -6,21 +6,21 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
-/*
- * Attention: addAllBlocks() is defined in BlockList_block.cpp!
- */
 
-
-BlockList::BlockList(CoreController* controller)
-    : QObject(controller)
-    , m_controller(controller)
+BlockList::BlockList()
+    : QObject(nullptr)
     , m_jsonBlockModelDeveloperMode(false)
 {
     checkAvailableDependencies();
 }
 
+BlockList& BlockList::getInstance() {
+    static BlockList blockListSingleton;
+    return blockListSingleton;
+}
+
 bool BlockList::blockExists(QString name) const {
-	return mapContains(m_blockNames, name);
+    return mapContains(m_blockNames, name);
 }
 
 const BlockInfo& BlockList::getBlockInfoByName(QString name) const {
@@ -42,13 +42,13 @@ QString BlockList::getNameInUi(QString name) const {
     return it->second.nameInUi;
 }
 
-QString BlockList::getJsonBlockModel() const {
+QString BlockList::getJsonBlockModel(bool developerMode) const {
 	// available blocks do not change at runtime
     // -> create model only if it doesn't already exist:
-    if (m_jsonBlockModel.isEmpty() || m_jsonBlockModelDeveloperMode != m_controller->getDeveloperMode()) {
+    if (m_jsonBlockModel.isEmpty() || m_jsonBlockModelDeveloperMode != developerMode) {
 		QJsonArray model;
         for (const BlockInfo& info: m_orderedBlockList) {
-            if (!blockIsVisible(info)) continue;
+            if (!blockIsVisible(info, developerMode)) continue;
 			QJsonObject jsonInfo;
 			jsonInfo["name"] = info.typeName;
 			jsonInfo["nameInUi"] = info.nameInUi;
@@ -56,16 +56,16 @@ QString BlockList::getJsonBlockModel() const {
 			model.append(jsonInfo);
 		}
 		m_jsonBlockModel = QJsonDocument(model).toJson();
-        m_jsonBlockModelDeveloperMode = m_controller->getDeveloperMode();
+        m_jsonBlockModelDeveloperMode = developerMode;
 	}
 	return m_jsonBlockModel;
 }
 
-QString BlockList::getSearchResult(QString query) const {
+QString BlockList::getSearchResult(QString query, bool developerMode) const {
 	QString queryLow = query.toLower();
 	QJsonArray result;
     for (const BlockInfo& info: m_orderedBlockList) {
-        if (!blockIsVisible(info)) continue;
+        if (!blockIsVisible(info, developerMode)) continue;
 		// check for query:
 		if (blockMatchesQuery(info, queryLow)) {
 			// block matches query -> add it to result:
@@ -107,17 +107,18 @@ void BlockList::checkAvailableDependencies() {
     m_visibilityRequirements.insert(VisibilityRequirement::StandaloneVersion);
 }
 
-void BlockList::addBlock(const BlockInfo& info) {
+bool BlockList::addBlock(const BlockInfo& info) {
 	// check dependencies:
     for (AvailabilityRequirement dependency: info.availabilityRequirements) {
         if (!m_availabilityRequirements.contains(dependency)) {
 			// dependency is not available
             qInfo() << info.typeName.toStdString().c_str() << "Block is not available on this system.";
-			return;
+            return false;
 		}
 	}
 	m_blockNames[info.typeName] = info;
     m_orderedBlockList.append(info);
+    return true;
 }
 
 bool BlockList::blockMatchesQuery(const BlockInfo& info, const QString& query) const {
@@ -144,11 +145,11 @@ bool BlockList::blockMatchesQuery(const BlockInfo& info, const QString& query) c
     return false;
 }
 
-bool BlockList::blockIsVisible(const BlockInfo& info) const {
+bool BlockList::blockIsVisible(const BlockInfo& info, bool developerMode) const {
     // check visibility:
     for (VisibilityRequirement visibility: info.visibilityRequirements) {
 		if (m_visibilityRequirements.contains(visibility)
-				|| (visibility == VisibilityRequirement::DeveloperMode && m_controller->getDeveloperMode())) {
+                || (visibility == VisibilityRequirement::DeveloperMode && developerMode)) {
 			continue;
         } else {
             return false;

@@ -10,12 +10,13 @@ class GroupBlock: public BlockBase
 
 public:
 
+    static bool s_registered;
     static BlockInfo info() {
         static BlockInfo info;
         info.typeName = "Group";
         info.nameInUi = "Block Group";
         info.category << "General" << "Groups / Projects";
-        info.qmlFile = "qrc:/qml/Blocks/Luminosus/GroupBlock.qml";
+        info.qmlFile = "qrc:/core/ui/blocks/GroupBlock.qml";
         info.helpText = "Can be used to hierarchically structure blocks.\n\n"
                         "Add blocks by focusing them and then clicking 'Move to group'. "
                         "All connected blocks will be moved.\n\n"

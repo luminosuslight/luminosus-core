@@ -13,7 +13,7 @@
 #include <utility>
 
 namespace BlockBaseConstants {
-    const QString fallbackQmlFile = "qrc:/qml/FallbackBlockGui.qml";
+    const QString fallbackQmlFile = "qrc:/core/ui/items/FallbackBlockGui.qml";
 }
 
 QString getNewUid() {
