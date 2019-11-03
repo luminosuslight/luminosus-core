@@ -39,6 +39,8 @@ Things you don't need to take care of anymore by using this framework:
 
 Add this repository to your project using `git submodule add git@github.com:luminosuslight/luminosus-core.git core` and add `include(core/luminosus-core.pri)` to your qmake (.pro) file.
 
+You also need to create an SSL certificate (`data/luminosus_websocket.cert` and `data/luminosus_websocket.key`). Please use the standard commands you can find on the Internet to create those.
+
 You can find a small example how to use this framework here: [luminosus-minimal](https://github.com/luminosuslight/luminosus-minimal)
 
 ## Possible Use-Cases
