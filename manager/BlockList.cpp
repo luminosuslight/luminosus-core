@@ -87,6 +87,21 @@ QStringList BlockList::getAllBlockTypes() const {
     return blockTypes;
 }
 
+bool BlockList::addBlock(const BlockInfo& info) {
+    // check dependencies:
+    for (AvailabilityRequirement dependency: info.availabilityRequirements) {
+        if (!m_availabilityRequirements.contains(dependency)) {
+            // dependency is not available
+            qInfo() << info.typeName.toStdString().c_str() << "Block is not available on this system.";
+            return false;
+        }
+    }
+    m_blockNames[info.typeName] = info;
+    m_orderedBlockList.append(info);
+    std::sort(m_orderedBlockList.begin(), m_orderedBlockList.end());
+    return true;
+}
+
 void BlockList::checkAvailableDependencies() {
     m_availabilityRequirements.insert(AvailabilityRequirement::Experimental);
     m_availabilityRequirements.insert(AvailabilityRequirement::AudioInput);
@@ -105,20 +120,6 @@ void BlockList::checkAvailableDependencies() {
 #endif
     m_visibilityRequirements.insert(VisibilityRequirement::CompleteLicense);
     m_visibilityRequirements.insert(VisibilityRequirement::StandaloneVersion);
-}
-
-bool BlockList::addBlock(const BlockInfo& info) {
-	// check dependencies:
-    for (AvailabilityRequirement dependency: info.availabilityRequirements) {
-        if (!m_availabilityRequirements.contains(dependency)) {
-			// dependency is not available
-            qInfo() << info.typeName.toStdString().c_str() << "Block is not available on this system.";
-            return false;
-		}
-	}
-	m_blockNames[info.typeName] = info;
-    m_orderedBlockList.append(info);
-    return true;
 }
 
 bool BlockList::blockMatchesQuery(const BlockInfo& info, const QString& query) const {

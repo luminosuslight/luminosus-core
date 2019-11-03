@@ -24,6 +24,7 @@ public:
                         "deleting this group block (the blocks itself won't be deleted).\n\n"
                         "The label will be displayed at the top of the screen while "
                         "the group is open.";
+        info.orderHint = 0 + 500 + 1;
         info.complete<GroupBlock>();
         return info;
     }

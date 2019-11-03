@@ -86,7 +86,12 @@ struct BlockInfo {
 	/**
 	 * @brief helpText is a text to be displayed in the help section of the UI
 	 */
-	QString helpText = "";
+    QString helpText = "";
+    /**
+     * @brief orderHint is used to sort the blocks in the UI, the convention is that
+     * it is the category rank * 1000 plus subcategory rank * 100 plus the block rank
+     */
+    int orderHint = std::numeric_limits<int>::max();
 
 	/**
 	 * @brief createInstanceOnHeap is a function used to instantiate this block type
@@ -114,6 +119,10 @@ struct BlockInfo {
 //        }
 
 	}
+
+    bool operator<(BlockInfo& rhs) {
+        return orderHint < rhs.orderHint;
+    }
 };
 
 /**
