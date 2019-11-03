@@ -120,7 +120,7 @@ struct BlockInfo {
 
 	}
 
-    bool operator<(BlockInfo& rhs) {
+    bool operator<(const BlockInfo& rhs) const {
         return orderHint < rhs.orderHint;
     }
 };
