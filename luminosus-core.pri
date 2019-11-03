@@ -1,6 +1,6 @@
 # ------------------ General configurations -----------------------
 
-QT += qml quick svg websockets concurrent multimedia
+QT += qml quick svg websockets concurrent
 
 CONFIG += c++14
 
@@ -136,4 +136,12 @@ linux_specific {
 
 mobile_platform {
 
+}
+
+# --------------- Other -------------------
+
+# CONFIG += multimedia_available
+multimedia_available {
+    QT += multimedia
+    DEFINES += MULTIMEDIA_AVAILABLE
 }

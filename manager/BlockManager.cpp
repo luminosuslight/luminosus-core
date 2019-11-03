@@ -32,8 +32,10 @@ BlockManager::BlockManager(CoreController* controller)
 	// This is very important because otherwise SEGFAULTS will appear randomly!
 	QQmlEngine::setObjectOwnership(&m_blockList, QQmlEngine::CppOwnership);
 
+#ifdef MULTIMEDIA_AVAILABLE
     m_clickSound.setSource(QUrl("qrc:/sounds/click.wav"));
     m_clickUpSound.setSource(QUrl("qrc:/sounds/clickUp.wav"));
+#endif
 }
 
 NodeBase* BlockManager::getNodeByUid(QString uid) {
@@ -465,12 +467,16 @@ QPoint BlockManager::getBlocksMidpoint() const {
 
 void BlockManager::playClickSound() {
     if (!m_controller->getClickSounds()) return;
+#ifdef MULTIMEDIA_AVAILABLE
     m_clickSound.play();
+#endif
 }
 
 void BlockManager::playClickUpSound() {
     if (!m_controller->getClickSounds()) return;
+#ifdef MULTIMEDIA_AVAILABLE
     m_clickUpSound.play();
+#endif
 }
 
 void BlockManager::destroyAllGuiItemsExcept(BlockInterface* exception) {

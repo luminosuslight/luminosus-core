@@ -9,7 +9,10 @@
 #include <QPointer>
 #include <vector>
 #include <QTimer>
+
+#ifdef MULTIMEDIA_AVAILABLE
 #include <QSoundEffect>
+#endif
 
 
 // forward declaration to reduce dependencies
@@ -342,8 +345,10 @@ protected:
      */
     QTimer m_randomConnectionTimer;
 
+#ifdef MULTIMEDIA_AVAILABLE
     QSoundEffect m_clickSound;
     QSoundEffect m_clickUpSound;
+#endif
 };
 
 #endif // BLOCKMANAGER_H
