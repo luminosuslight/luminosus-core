@@ -12,6 +12,7 @@
 #include "core/qtquick_items/CustomImagePainter.h"
 #include "core/qtquick_items/PointsItem.h"
 #include "core/qtquick_items/IrregularCircleItem.h"
+#include "core/qtquick_items/IrregularCircleOutline.h"
 
 #include "core/CoreController.h"
 #include "core/manager/FileSystemManager.h"
@@ -57,6 +58,7 @@ void registerQtQuickItems() {
     qmlRegisterType<CustomImagePainter>("CustomElements", 1, 0, "ImagePainter");
     qmlRegisterType<PointsItem>("CustomElements", 1, 0, "Points");
     qmlRegisterType<IrregularCircleItem>("CustomElements", 1, 0, "IrregularCircle");
+    qmlRegisterType<IrregularCircleOutline>("CustomElements", 1, 0, "IrregularCircleOutline");
     qRegisterMetaType<TouchAreaEvent>();
     qmlRegisterType<TouchAreaEvent>();
     qmlRegisterType<TouchArea>("CustomElements", 1, 0, "CustomTouchArea");

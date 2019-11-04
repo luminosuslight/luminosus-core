@@ -32,6 +32,7 @@ HEADERS += \
     $$PWD/qtquick_items/BezierCurve.h \
     $$PWD/qtquick_items/CustomImagePainter.h \
     $$PWD/qtquick_items/IrregularCircleItem.h \
+    $$PWD/qtquick_items/IrregularCircleOutline.h \
     $$PWD/qtquick_items/KineticEffect.h \
     $$PWD/qtquick_items/KineticEffect2D.h \
     $$PWD/qtquick_items/LineItem.h \
@@ -78,6 +79,7 @@ SOURCES += \
     $$PWD/qtquick_items/BezierCurve.cpp \
     $$PWD/qtquick_items/CustomImagePainter.cpp \
     $$PWD/qtquick_items/IrregularCircleItem.cpp \
+    $$PWD/qtquick_items/IrregularCircleOutline.cpp \
     $$PWD/qtquick_items/KineticEffect.cpp \
     $$PWD/qtquick_items/KineticEffect2D.cpp \
     $$PWD/qtquick_items/LineItem.cpp \
