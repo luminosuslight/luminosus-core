@@ -33,5 +33,9 @@
         <file>ui/images/slider_cursor.png</file>
         <file>ui/images/slider_cursor@2x.png</file>
         <file>ui/images/trash_icon.png</file>
+        <file>ui/images/color_wheel_cursor.png</file>
+        <file>ui/images/color_wheel_cursor@2x.png</file>
+        <file>ui/images/color_wheel_thick.png</file>
+        <file>ui/images/color_wheel_thick@2x.png</file>
     </qresource>
 </RCC>
