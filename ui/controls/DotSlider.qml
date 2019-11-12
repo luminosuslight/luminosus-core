@@ -12,26 +12,15 @@ CustomTouchArea {
 
     // --------------------------- Dot ------------------------
 
-    Rectangle {
-        id: innerRing
+    ShaderEffect {
         anchors.fill: parent
         anchors.margins: 1*dp
-        radius: Math.max(width, height) / 2
-        color: "transparent"
-        border.color: root.value < 1 ? "#333" : Style.primaryActionColor
-        border.width: 3*dp
-        visible: !root.pressed
-
-        ConicalGradient {
-            source: innerRing
-            anchors.fill: parent
-            gradient: Gradient {
-                GradientStop { position: 0.00; color: Style.primaryActionColor }
-                GradientStop { position: root.value; color: Style.primaryActionColor }
-                GradientStop { position: root.value + 0.01; color: "transparent" }
-                GradientStop { position: 1.00; color: "transparent" }
-            }
-        }
+        property variant lineWidth: (2.5*dp) / width
+        property variant smoothness: 1.0 / width
+        property variant color: Style.primaryActionColor
+        property variant backgroundColor: "#333"
+        property variant value: root.value
+        fragmentShader: "qrc:/core/ui/items/circle_shader.frag"
     }
 
     Text {
@@ -79,6 +68,14 @@ CustomTouchArea {
 
     onTouchCanceled: {
         overlay.destroyItem()
+    }
+
+    onClick: {
+        if (root.value < 0.9) {
+            guiManager.setPropertyWithoutChangingBindings(root, "value", 1)
+        } else {
+            guiManager.setPropertyWithoutChangingBindings(root, "value", 0)
+        }
     }
 
     // ------------------------- Slider Overlay -----------------------
