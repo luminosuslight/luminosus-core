@@ -65,5 +65,7 @@
         <file>ui/items/FallbackBlockGui.qml</file>
         <file>ui/blocks/GroupBlock.qml</file>
         <file>ui/items/circle_shader.frag</file>
+        <file>ui/items/horseshoe_shader.frag</file>
+        <file>ui/items/ring_shader.frag</file>
     </qresource>
 </RCC>

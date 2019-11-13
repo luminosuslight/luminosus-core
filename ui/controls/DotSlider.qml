@@ -20,7 +20,7 @@ CustomTouchArea {
         property variant color: Style.primaryActionColor
         property variant backgroundColor: "#333"
         property variant value: root.value
-        fragmentShader: "qrc:/core/ui/items/circle_shader.frag"
+        fragmentShader: "qrc:/core/ui/items/ring_shader.frag"
     }
 
     Text {
