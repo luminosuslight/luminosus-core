@@ -25,7 +25,7 @@
 #include <QtCore/private/qjnihelpers_p.h>
 #endif
 
-CoreController::CoreController(QQmlApplicationEngine& qmlEngine, QUrl mainQmlFile, QString templateFile, QObject* parent)
+CoreController::CoreController(QQmlApplicationEngine& qmlEngine, QString templateFile, QObject* parent)
     : QObject(parent)
     , m_anchorManager(new AnchorManager(this))
     , m_blockManager(new BlockManager(this))
@@ -73,7 +73,9 @@ CoreController::CoreController(QQmlApplicationEngine& qmlEngine, QUrl mainQmlFil
     QQmlEngine::setObjectOwnership(m_projectManager.get(), QQmlEngine::CppOwnership);
     QQmlEngine::setObjectOwnership(m_updateManager.get(), QQmlEngine::CppOwnership);
     QQmlEngine::setObjectOwnership(m_websocketConnection.get(), QQmlEngine::CppOwnership);
+}
 
+void CoreController::finishLoading(QUrl mainQmlFile) {
     m_guiManager->createAndShowWindow(mainQmlFile);
 
     // restore app settings and last project:
