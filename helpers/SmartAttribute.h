@@ -128,7 +128,7 @@ public slots:
     virtual void readFrom(const QJsonObject& state) override;
 
     QString getValue() const { return m_value; }
-    void setValue(QString value) { m_value = value; emit valueChanged(); }  // TODO: check if equal
+    void setValue(QString value);
 
 protected:
     QString m_value;
@@ -155,7 +155,7 @@ public slots:
     virtual void readFrom(const QJsonObject& state) override;
 
     bool getValue() const { return m_value; }
-    void setValue(bool value) { m_value = value; emit valueChanged(); }  // TODO: check if equal
+    void setValue(bool value);
 
 protected:
     bool m_value;
@@ -265,6 +265,34 @@ public slots:
 
 protected:
     HSV m_value;
+};
+
+
+class StringListAttribute : public SmartAttribute
+{
+    Q_OBJECT
+
+    Q_PROPERTY(QStringList val READ getValue WRITE setValue NOTIFY valueChanged)
+
+public:
+    explicit StringListAttribute(ObjectWithAttributes* block, QString name, const QStringList& initialValue = {}, bool persistent = true);
+    explicit StringListAttribute(void*, QObject* parent, QString name, const QStringList& initialValue = {}, bool persistent = true);
+    operator QStringList() const { return m_value; }
+    StringListAttribute& operator=(QStringList value) { setValue(value); return *this; }
+
+signals:
+    void valueChanged();
+
+public slots:
+    virtual void writeTo(QJsonObject& state) const override;
+    virtual void readFrom(const QJsonObject& state) override;
+
+    QStringList& getValue() { return m_value; }
+    const QStringList& getValue() const { return m_value; }
+    void setValue(QStringList value);
+
+protected:
+    QStringList m_value;
 };
 
 #endif // BLOCKATTRIBUTE_H

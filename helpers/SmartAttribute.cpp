@@ -81,9 +81,9 @@ void IntegerAttribute::readFrom(const QJsonObject& state) {
 }
 
 void IntegerAttribute::setValue(int value) {
-    // TODO: compare with limited value
+    value = limit(m_min, value, m_max);
     if (value == m_value) return;
-    m_value = limit(m_min, value, m_max);
+    m_value = value;
     emit valueChanged();
 }
 
@@ -110,6 +110,12 @@ void StringAttribute::readFrom(const QJsonObject& state) {
     setValue(state[m_name].toString());
 }
 
+void StringAttribute::setValue(QString value) {
+    if (value == m_value) return;
+    m_value = value;
+    emit valueChanged();
+}
+
 
 BoolAttribute::BoolAttribute(ObjectWithAttributes* block, QString name, bool initialValue, bool persistent)
     : SmartAttribute(block, name, persistent)
@@ -131,6 +137,12 @@ void BoolAttribute::writeTo(QJsonObject& state) const {
 
 void BoolAttribute::readFrom(const QJsonObject& state) {
     setValue(state[m_name].toBool());
+}
+
+void BoolAttribute::setValue(bool value) {
+    if (value == m_value) return;
+    m_value = value;
+    emit valueChanged();
 }
 
 RgbAttribute::RgbAttribute(ObjectWithAttributes* block, QString name, const RGB& initialValue, bool persistent)
@@ -269,4 +281,32 @@ void HsvAttribute::mixHtp(const HSV& other) {
     RGB y(col2.redF(), col2.greenF(), col2.blueF());
     x.mixHtp(y);
     setQColor(QColor::fromRgbF(x.r, x.g, x.b));
+}
+
+StringListAttribute::StringListAttribute(ObjectWithAttributes* block, QString name, const QStringList& initialValue, bool persistent)
+    : SmartAttribute(block, name, persistent)
+    , m_value(initialValue)
+{
+
+}
+
+StringListAttribute::StringListAttribute(void*, QObject* parent, QString name, const QStringList& initialValue, bool persistent)
+    : SmartAttribute(nullptr, parent, name, persistent)
+    , m_value(initialValue)
+{
+
+}
+
+void StringListAttribute::writeTo(QJsonObject& state) const {
+    state[m_name] = serialize(m_value);
+}
+
+void StringListAttribute::readFrom(const QJsonObject& state) {
+    m_value = deserialize<QStringList>(state[m_name].toString());
+}
+
+void StringListAttribute::setValue(QStringList value) {
+    if (value == m_value) return;
+    m_value = value;
+    emit valueChanged();
 }
