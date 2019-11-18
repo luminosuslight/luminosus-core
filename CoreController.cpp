@@ -100,6 +100,11 @@ void CoreController::finishLoading(QUrl mainQmlFile) {
     qInfo() << "-------------------------------------------";
 }
 
+void CoreController::registerManager(QString name, QObject* manager) {
+    m_manager[name] = manager;
+    m_guiManager->setQmlContextProperty(name, QVariant::fromValue(manager));
+}
+
 CoreController::~CoreController() = default;
 
 void CoreController::saveAll() {

@@ -50,9 +50,21 @@ signals:
     void clickSoundsChanged();
     void templateFileToImportChanged();
 
-public slots:
+public:
 
     // ----------------------- Getter Methods for Manager classes:
+
+    void registerManager(QString name, QObject* manager);
+
+    template<typename T>
+    T* manager(QString name) const {
+        return qobject_cast<T*>(m_manager.value(name));
+    }
+
+public slots:
+
+    QObject* managerQml(QString name) const { return m_manager.value(name); }
+
     /**
      * @brief guiManager is a Getter for the only GuiManager instance to use in this application
      * @return a pointer to a GuiManager instance
@@ -232,6 +244,8 @@ protected:
      * @brief m_templateFileToImport file provided as commandline argument or via drag'n'drop that should be imported
      */
     QString m_templateFileToImport;
+
+    QHash<QString, QObject*> m_manager;
 
 };
 
