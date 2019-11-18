@@ -22,9 +22,17 @@ CustomTouchArea {
 		valueChanged(getValue())
 	}
 
+    onValuesChanged: {
+        if (currentIndex >= values.length) {
+            currentIndex = 0;
+            return
+        }
+        valueChanged(getValue());
+    }
+
 	function setValue(value) {
 		var index = values.indexOf(value)
-		if (index == -1) index = 0
+        if (index === -1) index = 0
         guiManager.setPropertyWithoutChangingBindings(root, "currentIndex", index)
 	}
 
@@ -66,9 +74,9 @@ CustomTouchArea {
 		color: root.enabled ? "lightgrey" : "#555"
         elide: Text.ElideMiddle
 
-		text: root.texts[currentIndex]
+        text: root.texts[currentIndex] || ""
 		Component.onCompleted: {
-			if (root.texts[currentIndex] === undefined) {
+            if (root.texts.length > 0 && root.texts[currentIndex] === undefined) {
 				console.log(root.texts, currentIndex)
 			}
 		}
