@@ -24,10 +24,10 @@ UpdateManager::UpdateManager(CoreController* controller)
     QLoggingCategory::setFilterRules("qt.network.ssl.warning=false");
 
     // report application startup after 10s to server:
-    QTimer::singleShot(10*1000, this, SLOT(reportStartup()));
+    // QTimer::singleShot(10*1000, this, SLOT(reportStartup()));
 
     // check for new version after 6s:
-    QTimer::singleShot(6*1000, this, SLOT(checkForNewVersion()));
+    // QTimer::singleShot(6*1000, this, SLOT(checkForNewVersion()));
 
 
     m_internetConnectionDisabled = false;
