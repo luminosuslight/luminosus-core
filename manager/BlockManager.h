@@ -58,6 +58,19 @@ public:
 	 */
     explicit BlockManager(CoreController* controller);
 
+    // cannot be a slot
+    template<typename T>
+    QList<T*> getBlocksByType() const {
+        QList<T*> blocks;
+        for (BlockInterface* block: m_currentBlocks) {
+            T* blockOfType = qobject_cast<T*>(block);
+            if (blockOfType) {
+                blocks.append(blockOfType);
+            }
+        }
+        return blocks;
+    }
+
 public slots:
 
 	/**
@@ -182,7 +195,7 @@ public slots:
 	 * @brief getCurrentBlocks returns a list of all existing block instances
 	 * @return a list of pointers to blocks
 	 */
-	const std::vector<QPointer<BlockInterface>>& getCurrentBlocks() const { return m_currentBlocks; }
+    const std::vector<QPointer<BlockInterface>>& getCurrentBlocks() const { return m_currentBlocks; }
 
 	/**
 	 * @brief getBlockByUid returns a pointer to the block with the given uid
