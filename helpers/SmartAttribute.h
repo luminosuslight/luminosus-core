@@ -279,6 +279,8 @@ public:
     explicit StringListAttribute(void*, QObject* parent, QString name, const QStringList& initialValue = {}, bool persistent = true);
     operator QStringList() const { return m_value; }
     StringListAttribute& operator=(QStringList value) { setValue(value); return *this; }
+    QStringList* operator->() { return &m_value; }
+    const QStringList* operator->() const { return &m_value; }
 
 signals:
     void valueChanged();
