@@ -203,8 +203,15 @@ public slots:
 	 * @param uid of the block
 	 * @return pointer to a block or nullptr
 	 */
-	BlockInterface* getBlockByUid(QString uid);
+    BlockInterface* getBlockByUid(const QString& uid);
 
+public:
+    template<typename T>
+    T* getBlockByUid(const QString& uid) const  {
+        return qobject_cast<T*>(m_currentBlocksByUid.value(uid, nullptr));
+    }
+
+public slots:
 	/**
 	 * @brief getBlockState returns the state of a block (including position etc. and internal state)
 	 * @param block pointer to the block
@@ -311,7 +318,7 @@ protected:
 	/**
 	 * @brief m_currentBlocksByUid maps the uid to the pointer of an existing block instance
 	 */
-	std::map<QString, QPointer<BlockInterface>> m_currentBlocksByUid;
+    QHash<QString, QPointer<BlockInterface>> m_currentBlocksByUid;
     /**
      * @brief m_displayedGroup is the UID of the currently displayed group
      */

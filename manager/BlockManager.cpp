@@ -343,8 +343,7 @@ BlockInterface* BlockManager::addBlockByNameQml(QString blockType) {
 
 void BlockManager::deleteAllBlocks(bool immediate) {
     // iterate over copy because map will be modified:
-	for (auto entry: std::map<QString, QPointer<BlockInterface>>(m_currentBlocksByUid)) {
-        QString uid = entry.first;
+    for (auto uid: m_currentBlocksByUid.keys()) {
         deleteBlock(uid, /*forced*/ true, /*noRestore*/ true, /*immediate*/ immediate);
     }
 }
@@ -367,7 +366,7 @@ void BlockManager::deleteBlock(BlockInterface* block, bool forced, bool noRestor
     block->disconnectAllNodes();
     block->destroyGuiItem(immediate);
     m_currentBlocks.erase(std::find(m_currentBlocks.begin(), m_currentBlocks.end(), block));
-    m_currentBlocksByUid.erase(block->getUid());
+    m_currentBlocksByUid.remove(block->getUid());
     m_blocksInDisplayedGroup.removeAll(block);
     // TODO: check if deleteLater is better (but: blocks have to be deleted before new project is loaded!)
     // deleting it instantly leads to GUI warnings "cannot read property" because block is already deleted
@@ -430,11 +429,8 @@ void BlockManager::restoreDeletedBlock() {
 	restoreBlock(state);
 }
 
-BlockInterface* BlockManager::getBlockByUid(QString uid) {
-	if (m_currentBlocksByUid.find(uid) != m_currentBlocksByUid.end()) {
-		return m_currentBlocksByUid[uid];
-	}
-	return nullptr;
+BlockInterface* BlockManager::getBlockByUid(const QString& uid) {
+    return m_currentBlocksByUid.value(uid, nullptr);
 }
 
 QJsonObject BlockManager::getBlockState(BlockInterface* block) const {
@@ -462,7 +458,7 @@ QPoint BlockManager::getBlocksMidpoint() const {
         avgX += (block->getGuiX() + block->getGuiWidth() / 2) / blockCount;
         avgY += (block->getGuiY() + block->getGuiHeight() / 2) / blockCount;
     }
-    return QPoint(avgX, avgY);
+    return QPoint(int(avgX), int(avgY));
 }
 
 void BlockManager::playClickSound() {
@@ -490,20 +486,18 @@ void BlockManager::destroyAllGuiItemsExcept(BlockInterface* exception) {
 }
 
 QPoint BlockManager::getSpawnPosition(int randomOffset) const {
-    QQuickWindow* window = m_controller->guiManager()->getMainWindow();
-    if (!window) return {0, 0};
-    int windowWidth = window->width();
-    int windowHeight = window->height();
     QQuickItem* workspace = m_controller->guiManager()->getWorkspaceItem();
-    int planeX = workspace->x() * -1;
-    int planeY = workspace->y() * -1;
+    int windowWidth = int(workspace->width());
+    int windowHeight = int(workspace->height());
+    int planeX = int(workspace->x()) * -1;
+    int planeY = int(workspace->y()) * -1;
 	QPoint spawn;
 	spawn.setX(planeX + windowWidth / 2);
 	spawn.setY(planeY + windowHeight / 2);
 	// add a random offset:
-    double maxOffset = randomOffset * m_controller->guiManager()->getGuiScaling();
-    spawn += QPoint(fmod(std::rand(), maxOffset) - (maxOffset / 2),
-                    fmod(std::rand(), maxOffset) - (maxOffset / 2));
+    int maxOffset = int(randomOffset * m_controller->guiManager()->getGuiScaling());
+    spawn += QPoint(realMod(std::rand(), maxOffset) - (maxOffset / 2),
+                    realMod(std::rand(), maxOffset) - (maxOffset / 2));
 	return spawn;
 }
 
@@ -513,8 +507,8 @@ QPoint BlockManager::getBlockListPosition() const {
     int windowWidth = window->width();
     int windowHeight = window->height();
     QQuickItem* workspace = m_controller->guiManager()->getWorkspaceItem();
-    int planeX = workspace->x() * -1;
-    int planeY = workspace->y() * -1;
+    int planeX = int(workspace->x()) * -1;
+    int planeY = int(workspace->y()) * -1;
 	QPoint blockListPos;
 	blockListPos.setX(planeX + windowWidth);
 	blockListPos.setY(planeY + windowHeight / 2);
@@ -563,7 +557,7 @@ void BlockManager::makeRandomConnection() {
     NodeBase* input = nullptr;
     int randOffset = qrand();
     for (std::size_t i = 0; i < m_currentBlocks.size() && !output; ++i) {
-        BlockInterface* block = m_currentBlocks.at((randOffset + i) % m_currentBlocks.size());
+        BlockInterface* block = m_currentBlocks.at((std::size_t(randOffset) + i) % m_currentBlocks.size());
         QList<QPointer<NodeBase>> nodes = block->getNodes();
         for (int k = 0; k < nodes.size() && !output; ++k) {
             NodeBase* node = nodes.at((randOffset + k) % nodes.size());
@@ -580,7 +574,7 @@ void BlockManager::makeRandomConnection() {
     }
     randOffset = qrand();
     for (std::size_t i = 0; i < m_currentBlocks.size() && !input; ++i) {
-        BlockInterface* block = m_currentBlocks.at((randOffset + i) % m_currentBlocks.size());
+        BlockInterface* block = m_currentBlocks.at((std::size_t(randOffset) + i) % m_currentBlocks.size());
         QList<QPointer<NodeBase>> nodes = block->getNodes();
         for (int k = 0; k < nodes.size() && !input; ++k) {
             NodeBase* node = nodes.at((randOffset + k) % nodes.size());
