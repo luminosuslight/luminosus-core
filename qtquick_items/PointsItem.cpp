@@ -53,7 +53,7 @@ QSGNode* PointsItem::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*) {
     if (!isVisible()) return oldNode;
 
     const int pointCount = std::min(m_xPositions.size(), m_yPositions.size());
-    if (pointCount < 1) return oldNode;
+    const int verticesCount = pointCount;
 
     // -------------------- Prepare QSG Nodes:
     QSGNode* parentNode = nullptr;
@@ -67,7 +67,7 @@ QSGNode* PointsItem::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*) {
     if (childCount != 1) {
         parentNode->removeAllChildNodes();
         QSGGeometryNode* node = new QSGGeometryNode;
-        QSGGeometry* geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 3);
+        QSGGeometry* geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), verticesCount);
         geometry->setDrawingMode(QSGGeometry::DrawPoints);
         geometry->setLineWidth(float(m_pointSize * m_devicePixelRatio));
         node->setGeometry(geometry);
@@ -96,8 +96,6 @@ QSGNode* PointsItem::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*) {
         qCritical() << "[PointsItem] Could not get QSG Geometry.";
         return nullptr;
     }
-
-    const int verticesCount = pointCount;
 
     geometry->allocate(verticesCount);
     QSGGeometry::Point2D* const vertices = geometry->vertexDataAsPoint2D();
