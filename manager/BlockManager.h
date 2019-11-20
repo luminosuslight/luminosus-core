@@ -68,6 +68,9 @@ public:
                 blocks.append(blockOfType);
             }
         }
+        std::sort(blocks.begin(), blocks.end(), [](const T* lhs, const T* rhs) {
+            return lhs->getUid() < rhs->getUid();
+        });
         return blocks;
     }
 
