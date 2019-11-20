@@ -15,6 +15,7 @@ ColorMatrix::ColorMatrix()
     , m_valueIsValid(true)
     , m_absoluteMaximum(1)
     , m_absoluteMaximumIsProvided(false)
+    , m_idsAreValid(false)
 //    , m_offsetX(0)
 //    , m_offsetY(0)
 {}
@@ -22,7 +23,8 @@ ColorMatrix::ColorMatrix()
 void ColorMatrix::addHtp(const ColorMatrix& other) {
     // Special Case:
     // check if in both Matrices only the value attribute is valid:
-    if (!m_hsvIsValid && !m_rgbIsValid && !other.m_hsvIsValid && !other.m_rgbIsValid) {
+    if (!m_hsvIsValid && !m_rgbIsValid && !m_idsAreValid
+            && !other.m_hsvIsValid && !other.m_rgbIsValid && !other.m_idsAreValid) {
         m_value = std::max(m_value, other.m_value);
         return;
     }
@@ -41,6 +43,15 @@ void ColorMatrix::addHtp(const ColorMatrix& other) {
         } else {
             m_absoluteMaximum = other.m_absoluteMaximum;
             m_absoluteMaximumIsProvided = true;
+        }
+    }
+
+    // merge IDs if reference object is the same
+    if (m_idsAreValid && other.m_idsAreValid && m_referenceObject == other.m_referenceObject) {
+        for (int id: other.m_ids) {
+            if (!m_ids.contains(id)) {
+                m_ids.append(id);
+            }
         }
     }
 }
@@ -238,13 +249,13 @@ void ColorMatrix::hsvToRgb() const {
             t = v*(1-s*(1-f));
             i = i % 6;
             switch (i) {
-                case 0: r = v, g = t, b = p; break;
-                case 1: r = q, g = v, b = p; break;
-                case 2: r = p, g = v, b = t; break;
-                case 3: r = p, g = q, b = v; break;
-                case 4: r = t, g = p, b = v; break;
-                case 5: r = v, g = p, b = q; break;
-                default: r = 0, g = 0, b = 0; break;
+                case 0: r = v; g = t; b = p; break;
+                case 1: r = q; g = v; b = p; break;
+                case 2: r = p; g = v; b = t; break;
+                case 3: r = p; g = q; b = v; break;
+                case 4: r = t; g = p; b = v; break;
+                case 5: r = v; g = p; b = q; break;
+                default: r = 0; g = 0; b = 0; break;
             }
             m_rgbData.at(x, y) = RGB(r, g, b);
         }

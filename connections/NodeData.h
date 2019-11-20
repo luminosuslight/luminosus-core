@@ -4,6 +4,7 @@
 #include "core/connections/Matrix.h"
 
 #include <QSize>
+#include <QPointer>
 #include <vector>
 #include <cmath>
 
@@ -254,6 +255,15 @@ struct ColorMatrix {
      */
     void resetAbsoluteMaximum() { m_absoluteMaximumIsProvided = false; }
 
+    void setReferenceObject(QObject* obj) { m_referenceObject = obj; }
+    QObject* referenceObject() const { return m_referenceObject; }
+    template<typename T>
+    T* referenceObject() const { return qobject_cast<T*>(m_referenceObject); }
+
+    void setIds(const QVector<int>& ids) { m_ids = ids; m_idsAreValid = true; }
+    void setIds(QVector<int>&& ids) { m_ids = ids; m_idsAreValid = true; }
+    const QVector<int>& ids() const { return m_ids; }
+
 protected:
     /**
      * @brief updateHsv sets the HSV values from RGB data or the value
@@ -322,6 +332,18 @@ protected:
      * @brief m_absoluteMaximumIsProvided is true, if the absoluteValue is set and valid
      */
     mutable bool m_absoluteMaximumIsProvided;
+
+    /**
+     * @brief m_ids a list of IDs, e.g. cell IDs
+     */
+    QVector<int> m_ids;
+    mutable bool m_idsAreValid;
+
+    /**
+     * @brief m_referenceObject is a pointer to an object these values refer to, e.g. a database,
+     * it can be a nullptr
+     */
+    QPointer<QObject> m_referenceObject;
 
 //    /**
 //     * @brief m_offsetX offset on x-axis to read from (i.e. because the values before that
