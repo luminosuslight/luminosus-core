@@ -85,6 +85,7 @@ QSGNode* IrregularCircleOutline::updatePaintNode(QSGNode* oldNode, UpdatePaintNo
 
     QSGGeometry* const geometry = qsgNode->geometry();
     Q_ASSERT_X(geometry, "IrregularCircleOutline::updatePaintNode", "Could not get QSG Geometry.");
+    geometry->setLineWidth(float(m_lineWidth * m_devicePixelRatio));
 
     geometry->allocate(verticesCount);
     QSGGeometry::Point2D* const vertices = geometry->vertexDataAsPoint2D();

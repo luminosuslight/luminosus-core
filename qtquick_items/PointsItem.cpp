@@ -96,6 +96,7 @@ QSGNode* PointsItem::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*) {
         qCritical() << "[PointsItem] Could not get QSG Geometry.";
         return nullptr;
     }
+    geometry->setLineWidth(float(m_pointSize * m_devicePixelRatio));
 
     geometry->allocate(verticesCount);
     QSGGeometry::Point2D* const vertices = geometry->vertexDataAsPoint2D();

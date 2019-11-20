@@ -93,6 +93,7 @@ QSGNode* IrregularCircleOutlineTwoColored::updatePaintNode(QSGNode* oldNode, Upd
         qCritical() << "[IrregularCircle] Could not get QSG Geometry.";
         return nullptr;
     }
+    geometry->setLineWidth(float(m_lineWidth * m_devicePixelRatio));
 
     const int interpolationFactor = 4;
     const int interpolatedRadiusCount = pointCount * interpolationFactor;
