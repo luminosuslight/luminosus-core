@@ -67,7 +67,7 @@ QSGNode* PointsItem::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*) {
     if (childCount != 1) {
         parentNode->removeAllChildNodes();
         QSGGeometryNode* node = new QSGGeometryNode;
-        QSGGeometry* geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), verticesCount);
+        QSGGeometry* geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), std::max(1, verticesCount));
         geometry->setDrawingMode(QSGGeometry::DrawPoints);
         geometry->setLineWidth(float(m_pointSize * m_devicePixelRatio));
         node->setGeometry(geometry);
