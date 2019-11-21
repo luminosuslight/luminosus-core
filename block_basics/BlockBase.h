@@ -50,6 +50,7 @@ public:
     virtual ~BlockBase() override;
 
 	// interface methods (documentation is in interface):
+    virtual void onCreatedByUser() override {}
     virtual QJsonObject getState() const override;
     virtual void setState(const QJsonObject& state) override;
     virtual void getAdditionalState(QJsonObject& /*state*/) const override {}

@@ -137,6 +137,12 @@ public:
     virtual ~BlockInterface() {}  // virtual destructor makes shure the right destructor is called
 
     /**
+     * @brief onCreatedByUser is called after the block was initially added by the user
+     * from the GUI, it can be used to set some default values for this case
+     */
+    virtual void onCreatedByUser() = 0;
+
+    /**
      * @brief getState is used to get the current state of the block to persist it
      * (including the attributes)
      * @return a QJsonObject containing the blocks state

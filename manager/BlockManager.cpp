@@ -338,7 +338,9 @@ BlockInterface* BlockManager::addNewBlock(QString blockType, int randomOffset) {
 }
 
 BlockInterface* BlockManager::addBlockByNameQml(QString blockType) {
-    return addNewBlock(blockType);
+    BlockInterface* block = addNewBlock(blockType);
+    block->onCreatedByUser();
+    return block;
 }
 
 void BlockManager::deleteAllBlocks(bool immediate) {
