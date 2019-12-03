@@ -221,9 +221,9 @@ QStringList ProjectManager::getFilenameFilters() const {
 
 void ProjectManager::centerViewOnBlocks() {
     QPoint midpoint = m_controller->blockManager()->getBlocksMidpoint();
-    QQuickWindow* window = m_controller->guiManager()->getMainWindow();
-    if (!window) return;
-    midpoint -= QPoint(window->width() / 2, window->height() / 2);
+    QQuickItem* workspace = m_controller->guiManager()->getWorkspaceItem();
+    if (!workspace) return;
+    midpoint -= QPoint(int(workspace->width()) / 2, int(workspace->height()) / 2);
     m_controller->guiManager()->setWorkspacePosition(midpoint.x() * (-1), midpoint.y() * (-1));
 }
 
