@@ -27,6 +27,7 @@ HEADERS += \
     $$PWD/conversation/UserInput.h \
     $$PWD/helpers/ObjectWithAttributes.h \
     $$PWD/helpers/constants.h \
+    $$PWD/helpers/qstring_literal.h \
     $$PWD/helpers/utils.h \
     $$PWD/qtquick_items/BarGraphItem.h \
     $$PWD/qtquick_items/BezierCurve.h \
@@ -76,6 +77,7 @@ SOURCES += \
     $$PWD/conversation/SystemOutput.cpp \
     $$PWD/conversation/UserInput.cpp \
     $$PWD/helpers/ObjectWithAttributes.cpp \
+    $$PWD/helpers/qstring_literal.cpp \
     $$PWD/qtquick_items/BarGraphItem.cpp \
     $$PWD/qtquick_items/BezierCurve.cpp \
     $$PWD/qtquick_items/CustomImagePainter.cpp \

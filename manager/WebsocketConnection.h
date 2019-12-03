@@ -38,8 +38,8 @@ public:
     explicit WebsocketConnection(CoreController* controller);
     ~WebsocketConnection();
 
-    QJsonObject getState() const;
-    void setState(QJsonObject state);
+    QCborMap getState() const;
+    void setState(QCborMap state);
 
 signals:
     void serverClosed();

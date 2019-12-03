@@ -3,6 +3,8 @@
 #include <QObject>
 #include <QDir>
 #include <QFile>
+#include <QCborMap>
+#include <QCborArray>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -49,13 +51,13 @@ bool FileSystemManager::saveLocalFile(QString path, QByteArray content) const {
     return true;
 }
 
-bool FileSystemManager::saveFile(QString dir, QString filename, QJsonObject content) const {
-    QByteArray raw = QJsonDocument(content).toJson();
+bool FileSystemManager::saveFile(QString dir, QString filename, QCborMap content) const {
+    QByteArray raw = content.toCborValue().toCbor();
     return saveFile(dir, filename, raw);
 }
 
-bool FileSystemManager::saveFile(QString dir, QString filename, QJsonArray content) const {
-    QByteArray raw = QJsonDocument(content).toJson();
+bool FileSystemManager::saveFile(QString dir, QString filename, QCborArray content) const {
+    QByteArray raw = content.toCborValue().toCbor();
     return saveFile(dir, filename, raw);
 }
 
@@ -79,16 +81,26 @@ QByteArray FileSystemManager::loadLocalFile(QString path) const {
     return content;
 }
 
-QJsonObject FileSystemManager::loadJsonObject(QString dir, QString filename) const {
+QCborMap FileSystemManager::loadCborMap(QString dir, QString filename) const {
     QByteArray content = loadFile(dir, filename);
-    QJsonDocument loadDoc(QJsonDocument::fromJson(content));
-    return loadDoc.object();
+    QCborMap cborMap = QCborValue::fromCbor(content).toMap();
+    if (cborMap.isEmpty()) {
+        // backward compatibility / migration path: check if file is in JSON format:
+        QJsonDocument loadDoc(QJsonDocument::fromJson(content));
+        cborMap = QCborMap::fromJsonObject(loadDoc.object());
+    }
+    return cborMap;
 }
 
-QJsonArray FileSystemManager::loadJsonArray(QString dir, QString filename) const {
+QCborArray FileSystemManager::loadCborArray(QString dir, QString filename) const {
     QByteArray content = loadFile(dir, filename);
-    QJsonDocument loadDoc(QJsonDocument::fromJson(content));
-    return loadDoc.array();
+    QCborArray cborArray = QCborValue::fromCbor(content).toArray();
+    if (cborArray.isEmpty()) {
+        // backward compatibility / migration path: check if file is in JSON format:
+        QJsonDocument loadDoc(QJsonDocument::fromJson(content));
+        cborArray = QCborArray::fromJsonArray(loadDoc.array());
+    }
+    return cborArray;
 }
 
 bool FileSystemManager::fileExists(QString dir, QString filename) const {

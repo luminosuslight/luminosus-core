@@ -2,7 +2,7 @@
 #define GUIMANAGER_H
 
 #include <QObject>
-#include <QJsonObject>
+#include <QCborMap>
 #include <QQmlApplicationEngine>
 #include <QRect>
 
@@ -37,13 +37,13 @@ public:
      * @brief writeTo writes the GUI related settings into the app state object
      * @param appState the application state
      */
-    void writeTo(QJsonObject& appState) const;
+    void writeTo(QCborMap& appState) const;
 
     /**
      * @brief readFrom reads the GUI related settings from the app state object
      * @param appState the application state
      */
-    void readFrom(const QJsonObject& appState);
+    void readFrom(const QCborMap& appState);
 
 signals:
     void openBlockSettings();  //!< can be emitted to tell the GUI to open the Block Settings area

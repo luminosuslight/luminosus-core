@@ -187,7 +187,7 @@ void BlockManager::setGroupOfBlock(BlockInterface* block, QString group) {
     }
 }
 
-BlockInterface* BlockManager::restoreBlock(const QJsonObject& blockState, bool animated, bool connectOnAdd) {
+BlockInterface* BlockManager::restoreBlock(const QCborMap& blockState, bool animated, bool connectOnAdd) {
 	QString blockType = blockState["name"].toString();
 	QString uid = blockState["uid"].toString();
 	BlockInterface* block = createBlockInstance(blockType, uid);
@@ -195,13 +195,13 @@ BlockInterface* BlockManager::restoreBlock(const QJsonObject& blockState, bool a
 		qWarning() << "Could not create block instance of type: " << blockType;
 		return nullptr;
     }
-    QJsonObject internalState = blockState["internalState"].toObject();
+    QCborMap internalState = blockState["internalState"].toMap();
     // downward comptability for "label":
     if (!blockState["label"].toString().isEmpty()) {
-        internalState["label"] = blockState["label"].toString();
+        internalState["label"_q] = blockState["label"].toString();
     }
     block->setState(internalState);
-    block->setNodeMergeModes(blockState["nodeMergeModes"].toObject());
+    block->setNodeMergeModes(blockState["nodeMergeModes"].toMap());
 
     // determ final position of the block:
     double dp = m_controller->guiManager()->getGuiScaling();
@@ -393,12 +393,12 @@ void BlockManager::deleteFocusedBlock() {
 
 void BlockManager::duplicateFocusedBlock() {
 	if (!m_focusedBlock) return;
-	QJsonObject state = getBlockState(m_focusedBlock);
+	QCborMap state = getBlockState(m_focusedBlock);
 	// remove uid to let the block generate a new one:
-	state["uid"] = "";
+    state["uid"_q] = "";
 	// offset the position:
-    state["posX"] = state["posX"].toDouble() + (std::rand() % 50);
-    state["posY"] = state["posY"].toDouble() + (std::rand() % 50);
+    state["posX"_q] = state["posX"_q].toDouble() + (std::rand() % 50);
+    state["posY"_q] = state["posY"_q].toDouble() + (std::rand() % 50);
     restoreBlock(state, /*animated*/ true, /*connectOnAdd*/ true);
 
 }
@@ -410,14 +410,14 @@ void BlockManager::copyFocusedBlock() {
 
 void BlockManager::pasteBlock() {
 	if (m_copiedBlockState.isEmpty()) return;
-	QJsonObject state = m_copiedBlockState;
+	QCborMap state = m_copiedBlockState;
 	// remove uid to let the block generate a new one:
-	state["uid"] = "";
+    state["uid"_q] = "";
 	// set position to normal spawn position:
     QPoint spawn = getSpawnPosition(50);
     double dp = m_controller->guiManager()->getGuiScaling();
-    state["posX"] = spawn.x() / dp;
-    state["posY"] = spawn.y() / dp;
+    state["posX"_q] = spawn.x() / dp;
+    state["posY"_q] = spawn.y() / dp;
     BlockInterface* block = restoreBlock(state, /*animated*/ true, /*connectOnAdd*/ true);
     setGroupOfBlock(block, getDisplayedGroup());
 }
@@ -426,7 +426,7 @@ void BlockManager::restoreDeletedBlock() {
 	if (m_lastDeletedBlockStates.isEmpty()) {
 		return;
 	}
-	QJsonObject state = m_lastDeletedBlockStates.last();
+	QCborMap state = m_lastDeletedBlockStates.last();
 	m_lastDeletedBlockStates.pop_back();
 	restoreBlock(state);
 }
@@ -435,18 +435,18 @@ BlockInterface* BlockManager::getBlockByUid(const QString& uid) {
     return m_currentBlocksByUid.value(uid, nullptr);
 }
 
-QJsonObject BlockManager::getBlockState(BlockInterface* block) const {
+QCborMap BlockManager::getBlockState(BlockInterface* block) const {
     double dp = m_controller->guiManager()->getGuiScaling();
-	QJsonObject blockState;
-	blockState["name"] = block->getBlockInfo().typeName;
-    blockState["uid"] = block->getUid();
-    blockState["posX"] = block->getGuiX() / dp;
-    blockState["posY"] = block->getGuiY() / dp;
-    blockState["width"] = block->getGuiWidth() / dp;
-    blockState["height"] = block->getGuiHeight() / dp;
-	blockState["focused"] = getFocusedBlock() == block;
-    blockState["nodeMergeModes"] = block->getNodeMergeModes();
-    blockState["internalState"] = block->getState();
+	QCborMap blockState;
+    blockState["name"_q] = block->getBlockInfo().typeName;
+    blockState["uid"_q] = block->getUid();
+    blockState["posX"_q] = block->getGuiX() / dp;
+    blockState["posY"_q] = block->getGuiY() / dp;
+    blockState["width"_q] = block->getGuiWidth() / dp;
+    blockState["height"_q] = block->getGuiHeight() / dp;
+    blockState["focused"_q] = getFocusedBlock() == block;
+    blockState["nodeMergeModes"_q] = block->getNodeMergeModes();
+    blockState["internalState"_q] = block->getState();
     return blockState;
 }
 

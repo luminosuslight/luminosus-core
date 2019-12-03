@@ -38,11 +38,11 @@ DoubleAttribute::DoubleAttribute(void*, QObject* parent, QString name, double in
 
 }
 
-void DoubleAttribute::writeTo(QJsonObject& state) const {
+void DoubleAttribute::writeTo(QCborMap& state) const {
     state[m_name] = getValue();
 }
 
-void DoubleAttribute::readFrom(const QJsonObject& state) {
+void DoubleAttribute::readFrom(const QCborMap& state) {
     setValue(state[m_name].toDouble());
 }
 
@@ -72,12 +72,12 @@ IntegerAttribute::IntegerAttribute(void*, QObject* parent, QString name, int ini
 
 }
 
-void IntegerAttribute::writeTo(QJsonObject& state) const {
+void IntegerAttribute::writeTo(QCborMap& state) const {
     state[m_name] = getValue();
 }
 
-void IntegerAttribute::readFrom(const QJsonObject& state) {
-    setValue(state[m_name].toInt());
+void IntegerAttribute::readFrom(const QCborMap& state) {
+    setValue(int(state[m_name].toInteger()));
 }
 
 void IntegerAttribute::setValue(int value) {
@@ -102,11 +102,11 @@ StringAttribute::StringAttribute(void*, QObject* parent, QString name, QString i
 
 }
 
-void StringAttribute::writeTo(QJsonObject& state) const {
+void StringAttribute::writeTo(QCborMap& state) const {
     state[m_name] = getValue();
 }
 
-void StringAttribute::readFrom(const QJsonObject& state) {
+void StringAttribute::readFrom(const QCborMap& state) {
     setValue(state[m_name].toString());
 }
 
@@ -131,11 +131,11 @@ BoolAttribute::BoolAttribute(void*, QObject* parent, QString name, bool initialV
 
 }
 
-void BoolAttribute::writeTo(QJsonObject& state) const {
+void BoolAttribute::writeTo(QCborMap& state) const {
     state[m_name] = getValue();
 }
 
-void BoolAttribute::readFrom(const QJsonObject& state) {
+void BoolAttribute::readFrom(const QCborMap& state) {
     setValue(state[m_name].toBool());
 }
 
@@ -159,13 +159,13 @@ RgbAttribute::RgbAttribute(void*, QObject* parent, QString name, const RGB& init
 
 }
 
-void RgbAttribute::writeTo(QJsonObject& state) const {
+void RgbAttribute::writeTo(QCborMap& state) const {
     state[m_name + "r"] = m_value.r;
     state[m_name + "g"] = m_value.g;
     state[m_name + "b"] = m_value.b;
 }
 
-void RgbAttribute::readFrom(const QJsonObject& state) {
+void RgbAttribute::readFrom(const QCborMap& state) {
     double r = state[m_name + "r"].toDouble();
     double g = state[m_name + "g"].toDouble();
     double b = state[m_name + "b"].toDouble();
@@ -247,14 +247,14 @@ HsvAttribute::HsvAttribute(void*, QObject* parent, QString name, const HSV& init
 
 }
 
-void HsvAttribute::writeTo(QJsonObject& state) const {
+void HsvAttribute::writeTo(QCborMap& state) const {
     state[m_name + "h"] = m_value.h;
     state[m_name + "s"] = m_value.s;
     state[m_name + "v"] = m_value.v;
 
 }
 
-void HsvAttribute::readFrom(const QJsonObject& state) {
+void HsvAttribute::readFrom(const QCborMap& state) {
     double h = state[m_name + "h"].toDouble();
     double s = state[m_name + "s"].toDouble();
     double v = state[m_name + "v"].toDouble();
@@ -297,12 +297,12 @@ StringListAttribute::StringListAttribute(void*, QObject* parent, QString name, c
 
 }
 
-void StringListAttribute::writeTo(QJsonObject& state) const {
-    state[m_name] = serialize(m_value);
+void StringListAttribute::writeTo(QCborMap& state) const {
+    state[m_name] = serializeBinary(m_value);
 }
 
-void StringListAttribute::readFrom(const QJsonObject& state) {
-    m_value = deserialize<QStringList>(state[m_name].toString());
+void StringListAttribute::readFrom(const QCborMap& state) {
+    m_value = deserializeBinary<QStringList>(state[m_name].toByteArray());
 }
 
 void StringListAttribute::setValue(QStringList value) {

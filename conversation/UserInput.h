@@ -4,7 +4,7 @@
 #include <QString>
 #include <QVector>
 #include <QMap>
-#include <QJsonObject>
+#include <QCborMap>
 
 
 struct UserInput {
@@ -20,7 +20,7 @@ struct UserInput {
     QString getTranscription() const { return m_transcription; }
 
     // ------------ Natural Languange Processing -------------
-    void setNlpResult(const QJsonObject& googleNlpResult);
+    void setNlpResult(const QCborMap& googleNlpResult);
     bool hasNlpResult() const;
     void printNlpResult() const;
 
@@ -60,7 +60,7 @@ struct UserInput {
     double m_confidence;
 
     // from Natural Languange Processing:
-    QJsonObject m_googleNlpResult;
+    QCborMap m_googleNlpResult;
     QVector<QString> m_words;
     QVector<QString> m_lemmas;
     QVector<QString> m_types;

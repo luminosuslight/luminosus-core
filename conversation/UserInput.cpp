@@ -1,8 +1,9 @@
 #include "UserInput.h"
 
 #include "core/helpers/utils.h"
+#include "core/helpers/qstring_literal.h"
 
-#include <QJsonArray>
+#include <QCborArray>
 #include <QDebug>
 #include <QDateTime>
 
@@ -13,23 +14,23 @@ UserInput::UserInput()
 
 }
 
-void UserInput::setNlpResult(const QJsonObject& googleNlpResult) {
+void UserInput::setNlpResult(const QCborMap& googleNlpResult) {
     m_googleNlpResult = googleNlpResult;
 
     // TODO: check for negation
 
     // NOTE: lemmas are all stored as lowercase
 
-    for (QJsonValueRef tokenRef: googleNlpResult["tokens"].toArray()) {
-        QJsonObject token = tokenRef.toObject();
-        QJsonObject textObject = token["text"].toObject();
-        QJsonObject partOfSpeech = token["partOfSpeech"].toObject();
-        QJsonObject dependencyEdge = token["dependencyEdge"].toObject();
-        QString lemma = token["lemma"].toString().toLower();
-        QString type = partOfSpeech["tag"].toString();
-        QString structure = dependencyEdge["label"].toString();
+    for (QCborValueRef tokenRef: googleNlpResult["tokens"].toArray()) {
+        QCborMap token = tokenRef.toMap();
+        QCborMap textObject = token["text"_q].toMap();
+        QCborMap partOfSpeech = token["partOfSpeech"_q].toMap();
+        QCborMap dependencyEdge = token["dependencyEdge"_q].toMap();
+        QString lemma = token["lemma"_q].toString().toLower();
+        QString type = partOfSpeech["tag"_q].toString();
+        QString structure = dependencyEdge["label"_q].toString();
 
-        m_words.append(textObject["content"].toString());
+        m_words.append(textObject["content"_q].toString());
         m_lemmas.append(lemma);
         m_types.append(type);
         m_structure.append(structure);
@@ -43,8 +44,8 @@ bool UserInput::hasNlpResult() const {
 }
 
 void UserInput::printNlpResult() const {
-    for (QJsonValueRef tokenRef: m_googleNlpResult["tokens"].toArray()) {
-        QJsonObject token = tokenRef.toObject();
+    for (QCborValueRef tokenRef: m_googleNlpResult["tokens"].toArray()) {
+        QCborMap token = tokenRef.toMap();
         qDebug()<< "\n---\n" << token;
     }
     qDebug()<< "\n---\n";

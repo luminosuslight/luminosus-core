@@ -13,11 +13,11 @@ OneOutputBlock::OneOutputBlock(CoreController* controller, QString uid)
     connect(m_outputNode, SIGNAL(requestedSizeChanged()), this, SLOT(forceUpdateOutput()));
 }
 
-void OneOutputBlock::getAdditionalState(QJsonObject& state) const {
-    state["value"] = getValue();
+void OneOutputBlock::getAdditionalState(QCborMap& state) const {
+    state["value"_q] = getValue();
 }
 
-void OneOutputBlock::setAdditionalState(const QJsonObject& state) {
+void OneOutputBlock::setAdditionalState(const QCborMap& state) {
 	setValue(state["value"].toDouble());
 }
 

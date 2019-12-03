@@ -131,7 +131,7 @@ public slots:
 	 * @param animated true if the block should "fly" to the right position
 	 * @return a pointer to the created Block
 	 */
-    BlockInterface* restoreBlock(const QJsonObject& blockState, bool animated = true, bool connectOnAdd = false);
+    BlockInterface* restoreBlock(const QCborMap& blockState, bool animated = true, bool connectOnAdd = false);
 	/**
 	 * @brief addNewBlock creates a new block of the given type
 	 * @param blockType type of the block
@@ -218,9 +218,9 @@ public slots:
 	/**
 	 * @brief getBlockState returns the state of a block (including position etc. and internal state)
 	 * @param block pointer to the block
-	 * @return QJsonObject containing the state information
+	 * @return QCborMap containing the state information
 	 */
-	QJsonObject getBlockState(BlockInterface* block) const;
+	QCborMap getBlockState(BlockInterface* block) const;
 
     /**
      * @brief getBlocksMidpoint return the geometric middle point of all blocks
@@ -347,12 +347,12 @@ protected:
 	/**
 	 * @brief m_lastDeletedBlockState stores the state of the last deleted blocks to be able to restore it
 	 */
-	Qt3DCore::QCircularBuffer<QJsonObject> m_lastDeletedBlockStates;
+	Qt3DCore::QCircularBuffer<QCborMap> m_lastDeletedBlockStates;
 
 	/**
 	 * @brief m_copiedBlockState stores the state of the last copied block (i.e. with Ctrl + C)
 	 */
-	QJsonObject m_copiedBlockState;
+	QCborMap m_copiedBlockState;
 
     /**
      * @brief m_hideBlocksOutsideViewports when this is true, blocks outside the viewport

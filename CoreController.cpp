@@ -15,9 +15,10 @@
 
 #include "core/helpers/constants.h"
 #include "core/helpers/utils.h"
+#include "core/helpers/qstring_literal.h"
 #include "core/version.h"
 
-#include <QJsonObject>
+#include <QCborMap>
 #include <QFileInfo>
 
 #ifdef Q_OS_ANDROID
@@ -108,14 +109,14 @@ void CoreController::registerManager(QString name, QObject* manager) {
 CoreController::~CoreController() = default;
 
 void CoreController::saveAll() {
-    QJsonObject appState;
-    appState["version"] = 0.3;
+    QCborMap appState;
+    appState["version"_q] = 0.3;
     m_guiManager->writeTo(appState);
-    appState["currentProject"] = m_projectManager->getCurrentProjectName();
-    appState["updateManager"] = m_updateManager->getState();
-    appState["developerMode"] = getDeveloperMode();
-    appState["clickSounds"] = getClickSounds();
-    appState["websocketConnection"] = m_websocketConnection->getState();
+    appState["currentProject"_q] = m_projectManager->getCurrentProjectName();
+    appState["updateManager"_q] = m_updateManager->getState();
+    appState["developerMode"_q] = getDeveloperMode();
+    appState["clickSounds"_q] = getClickSounds();
+    appState["websocketConnection"_q] = m_websocketConnection->getState();
     m_dao->saveFile("", "autosave.ats", appState);
 
     m_projectManager->saveCurrentProject();
@@ -133,17 +134,17 @@ void CoreController::restoreApp() {
         }
     }
 
-    QJsonObject appState = m_dao->loadJsonObject("", "autosave.ats");
+    QCborMap appState = m_dao->loadCborMap("", "autosave.ats");
     if (appState.empty()) {
         // app state doesn't exist
         onFirstStart();
         return;
     }
     m_guiManager->readFrom(appState);
-    m_updateManager->setState(appState["updateManager"].toObject());
-    setDeveloperMode(appState["developerMode"].toBool());
-    setClickSounds(appState["clickSounds"].toBool());
-    m_websocketConnection->setState(appState["websocketConnection"].toObject());
+    m_updateManager->setState(appState["updateManager"_q].toMap());
+    setDeveloperMode(appState["developerMode"_q].toBool());
+    setClickSounds(appState["clickSounds"_q].toBool());
+    m_websocketConnection->setState(appState["websocketConnection"_q].toMap());
 #ifndef Q_OS_ANDROID
     if (lockExisted) {
 #else
@@ -155,12 +156,12 @@ void CoreController::restoreApp() {
         qWarning() << "Another instance is running or the program crashed on last run!";
         m_projectManager->importProjectFile(":/core/data/No Project (Crashed).lpr", /*load=*/ true);
         return;
-    } else if (appState["version"].toDouble() < 0.2) {
+    } else if (appState["version"_q].toDouble() < 0.2) {
         m_projectManager->setCurrentProject("empty", /*createIfNotExist*/ true);
-    } else if (appState["version"].toDouble() < 0.3) {
+    } else if (appState["version"_q].toDouble() < 0.3) {
         onFirstStart();
     } else {
-        m_projectManager->setCurrentProject(appState["currentProject"].toString());
+        m_projectManager->setCurrentProject(appState["currentProject"_q].toString());
     }
 }
 

@@ -61,12 +61,12 @@ public:
      * @brief getState returns the current state to persist it
      * @return state as Json object
      */
-    QJsonObject getState() const;
+    QCborMap getState() const;
     /**
      * @brief setState restores a saved state
      * @param state Json object
      */
-    void setState(QJsonObject state);
+    void setState(QCborMap state);
 
 signals:
     /**

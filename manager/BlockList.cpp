@@ -1,9 +1,11 @@
 #include "BlockList.h"
 
 #include "core/CoreController.h"
+#include "core/helpers/qstring_literal.h"
 
+#include <QCborArray>
+#include <QCborMap>
 #include <QJsonArray>
-#include <QJsonObject>
 #include <QJsonDocument>
 
 
@@ -46,16 +48,16 @@ QString BlockList::getJsonBlockModel(bool developerMode) const {
 	// available blocks do not change at runtime
     // -> create model only if it doesn't already exist:
     if (m_jsonBlockModel.isEmpty() || m_jsonBlockModelDeveloperMode != developerMode) {
-		QJsonArray model;
+		QCborArray model;
         for (const BlockInfo& info: m_orderedBlockList) {
             if (!blockIsVisible(info, developerMode)) continue;
-			QJsonObject jsonInfo;
-			jsonInfo["name"] = info.typeName;
-			jsonInfo["nameInUi"] = info.nameInUi;
-			jsonInfo["category"] = QJsonArray::fromStringList(info.category);
+			QCborMap jsonInfo;
+            jsonInfo["name"_q] = info.typeName;
+            jsonInfo["nameInUi"_q] = info.nameInUi;
+            jsonInfo["category"_q] = QCborArray::fromStringList(info.category);
 			model.append(jsonInfo);
 		}
-		m_jsonBlockModel = QJsonDocument(model).toJson();
+        m_jsonBlockModel = QJsonDocument(model.toJsonArray()).toJson();
         m_jsonBlockModelDeveloperMode = developerMode;
 	}
 	return m_jsonBlockModel;
@@ -63,20 +65,20 @@ QString BlockList::getJsonBlockModel(bool developerMode) const {
 
 QString BlockList::getSearchResult(QString query, bool developerMode) const {
 	QString queryLow = query.toLower();
-	QJsonArray result;
+	QCborArray result;
     for (const BlockInfo& info: m_orderedBlockList) {
         if (!blockIsVisible(info, developerMode)) continue;
 		// check for query:
 		if (blockMatchesQuery(info, queryLow)) {
 			// block matches query -> add it to result:
-			QJsonObject jsonInfo;
-			jsonInfo["name"] = info.typeName;
-			jsonInfo["nameInUi"] = info.nameInUi;
-			jsonInfo["category"] = QJsonArray::fromStringList(info.category);
+			QCborMap jsonInfo;
+            jsonInfo["name"_q] = info.typeName;
+            jsonInfo["nameInUi"_q] = info.nameInUi;
+            jsonInfo["category"_q] = QCborArray::fromStringList(info.category);
 			result.append(jsonInfo);
 		}
 	}
-	return QJsonDocument(result).toJson();
+    return QJsonDocument(result.toJsonArray()).toJson();
 }
 
 QStringList BlockList::getAllBlockTypes() const {

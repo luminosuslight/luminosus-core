@@ -26,9 +26,9 @@ public:
 	 */
     explicit OneOutputBlock(CoreController* controller, QString uid);
 
-	virtual void getAdditionalState(QJsonObject& state) const override;
+	virtual void getAdditionalState(QCborMap& state) const override;
 
-	virtual void setAdditionalState(const QJsonObject& state) override;
+	virtual void setAdditionalState(const QCborMap& state) override;
 
 signals:
 	/**

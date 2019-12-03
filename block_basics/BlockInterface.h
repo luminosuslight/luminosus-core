@@ -5,7 +5,7 @@
 #include "core/connections/Matrix.h"
 
 #include <QObject>
-#include <QJsonObject>
+#include <QCborMap>
 #include <QQuickItem>
 #include <QString>
 
@@ -145,30 +145,30 @@ public:
     /**
      * @brief getState is used to get the current state of the block to persist it
      * (including the attributes)
-     * @return a QJsonObject containing the blocks state
+     * @return a QCborMap containing the blocks state
      */
-    virtual QJsonObject getState() const = 0;
+    virtual QCborMap getState() const = 0;
     /**
      * @brief setState sets the state of the block instance, i.e. to restore it from a saved state
      * (including the attributes)
      */
-    virtual void setState(const QJsonObject&) = 0;
+    virtual void setState(const QCborMap&) = 0;
     /**
      * @brief getAdditionalState is used to get the current additional state of the block beside
      * the attributes to persist it
-     * @param state a JSON object to write the state into
+     * @param state a CBOR map to write the state into
      */
-    virtual void getAdditionalState(QJsonObject& state) const = 0;
+    virtual void getAdditionalState(QCborMap& state) const = 0;
     /**
      * @brief setAdditionalState sets the additional state of the block instance beside the attributes
-     * @param state a JSON object containing the state
+     * @param state a CBOR map containing the state
      */
-    virtual void setAdditionalState(const QJsonObject& state) = 0;
+    virtual void setAdditionalState(const QCborMap& state) = 0;
     /**
      * @brief getConnections is used to get the connections of this block, i.e. to save and restore them
-     * @return a QJsonArray with strings representing the connection "outputUid->inputUid"
+     * @return a QCborArray with strings representing the connection "outputUid->inputUid"
      */
-    virtual QJsonArray getConnections() = 0;
+    virtual QCborArray getConnections() = 0;
     /**
      * @brief getNodeById
      * @return the node with the given id
@@ -203,20 +203,20 @@ public:
     virtual QList<QPointer<NodeBase>> getNodes() const = 0;
 
     /**
-     * @brief getNodeMergeModes returns an JSON object that contains information about the
+     * @brief getNodeMergeModes returns an CBOR map that contains information about the
      * merge mode of each node of this block
      *
      * the keys are the node IDs and the value is true if the merge mode is HTP
      * @return a JSON Object
      */
-    virtual QJsonObject getNodeMergeModes() const = 0;
+    virtual QCborMap getNodeMergeModes() const = 0;
 
     /**
      * @brief setNodeMergeModes sets the merge mode of all nodes of this block on the base of a
-     * JSON object returned from getNodeMergeModes()
-     * @param state a JSON object returned from getNodeMergeModes()
+     * CBOR map returned from getNodeMergeModes()
+     * @param state a CBOR map returned from getNodeMergeModes()
      */
-    virtual void setNodeMergeModes(const QJsonObject& state) = 0;
+    virtual void setNodeMergeModes(const QCborMap& state) = 0;
 
     /**
      * @brief renderIfNotVisible returns if the block should be rendered even if it is not visible

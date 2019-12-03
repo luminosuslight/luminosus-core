@@ -4,6 +4,7 @@
 #include "core/manager/BlockManager.h"
 #include "core/manager/GuiManager.h"
 #include "core/manager/ProjectManager.h"
+#include "core/helpers/qstring_literal.h"
 #include "core/version.h"
 
 #include <QSysInfo>
@@ -51,16 +52,16 @@ UpdateManager::UpdateManager(CoreController* controller)
     }
 }
 
-QJsonObject UpdateManager::getState() const {
-    QJsonObject state;
-    state["uid"] = m_uid;
-    state["newestStableVersionNumber"] = getNewestStableVersionNumber();
+QCborMap UpdateManager::getState() const {
+    QCborMap state;
+    state["uid"_q] = m_uid;
+    state["newestStableVersionNumber"_q] = getNewestStableVersionNumber();
     return state;
 }
 
-void UpdateManager::setState(QJsonObject state) {
-    m_uid = state["uid"].toString();
-    setNewestStableVersionNumber(state["newestStableVersionNumber"].toString());
+void UpdateManager::setState(QCborMap state) {
+    m_uid = state["uid"_q].toString();
+    setNewestStableVersionNumber(state["newestStableVersionNumber"_q].toString());
 }
 
 void UpdateManager::reportStartup() {

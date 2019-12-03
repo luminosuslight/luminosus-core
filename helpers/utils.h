@@ -4,8 +4,7 @@
 #include <QtMath>
 #include <QDataStream>
 #include <QByteArray>
-#include <QJsonDocument>
-#include <QJsonObject>
+#include <QCborMap>
 
 #include <algorithm>
 #include <chrono>
@@ -177,15 +176,15 @@ inline double stringToDouble(QString text) {
     }
 }
 
-inline QDataStream& operator<<(QDataStream& out, const QJsonObject& obj) {
-    out << QJsonDocument(obj).toJson(QJsonDocument::Compact);
+inline QDataStream& operator<<(QDataStream& out, const QCborMap& obj) {
+    out << obj.toCborValue().toCbor();
     return out;
 }
 
-inline QDataStream& operator>>(QDataStream& in, QJsonObject& obj) {
-    QByteArray json;
-    in >> json;
-    obj = QJsonDocument::fromJson(json).object();
+inline QDataStream& operator>>(QDataStream& in, QCborMap& obj) {
+    QByteArray cbor;
+    in >> cbor;
+    obj = QCborValue::fromCbor(cbor).toMap();
     return in;
 }
 

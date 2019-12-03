@@ -26,14 +26,14 @@ void ObjectWithAttributes::registerAttribute(SmartAttribute* attr) {
     }
 }
 
-void ObjectWithAttributes::writeAttributesTo(QJsonObject& state) const {
+void ObjectWithAttributes::writeAttributesTo(QCborMap& state) const {
     for (SmartAttribute* attr: m_persistentAttributes) {
         if (!attr) continue;
         attr->writeTo(state);
     }
 }
 
-void ObjectWithAttributes::readAttributesFrom(const QJsonObject& state) {
+void ObjectWithAttributes::readAttributesFrom(const QCborMap& state) {
     for (SmartAttribute* attr: m_persistentAttributes) {
         if (!attr) continue;
         attr->readFrom(state);

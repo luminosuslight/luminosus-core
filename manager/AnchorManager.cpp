@@ -2,6 +2,7 @@
 
 #include "core/CoreController.h"
 #include "core/manager/GuiManager.h"
+#include "core/helpers/qstring_literal.h"
 
 #include <QQuickWindow>
 
@@ -14,20 +15,20 @@ AnchorManager::AnchorManager(CoreController* controller)
 
 }
 
-QJsonObject AnchorManager::getState() const {
-    QJsonObject state;
-    QJsonArray anchorOrder;
+QCborMap AnchorManager::getState() const {
+    QCborMap state;
+    QCborArray anchorOrder;
     for (QString uid: m_anchorOrder) {
         anchorOrder.append(uid);
     }
-    state["anchorOrder"] = anchorOrder;
+    state["anchorOrder"_q] = anchorOrder;
     return state;
 }
 
-void AnchorManager::setState(const QJsonObject& state) {
-    QJsonArray anchorOrder = state["anchorOrder"].toArray();
+void AnchorManager::setState(const QCborMap& state) {
+    QCborArray anchorOrder = state["anchorOrder"].toArray();
     m_anchorOrder.clear();
-    for (QJsonValueRef value: anchorOrder) {
+    for (QCborValueRef value: anchorOrder) {
         m_anchorOrder.append(value.toString());
     }
 }

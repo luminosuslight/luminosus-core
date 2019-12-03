@@ -59,26 +59,26 @@ BlockBase::~BlockBase() {
     }
 }
 
-QJsonObject BlockBase::getState() const {
-    QJsonObject state;
-    state["sceneGroup"] = getSceneGroup();
-    state["guiItemHidden"] = guiShouldBeHidden();
-    state["group"] = getGroup();
+QCborMap BlockBase::getState() const {
+    QCborMap state;
+    state["sceneGroup"_q] = getSceneGroup();
+    state["guiItemHidden"_q] = guiShouldBeHidden();
+    state["group"_q] = getGroup();
     writeAttributesTo(state);
     getAdditionalState(state);
     return state;
 }
 
-void BlockBase::setState(const QJsonObject& state) {
-    setSceneGroup(state["sceneGroup"].toInt());
+void BlockBase::setState(const QCborMap& state) {
+    setSceneGroup(int(state["sceneGroup"].toInteger()));
     if (state["guiItemHidden"].toBool()) hideGui();
     setGroup(state["group"].toString());
     readAttributesFrom(state);
     setAdditionalState(state);
 }
 
-QJsonArray BlockBase::getConnections() {
-    QJsonArray connections;
+QCborArray BlockBase::getConnections() {
+    QCborArray connections;
     for (NodeBase* node: m_nodes.values()) {
 		Q_ASSERT_X(node, "getConnections()", "Node object does not exist.");
         if (node->isOutput()) {
@@ -128,8 +128,8 @@ QList<QPointer<NodeBase> > BlockBase::getNodes() const {
     return m_nodes.values();
 }
 
-QJsonObject BlockBase::getNodeMergeModes() const {
-    QJsonObject state;
+QCborMap BlockBase::getNodeMergeModes() const {
+    QCborMap state;
     for (NodeBase* node: m_nodes.values()) {
         int index = node->getIndex();
         if (!node) continue;
@@ -140,7 +140,7 @@ QJsonObject BlockBase::getNodeMergeModes() const {
     return state;
 }
 
-void BlockBase::setNodeMergeModes(const QJsonObject& state) {
+void BlockBase::setNodeMergeModes(const QCborMap& state) {
     for (NodeBase* node: m_nodes.values()) {
         int index = node->getIndex();
         if (!node) continue;

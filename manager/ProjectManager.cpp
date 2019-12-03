@@ -6,6 +6,7 @@
 #include "core/manager/FileSystemManager.h"
 #include "core/manager/GuiManager.h"
 #include "core/connections/Nodes.h"
+#include "core/helpers/qstring_literal.h"
 
 #include <QFileInfo>
 #include <QQuickWindow>
@@ -109,48 +110,48 @@ void ProjectManager::saveCurrentProject() {
     saveStateAsProject(m_currentProjectName);
 }
 
-QJsonObject ProjectManager::getCurrentProjectState() const {
+QCborMap ProjectManager::getCurrentProjectState() const {
     // saving the state is only allowed if previous loading is completed:
     if (m_loadingIsInProgress) {
         qWarning() << "Can't save project while it is loaded.";
-        return QJsonObject();
+        return QCborMap();
     }
 
-    // init JSON object:
-    QJsonObject projectState;
-    projectState["version"] = ProjectManagerConstants::formatVersion;
-    projectState["fileName"] = m_currentProjectName;
+    // init CBOR map:
+    QCborMap projectState;
+    projectState["version"_q] = ProjectManagerConstants::formatVersion;
+    projectState["fileName"_q] = m_currentProjectName;
 
     // save block states:
-    QJsonArray blocks;
+    QCborArray blocks;
     BlockManager* blockManager = m_controller->blockManager();
     for (BlockInterface* block: blockManager->getCurrentBlocks()) {
         blocks.append(blockManager->getBlockState(block));
     }
-    projectState["blocks"] = blocks;
+    projectState["blocks"_q] = blocks;
 
     // save connections between blocks:
-    QJsonArray connections;
+    QCborArray connections;
     for (BlockInterface* block: blockManager->getCurrentBlocks()) {
-        for (QJsonValueRef connectionRef: block->getConnections()) {
+        for (QCborValueRef connectionRef: block->getConnections()) {
             connections.append(connectionRef.toString());
         }
     }
-    projectState["connections"] = connections;
+    projectState["connections"_q] = connections;
 
     // save anything else project related:
     QQuickItem* workspace = m_controller->guiManager()->getWorkspaceItem();
     if (workspace) {
         const double dp = m_controller->guiManager()->getGuiScaling();
-        projectState["planeX"] = workspace->x() / dp;
-        projectState["planeY"] = workspace->y() / dp;
+        projectState["planeX"_q] = workspace->x() / dp;
+        projectState["planeY"_q] = workspace->y() / dp;
     }
 
-    projectState["displayedGroup"] = m_controller->blockManager()->getDisplayedGroup();
-    projectState["anchors"] = m_controller->anchorManager()->getState();
-    projectState["backgroundName"] = m_controller->guiManager()->getBackgroundName();
+    projectState["displayedGroup"_q] = m_controller->blockManager()->getDisplayedGroup();
+    projectState["anchors"_q] = m_controller->anchorManager()->getState();
+    projectState["backgroundName"_q] = m_controller->guiManager()->getBackgroundName();
     // FIXME: create signal and move this to MidiManager!
-    // projectState["midiMapping"] = m_controller->midiMapping()->getState();
+    // projectState["midiMapping"_q] = m_controller->midiMapping()->getState();
 
     return projectState;
 }
@@ -234,7 +235,7 @@ void ProjectManager::saveCombination(QString title) {
         return;
     }
 
-    QJsonObject blockCombination;
+    QCborMap blockCombination;
 
     QString currentGroup = m_controller->blockManager()->getDisplayedGroup();
     QQuickItem* workspace = m_controller->guiManager()->getWorkspaceItem();
@@ -243,26 +244,26 @@ void ProjectManager::saveCombination(QString title) {
     double centerY = (-workspace->y() + workspace->height() / 2) / dp;
 
     // save block states:
-    QJsonArray blocks;
+    QCborArray blocks;
     BlockManager* blockManager = m_controller->blockManager();
     for (BlockInterface* block: blockManager->getCurrentBlocks()) {
         if (block->getGroup() != currentGroup) continue;
-        QJsonObject blockState = blockManager->getBlockState(block);
-        blockState["posX"] = blockState["posX"].toDouble() - centerX;
-        blockState["posY"] = blockState["posY"].toDouble() - centerY;
+        QCborMap blockState = blockManager->getBlockState(block);
+        blockState["posX"_q] = blockState["posX"_q].toDouble() - centerX;
+        blockState["posY"_q] = blockState["posY"_q].toDouble() - centerY;
         blocks.append(blockState);
     }
-    blockCombination["blocks"] = blocks;
+    blockCombination["blocks"_q] = blocks;
 
     // save connections between blocks:
-    QJsonArray connections;
+    QCborArray connections;
     for (BlockInterface* block: blockManager->getCurrentBlocks()) {
-        for (QJsonValueRef connectionRef: block->getConnections()) {
+        for (QCborValueRef connectionRef: block->getConnections()) {
             if (block->getGroup() != currentGroup) continue;
             connections.append(connectionRef.toString());
         }
     }
-    blockCombination["connections"] = connections;
+    blockCombination["connections"_q] = connections;
 
     m_controller->dao()->saveFile(PMC::combinationsSubdirectory,
                                   title + PMC::combinationFileEnding,
@@ -279,7 +280,7 @@ void ProjectManager::removeCombination(QString title) {
 
 void ProjectManager::addCombination(QString title) {
     if (title.isEmpty()) return;
-    QJsonObject blockCombination = m_controller->dao()->loadJsonObject(PMC::combinationsSubdirectory,
+    QCborMap blockCombination = m_controller->dao()->loadCborMap(PMC::combinationsSubdirectory,
                                                                    title + PMC::combinationFileEnding);
     if (blockCombination.empty()) {
         qWarning() << "Combination file does not exist or is empty.";
@@ -295,18 +296,18 @@ void ProjectManager::addCombination(QString title) {
     QMap<QString, QString> newUids;
 
     BlockManager* blockManager = m_controller->blockManager();
-    for (QJsonValueRef ref: blockCombination["blocks"].toArray()) {
-        QJsonObject blockState = ref.toObject();
-        blockState["posX"] = blockState["posX"].toDouble() + centerX;
-        blockState["posY"] = blockState["posY"].toDouble() + centerY;
-        QString oldUid = blockState["uid"].toString();
-        blockState["uid"] = "";
+    for (QCborValueRef ref: blockCombination["blocks"_q].toArray()) {
+        QCborMap blockState = ref.toMap();
+        blockState["posX"_q] = blockState["posX"_q].toDouble() + centerX;
+        blockState["posY"_q] = blockState["posY"_q].toDouble() + centerY;
+        QString oldUid = blockState["uid"_q].toString();
+        blockState["uid"_q] = "";
         BlockInterface* block = blockManager->restoreBlock(blockState, /*animated*/ true, /*connectOnAdd*/ false);
         blockManager->setGroupOfBlock(block, currentGroup);
         newUids.insert(oldUid, block->getUid());
     }
 
-    for (QJsonValueRef connectionRef: blockCombination["connections"].toArray()) {
+    for (QCborValueRef connectionRef: blockCombination["connections"_q].toArray()) {
         QString connection = connectionRef.toString();
         QStringList outputUid = connection.split("->").at(0).split("|");
         QStringList inputUid = connection.split("->").at(1).split("|");
@@ -336,7 +337,7 @@ QStringList ProjectManager::getCombinations() const {
 void ProjectManager::loadProjectState(QString name, bool animated) {
     if (name.isEmpty()) return;
     // try to load project file:
-	QJsonObject projectState = m_controller->dao()->loadJsonObject(PMC::subdirectory, name + PMC::fileEnding);
+    QCborMap projectState = m_controller->dao()->loadCborMap(PMC::subdirectory, name + PMC::fileEnding);
 	if (projectState.empty()) {
 		qWarning() << "Project file does not exist or is empty.";
 		return;
@@ -350,24 +351,24 @@ void ProjectManager::loadProjectState(QString name, bool animated) {
 
 	// restore project related settings:
     const double dp = m_controller->guiManager()->getGuiScaling();
-    m_controller->guiManager()->setWorkspacePosition(projectState["planeX"].toDouble() * dp, projectState["planeY"].toDouble() * dp);
+    m_controller->guiManager()->setWorkspacePosition(projectState["planeX"_q].toDouble() * dp, projectState["planeY"_q].toDouble() * dp);
     // TODO: restore plane scale
-    m_controller->blockManager()->setDisplayedGroup(projectState["displayedGroup"].toString());
-    m_controller->anchorManager()->setState(projectState["anchors"].toObject());
-    m_controller->guiManager()->setBackgroundName(projectState["backgroundName"].toString());
+    m_controller->blockManager()->setDisplayedGroup(projectState["displayedGroup"_q].toString());
+    m_controller->anchorManager()->setState(projectState["anchors"_q].toMap());
+    m_controller->guiManager()->setBackgroundName(projectState["backgroundName"_q].toString());
     // FIXME: create signal and move this to MidiManager!
-    // m_controller->midiMapping()->setState(projectState["midiMapping"].toObject());
+    // m_controller->midiMapping()->setState(projectState["midiMapping"].toMap());
 
     // restoring the blocks often takes longer than one frame
     // to revent frames being skipped, the blocks are created in multiple chuncks
 
     // copy block states to temporary member variable:
     m_blocksToBeCreated.clear();
-	for (QJsonValueRef blockStateRef: projectState["blocks"].toArray()) {
-        m_blocksToBeCreated.append(blockStateRef.toObject());
+    for (QCborValueRef blockStateRef: projectState["blocks"_q].toArray()) {
+        m_blocksToBeCreated.append(blockStateRef.toMap());
     }
     // copy connections to be made after blocks have been created to memeber variable:
-    m_connectionsToBeMade = projectState["connections"].toArray();
+    m_connectionsToBeMade = projectState["connections"_q].toArray();
 
     if (m_blocksToBeCreated.size() > 50) {
         animated = false;
@@ -387,7 +388,7 @@ void ProjectManager::createChunckOfBlocks(bool animated) {
     HighResTime::time_point_t start = HighResTime::now();
     BlockManager* blockManager = m_controller->blockManager();
     while (!m_blocksToBeCreated.isEmpty()) {
-        QJsonObject blockState = m_blocksToBeCreated.takeLast();
+        QCborMap blockState = m_blocksToBeCreated.takeLast();
         blockManager->restoreBlock(blockState, animated);
 
         if (HighResTime::elapsedSecSince(start) * 1000 > 12) {
@@ -410,7 +411,7 @@ void ProjectManager::completeProjectLoading() {
     // this is called after all blocks have been created by createChunckOfBlocks()
     // restore block connections:
     BlockManager* blockManager = m_controller->blockManager();
-    for (QJsonValueRef connectionRef: m_connectionsToBeMade) {
+    for (QCborValueRef connectionRef: m_connectionsToBeMade) {
         QString connection = connectionRef.toString();
         QString outputUid = connection.split("->").at(0);
         QString inputUid = connection.split("->").at(1);
@@ -445,7 +446,7 @@ void ProjectManager::saveStateAsProject(QString name) const {
 	// saving the state is only allowed if previous loading is completed:
 	if (m_loadingIsInProgress) return;
 
-    QJsonObject projectState = getCurrentProjectState();
+    QCborMap projectState = getCurrentProjectState();
 
 	// write file to file system:
 	m_controller->dao()->saveFile(PMC::subdirectory, name + PMC::fileEnding, projectState);

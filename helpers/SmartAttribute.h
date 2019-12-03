@@ -4,7 +4,7 @@
 #include "core/connections/Matrix.h"
 
 #include <QObject>
-#include <QJsonObject>
+#include <QCborMap>
 #include <QColor>
 
 class ObjectWithAttributes;
@@ -18,8 +18,8 @@ public:
     explicit SmartAttribute(void*, QObject* parent, QString name, bool persistent);
 
 public slots:
-    virtual void writeTo(QJsonObject& state) const = 0;
-    virtual void readFrom(const QJsonObject& state) = 0;
+    virtual void writeTo(QCborMap& state) const = 0;
+    virtual void readFrom(const QCborMap& state) = 0;
 
     QString name() const { return m_name; }
     bool persistent() const { return m_persistent; }
@@ -50,8 +50,8 @@ signals:
     void maxChanged();
 
 public slots:
-    virtual void writeTo(QJsonObject& state) const override;
-    virtual void readFrom(const QJsonObject& state) override;
+    virtual void writeTo(QCborMap& state) const override;
+    virtual void readFrom(const QCborMap& state) override;
 
     double getValue() const { return m_value; }
     void setValue(double value);
@@ -89,8 +89,8 @@ signals:
     void maxChanged();
 
 public slots:
-    virtual void writeTo(QJsonObject& state) const override;
-    virtual void readFrom(const QJsonObject& state) override;
+    virtual void writeTo(QCborMap& state) const override;
+    virtual void readFrom(const QCborMap& state) override;
 
     int getValue() const { return m_value; }
     void setValue(int value);
@@ -124,8 +124,8 @@ signals:
     void valueChanged();
 
 public slots:
-    virtual void writeTo(QJsonObject& state) const override;
-    virtual void readFrom(const QJsonObject& state) override;
+    virtual void writeTo(QCborMap& state) const override;
+    virtual void readFrom(const QCborMap& state) override;
 
     QString getValue() const { return m_value; }
     void setValue(QString value);
@@ -151,8 +151,8 @@ signals:
     void valueChanged();
 
 public slots:
-    virtual void writeTo(QJsonObject& state) const override;
-    virtual void readFrom(const QJsonObject& state) override;
+    virtual void writeTo(QCborMap& state) const override;
+    virtual void readFrom(const QCborMap& state) override;
 
     bool getValue() const { return m_value; }
     void setValue(bool value);
@@ -191,8 +191,8 @@ signals:
     void valueChanged();
 
 public slots:
-    virtual void writeTo(QJsonObject& state) const override;
-    virtual void readFrom(const QJsonObject& state) override;
+    virtual void writeTo(QCborMap& state) const override;
+    virtual void readFrom(const QCborMap& state) override;
 
     const RGB& getValue() const { return m_value; }
     void setValue(const RGB& value) { m_value = value; emit valueChanged(); }  // TODO: check if equal
@@ -245,8 +245,8 @@ signals:
     void valueChanged();
 
 public slots:
-    virtual void writeTo(QJsonObject& state) const override;
-    virtual void readFrom(const QJsonObject& state) override;
+    virtual void writeTo(QCborMap& state) const override;
+    virtual void readFrom(const QCborMap& state) override;
 
     const HSV& getValue() const { return m_value; }
     void setValue(const HSV& value);  // TODO: check if equal
@@ -286,8 +286,8 @@ signals:
     void valueChanged();
 
 public slots:
-    virtual void writeTo(QJsonObject& state) const override;
-    virtual void readFrom(const QJsonObject& state) override;
+    virtual void writeTo(QCborMap& state) const override;
+    virtual void readFrom(const QCborMap& state) override;
 
     QStringList& getValue() { return m_value; }
     const QStringList& getValue() const { return m_value; }

@@ -2,8 +2,8 @@
 #define FILESYSTEMMANAGER_H
 
 #include <QObject>
-#include <QJsonObject>
-#include <QJsonArray>
+#include <QCborMap>
+#include <QCborArray>
 #include <QString>
 #include <QByteArray>
 
@@ -43,23 +43,23 @@ public:
      */
     bool saveLocalFile(QString path, QByteArray content) const;
 	/**
-	 * @brief saveFile saves QJsonObject object to a file in the data dir
+	 * @brief saveFile saves QCborMap object to a file in the data dir
 	 * It overwrites the file if it already exists.
 	 * @param dir sub dir inside the app data dir
 	 * @param filename for the file that will be written
 	 * @param content to be written
 	 * @return true if the file was successfully written
 	 */
-    bool saveFile(QString dir, QString filename, QJsonObject content) const;
+    bool saveFile(QString dir, QString filename, QCborMap content) const;
 	/**
-	 * @brief saveFile saves QJsonArray object to a file in the data dir
+	 * @brief saveFile saves QCborArray object to a file in the data dir
 	 * It overwrites the file if it already exists.
 	 * @param dir sub dir inside the app data dir
 	 * @param filename for the file that will be written
 	 * @param content to be written
 	 * @return true if the file was successfully written
 	 */
-    bool saveFile(QString dir, QString filename, QJsonArray content) const;
+    bool saveFile(QString dir, QString filename, QCborArray content) const;
 
 	/**
 	 * @brief loadFile loads a QByteArray from a file.
@@ -78,21 +78,21 @@ public:
      */
     QByteArray loadLocalFile(QString path) const;
 	/**
-	 * @brief loadJsonObject loads a QJsonObject from a file.
+	 * @brief loadJsonObject loads a QCborMap from a file.
 	 * It returns an empty object if the file does not exist.
 	 * @param dir sub dir inside the app data dir
 	 * @param filename of the file to be read
 	 * @return the object read from the file or an emtpy object if the file does not exists
 	 */
-    QJsonObject loadJsonObject(QString dir, QString filename) const;
+    QCborMap loadCborMap(QString dir, QString filename) const;
 	/**
-	 * @brief loadJsonArray loads a QJsonArray from a file.
+	 * @brief loadJsonArray loads a QCborArray from a file.
 	 * It returns an empty object if the file does not exist.
 	 * @param dir sub dir inside the app data dir
 	 * @param filename of the file to be read
 	 * @return the object read from the file or an emtpy object if the file does not exists
 	 */
-    QJsonArray loadJsonArray(QString dir, QString filename) const;
+    QCborArray loadCborArray(QString dir, QString filename) const;
 
 	/**
 	 * @brief fileExists checks if a file exits in the app data dir

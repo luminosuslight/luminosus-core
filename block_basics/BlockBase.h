@@ -4,10 +4,11 @@
 #include "core/block_basics/BlockInterface.h"
 #include "core/helpers/SmartAttribute.h"
 #include "core/helpers/ObjectWithAttributes.h"
+#include "core/helpers/qstring_literal.h"
 
 #include <QObject>
-#include <QJsonObject>
-#include <QJsonArray>
+#include <QCborMap>
+#include <QCborArray>
 #include <QQuickItem>
 #include <QPointer>
 
@@ -51,19 +52,19 @@ public:
 
 	// interface methods (documentation is in interface):
     virtual void onCreatedByUser() override {}
-    virtual QJsonObject getState() const override;
-    virtual void setState(const QJsonObject& state) override;
-    virtual void getAdditionalState(QJsonObject& /*state*/) const override {}
-    virtual void setAdditionalState(const QJsonObject& /*state*/) override {}
-    virtual QJsonArray getConnections() override;
+    virtual QCborMap getState() const override;
+    virtual void setState(const QCborMap& state) override;
+    virtual void getAdditionalState(QCborMap& /*state*/) const override {}
+    virtual void setAdditionalState(const QCborMap& /*state*/) override {}
+    virtual QCborArray getConnections() override;
     virtual NodeBase* getNodeById(int id) override;
     virtual bool mayBeRemoved() override { return true; }
     virtual void disconnectAllNodes() override;
 	virtual NodeBase* getDefaultInputNode() override;
 	virtual NodeBase* getDefaultOutputNode() override;
     virtual QList<QPointer<NodeBase>> getNodes() const override;
-    virtual QJsonObject getNodeMergeModes() const override;
-    virtual void setNodeMergeModes(const QJsonObject& state) override;
+    virtual QCborMap getNodeMergeModes() const override;
+    virtual void setNodeMergeModes(const QCborMap& state) override;
     virtual bool renderIfNotVisible() const override { return false; }
     virtual void setGuiItemCode(QString code) override;
 

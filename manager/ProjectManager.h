@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <QVector>
-#include <QJsonObject>
-#include <QJsonArray>
+#include <QCborMap>
+#include <QCborArray>
 #include <QTimer>
 
 // forward declaration to prevent dependency loop
@@ -122,7 +122,7 @@ public slots:
      * @brief getCurrentProjectState returns the current project state
      * @return project state as JSON
      */
-    QJsonObject getCurrentProjectState() const;
+    QCborMap getCurrentProjectState() const;
 
     /**
      * @brief reloadCurrentProject reloads the current project from file without saving it before that
@@ -250,13 +250,13 @@ protected:
      * @brief m_blocksToBeCreated a list of blocks to be created to restore a project,
      * only used while loading a project to create the blocks in multiple chunks
      */
-    QVector<QJsonObject> m_blocksToBeCreated;
+    QVector<QCborMap> m_blocksToBeCreated;
 
     /**
      * @brief m_connectionsToBeMade list of connections to be made as soon as all blocks in
      * m_blocksToBeCreated have been created
      */
-    QJsonArray m_connectionsToBeMade;
+    QCborArray m_connectionsToBeMade;
 
 };
 

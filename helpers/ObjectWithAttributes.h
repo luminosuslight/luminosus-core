@@ -24,8 +24,8 @@ public:
      */
     void registerAttribute(SmartAttribute* attr);
 
-    void writeAttributesTo(QJsonObject& state) const;
-    void readAttributesFrom(const QJsonObject& state);
+    void writeAttributesTo(QCborMap& state) const;
+    void readAttributesFrom(const QCborMap& state);
 
 protected:
 

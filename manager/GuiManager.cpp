@@ -4,6 +4,7 @@
 #include "core/manager/ProjectManager.h"
 #include "core/helpers/constants.h"
 #include "core/helpers/utils.h"
+#include "core/helpers/qstring_literal.h"
 
 #include <QQuickWindow>
 #include <QQuickItem>
@@ -27,18 +28,18 @@ GuiManager::GuiManager(CoreController* controller, QQmlApplicationEngine& qmlEng
 
 }
 
-void GuiManager::writeTo(QJsonObject& appState) const {
-    appState["windowGeometry"] = serialize<QRect>(getMainWindow()->geometry());
+void GuiManager::writeTo(QCborMap& appState) const {
+    appState["windowGeometry"_q] = serialize<QRect>(getMainWindow()->geometry());
     bool maximized = (getMainWindow()->width() == QGuiApplication::primaryScreen()->availableSize().width());
-    appState["windowMaximized"] = maximized;
-    appState["overrideGuiScaling"] = getOverrideGuiScaling();
-    appState["guiScaling"] = getGuiScaling();
-    appState["overrideGraphicsLevel"] = getOverrideGraphicsLevel();
-    appState["graphicsLevel"] = getGraphicsLevel();
-    appState["snapToGrid"] = getSnapToGrid();
+    appState["windowMaximized"_q] = maximized;
+    appState["overrideGuiScaling"_q] = getOverrideGuiScaling();
+    appState["guiScaling"_q] = getGuiScaling();
+    appState["overrideGraphicsLevel"_q] = getOverrideGraphicsLevel();
+    appState["graphicsLevel"_q] = getGraphicsLevel();
+    appState["snapToGrid"_q] = getSnapToGrid();
 }
 
-void GuiManager::readFrom(const QJsonObject& appState) {
+void GuiManager::readFrom(const QCborMap& appState) {
     restoreWindowGeometry(
                 deserialize<QRect>(appState["windowGeometry"].toString()), appState["windowMaximized"].toBool());
     setOverrideGuiScaling(appState["overrideGuiScaling"].toBool());
@@ -47,7 +48,7 @@ void GuiManager::readFrom(const QJsonObject& appState) {
     }
     setOverrideGraphicsLevel(appState["overrideGraphicsLevel"].toBool());
     if (getOverrideGraphicsLevel()) {
-        setGraphicsLevel(appState["graphicsLevel"].toInt());
+        setGraphicsLevel(int(appState["graphicsLevel"].toInteger()));
     }
     setSnapToGrid(appState["snapToGrid"].toBool());
 }

@@ -3,9 +3,10 @@
 #include "core/CoreController.h"
 #include "core/manager/ProjectManager.h"
 #include "core/manager/FileSystemManager.h"
+#include "core/helpers/qstring_literal.h"
 
 #include <QJsonDocument>
-#include <QJsonObject>
+#include <QCborMap>
 #include <QDataStream>
 
 
@@ -34,9 +35,8 @@ void HandoffManager::takeControl(QString ip) {
 }
 
 void HandoffManager::uploadTo(QString ip) {
-    QJsonObject projectState = m_controller->projectManager()->getCurrentProjectState();
-    QJsonDocument jsonDocument(projectState);
-    writeData(ip, jsonDocument.toJson());
+    QCborMap projectState = m_controller->projectManager()->getCurrentProjectState();
+    writeData(ip, projectState.toCborValue().toCbor());
     // load / import project should not be used from JS callback
     // because blocks are deleted immediately (?)
     QTimer::singleShot(0, [&](){ m_controller->projectManager()->importProjectFile(":/examples/No Project.lpr", /*load=*/ true); });
@@ -137,13 +137,13 @@ void HandoffManager::processData(QString ip, QByteArray data) {
 }
 
 void HandoffManager::receivedProject(QByteArray data) {
-    QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
-    if (!jsonDocument.isObject()) {
+    QCborValue val = QCborValue::fromCbor(data);
+    if (!val.isMap()) {
         qWarning() << "Received project state is invalid.";
         return;
     }
-    QJsonObject projectState = jsonDocument.object();
-    QString fileName = projectState["fileName"].toString();
+    QCborMap projectState = val.toMap();
+    QString fileName = projectState["fileName"_q].toString();
     if (fileName.isEmpty()) {
         qWarning() << "Couldn't find filename in project state.";
         return;

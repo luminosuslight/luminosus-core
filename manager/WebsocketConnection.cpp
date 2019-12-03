@@ -217,8 +217,8 @@ WebsocketConnection::~WebsocketConnection() {
     qDeleteAll(m_clients.begin(), m_clients.end());
 }
 
-QJsonObject WebsocketConnection::getState() const {
-    QJsonObject state;
+QCborMap WebsocketConnection::getState() const {
+    QCborMap state;
     m_serverEnabled.writeTo(state);
     m_clientEnabled.writeTo(state);
     m_port.writeTo(state);
@@ -228,7 +228,7 @@ QJsonObject WebsocketConnection::getState() const {
     return state;
 }
 
-void WebsocketConnection::setState(QJsonObject state) {
+void WebsocketConnection::setState(QCborMap state) {
     m_serverEnabled.readFrom(state);
     m_clientEnabled.readFrom(state);
     m_port.readFrom(state);
