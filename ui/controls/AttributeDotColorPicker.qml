@@ -26,8 +26,14 @@ Item {
         anchors.margins: 1*dp
         radius: Math.max(width, height) / 2
         antialiasing: dp <= 1
-
         color: attr.qcolor
+        scale: touchArea.mouseOver ? 0.85 : 1
+        Behavior on scale {
+            ScaleAnimator {
+                duration: 300
+                easing.type: Easing.OutCubic
+            }
+        }
     }
     Rectangle {
         anchors.centerIn: parent
@@ -44,7 +50,9 @@ Item {
     property Item numBlockItem
 
     CustomTouchArea {
+        id: touchArea
         anchors.fill: parent
+        mouseOverEnabled: true
 
         onClick: {
             // check if NumBlock is open:

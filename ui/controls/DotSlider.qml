@@ -6,11 +6,27 @@ import "qrc:/core/ui/items"
 
 CustomTouchArea {
     id: root
+    mouseOverEnabled: true
 
     // public attributes:
     property real value: 0.0
 
     // --------------------------- Dot ------------------------
+
+    Rectangle {
+        anchors.fill: parent
+        anchors.margins: 2*dp
+        radius: width / 2
+        color: "white"
+        antialiasing: false
+        opacity: root.mouseOver ? 0.2 : 0.0
+        Behavior on opacity {
+            OpacityAnimator {
+                duration: 300
+                easing.type: Easing.OutCubic
+            }
+        }
+    }
 
     ShaderEffect {
         anchors.fill: parent
