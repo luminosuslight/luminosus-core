@@ -112,6 +112,16 @@ Item {
                 }
             }
 
+            CustomTouchArea {
+                width: 8000
+                height: 8000
+                anchors.centerIn: parent
+                onTouchDown: {
+                    numBlockItem.destroy()
+                    touch.accepted = false
+                }
+            }
+
             RectangularGlow {
                 id: effect
                 anchors.fill: rect
