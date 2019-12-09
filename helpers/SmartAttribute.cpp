@@ -3,6 +3,8 @@
 #include "core/helpers/ObjectWithAttributes.h"
 #include "core/helpers/utils.h"
 
+#include <QCborArray>
+
 
 SmartAttribute::SmartAttribute(ObjectWithAttributes* owa, QString name, bool persistent)
     : QObject(owa->parent())
@@ -308,5 +310,63 @@ void StringListAttribute::readFrom(const QCborMap& state) {
 void StringListAttribute::setValue(QStringList value) {
     if (value == m_value) return;
     m_value = value;
+    emit valueChanged();
+}
+
+void StringListAttribute::append(const QString& value) {
+    m_value.append(value);
+    emit valueChanged();
+}
+
+void StringListAttribute::removeOne(const QString& value) {
+    m_value.removeOne(value);
+    emit valueChanged();
+}
+
+void StringListAttribute::clear() {
+    m_value.clear();
+    emit valueChanged();
+}
+
+VariantListAttribute::VariantListAttribute(ObjectWithAttributes* block, QString name, const QVariantList& initialValue, bool persistent)
+    : SmartAttribute(block, name, persistent)
+    , m_value(initialValue)
+{
+
+}
+
+VariantListAttribute::VariantListAttribute(void*, QObject* parent, QString name, const QVariantList& initialValue, bool persistent)
+    : SmartAttribute(nullptr, parent, name, persistent)
+    , m_value(initialValue)
+{
+
+}
+
+void VariantListAttribute::writeTo(QCborMap& state) const {
+    state[m_name] = QCborArray::fromVariantList(m_value);
+}
+
+void VariantListAttribute::readFrom(const QCborMap& state) {
+    m_value = state[m_name].toArray().toVariantList();
+}
+
+void VariantListAttribute::setValue(QVariantList value) {
+    if (value == m_value) return;
+    m_value = value;
+    emit valueChanged();
+}
+
+void VariantListAttribute::append(const QVariant& value) {
+    m_value.append(value);
+    emit valueChanged();
+}
+
+void VariantListAttribute::removeOne(const QVariant& value) {
+    m_value.removeOne(value);
+    emit valueChanged();
+}
+
+void VariantListAttribute::clear() {
+    m_value.clear();
     emit valueChanged();
 }

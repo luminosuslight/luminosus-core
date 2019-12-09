@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QCborMap>
 #include <QColor>
+#include <QVariantList>
 
 class ObjectWithAttributes;
 
@@ -293,8 +294,46 @@ public slots:
     const QStringList& getValue() const { return m_value; }
     void setValue(QStringList value);
 
+    void append(const QString& value);
+    void removeOne(const QString& value);
+    void clear();
+
 protected:
     QStringList m_value;
+};
+
+
+class VariantListAttribute : public SmartAttribute
+{
+    Q_OBJECT
+
+    Q_PROPERTY(QVariantList val READ getValue WRITE setValue NOTIFY valueChanged)
+
+public:
+    explicit VariantListAttribute(ObjectWithAttributes* block, QString name, const QVariantList& initialValue = {}, bool persistent = true);
+    explicit VariantListAttribute(void*, QObject* parent, QString name, const QVariantList& initialValue = {}, bool persistent = true);
+    operator QVariantList() const { return m_value; }
+    VariantListAttribute& operator=(QVariantList value) { setValue(value); return *this; }
+    QVariantList* operator->() { return &m_value; }
+    const QVariantList* operator->() const { return &m_value; }
+
+signals:
+    void valueChanged();
+
+public slots:
+    virtual void writeTo(QCborMap& state) const override;
+    virtual void readFrom(const QCborMap& state) override;
+
+    QVariantList& getValue() { return m_value; }
+    const QVariantList& getValue() const { return m_value; }
+    void setValue(QVariantList value);
+
+    void append(const QVariant& value);
+    void removeOne(const QVariant& value);
+    void clear();
+
+protected:
+    QVariantList m_value;
 };
 
 #endif // BLOCKATTRIBUTE_H
