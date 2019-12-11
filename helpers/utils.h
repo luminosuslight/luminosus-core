@@ -144,6 +144,16 @@ T almostMedian(QVector<T> v) {
     return v[n];
 }
 
+
+template <typename T, std::size_t N>
+T almostMedian(std::array<T, N> v) {
+    // the median would be the average of the middle two, if the size is even
+    // this just returns the first one in this case
+    size_t n = v.size() / 2;
+    std::nth_element(v.begin(), v.begin() + n, v.end());
+    return v[n];
+}
+
 inline double stringToDouble(QString text) {
     if (text.toDouble() > 0.0) {
         return text.toDouble();
