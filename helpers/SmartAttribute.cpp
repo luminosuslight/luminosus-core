@@ -304,7 +304,7 @@ void StringListAttribute::writeTo(QCborMap& state) const {
 }
 
 void StringListAttribute::readFrom(const QCborMap& state) {
-    m_value = deserializeBinary<QStringList>(state[m_name].toByteArray());
+    setValue(deserializeBinary<QStringList>(state[m_name].toByteArray()));
 }
 
 void StringListAttribute::setValue(QStringList value) {
@@ -347,7 +347,7 @@ void VariantListAttribute::writeTo(QCborMap& state) const {
 }
 
 void VariantListAttribute::readFrom(const QCborMap& state) {
-    m_value = state[m_name].toArray().toVariantList();
+    setValue(state[m_name].toArray().toVariantList());
 }
 
 void VariantListAttribute::setValue(QVariantList value) {
