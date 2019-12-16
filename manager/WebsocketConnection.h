@@ -13,6 +13,7 @@
 #include <QMap>
 #include <QTimer>
 #include <QNetworkAccessManager>
+#include <QSize>
 
 #include <functional>
 

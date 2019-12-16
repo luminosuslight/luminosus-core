@@ -9,7 +9,7 @@ class IrregularCircleOutline : public QQuickItem {
     Q_OBJECT
 
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(const QVector<float>& radii READ radii WRITE setRadii NOTIFY radiiChanged)
+    Q_PROPERTY(const QVector<double>& radii READ radii WRITE setRadii NOTIFY radiiChanged)
     Q_PROPERTY(double lineWidth READ lineWidth WRITE setLineWidth NOTIFY lineWidthChanged)
 
 public:
@@ -27,15 +27,15 @@ public slots:
     void setColor(const QColor& color);
     QColor color() const { return m_color; }
 
-    void setRadii(const QVector<float>& radii);
-    const QVector<float>& radii() const { return m_radii; }
+    void setRadii(const QVector<double>& radii);
+    const QVector<double>& radii() const { return m_radii; }
 
     void setLineWidth(const double width);
     double lineWidth() const { return m_lineWidth; }
 
 private:
     QColor m_color;
-    QVector<float> m_radii;
+    QVector<double> m_radii;
     double m_lineWidth;
 
     const double m_devicePixelRatio;
