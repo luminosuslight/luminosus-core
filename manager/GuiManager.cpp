@@ -13,7 +13,7 @@
 #include <QScreen>
 
 
-GuiManager::GuiManager(CoreController* controller, QQmlApplicationEngine& qmlEngine)
+GuiManager::GuiManager(CoreController* controller, QQmlApplicationEngine* qmlEngine)
     : m_controller(controller)
     , m_qmlEngine(qmlEngine)
     , m_backgroundName(LuminosusConstants::defaultBackgroundName)
@@ -62,16 +62,16 @@ void GuiManager::setBackgroundName(QString value) {
 void GuiManager::createAndShowWindow(QUrl mainQmlFile) {
     // make this CoreController accessable from QML with a context variable
     // the access to all other manager instances is done using this controller
-    m_qmlEngine.rootContext()->setContextProperty("controller", m_controller);
-    m_qmlEngine.rootContext()->setContextProperty("guiManager", this);
+    m_qmlEngine->rootContext()->setContextProperty("controller", m_controller);
+    m_qmlEngine->rootContext()->setContextProperty("guiManager", this);
 
     // load main.qml file:
-    m_qmlEngine.load(mainQmlFile);
-    if (m_qmlEngine.rootObjects().length() <= 0) {
+    m_qmlEngine->load(mainQmlFile);
+    if (m_qmlEngine->rootObjects().length() <= 0) {
         qCritical() << "Error while loading main qml file. (No root object created)";
         std::exit(999);
     }
-    m_window = qobject_cast<QQuickWindow*>(m_qmlEngine.rootObjects()[0]);
+    m_window = qobject_cast<QQuickWindow*>(m_qmlEngine->rootObjects()[0]);
     if (!m_window) {
         qCritical() << "Error while loading main qml file. (Window could not be created)";
         std::exit(998);
@@ -80,7 +80,7 @@ void GuiManager::createAndShowWindow(QUrl mainQmlFile) {
 #ifdef Q_OS_LINUX
     // ----------- Anti-Aliasing ---------------
     QSurfaceFormat format(m_window->format());
-    if (m_qmlEngine.rootContext()->contextProperty("dp").toFloat() > 1.5f
+    if (m_qmlEngine->rootContext()->contextProperty("dp").toFloat() > 1.5f
             || m_window->screen()->devicePixelRatio() > 1.5) {
         qInfo() << "AntiAliasing: Not forced (HighDPI screen)";
         format.setSamples(-1);
@@ -135,25 +135,25 @@ void GuiManager::setPropertyWithoutChangingBindings(const QVariant& item, QStrin
 }
 
 int GuiManager::getGraphicsLevel() const {
-    return m_qmlEngine.rootContext()->contextProperty("GRAPHICAL_EFFECTS_LEVEL").toInt();
+    return m_qmlEngine->rootContext()->contextProperty("GRAPHICAL_EFFECTS_LEVEL").toInt();
 }
 
 void GuiManager::setGraphicsLevel(int value) {
-    m_qmlEngine.rootContext()->setContextProperty("GRAPHICAL_EFFECTS_LEVEL", limit(1, value, 3));
+    m_qmlEngine->rootContext()->setContextProperty("GRAPHICAL_EFFECTS_LEVEL", limit(1, value, 3));
 }
 
 double GuiManager::getGuiScaling() const {
-    return m_qmlEngine.rootContext()->contextProperty("dp").toDouble();
+    return m_qmlEngine->rootContext()->contextProperty("dp").toDouble();
 }
 
 void GuiManager::setGuiScaling(double value) {
     m_controller->projectManager()->saveCurrentProject();
-    m_qmlEngine.rootContext()->setContextProperty("dp", value);
+    m_qmlEngine->rootContext()->setContextProperty("dp", value);
     m_controller->projectManager()->reloadCurrentProject();
 }
 
 void GuiManager::setQmlContextProperty(QString propertyName, QVariant value) const {
-    m_qmlEngine.rootContext()->setContextProperty(propertyName, value);
+    m_qmlEngine->rootContext()->setContextProperty(propertyName, value);
 }
 
 void GuiManager::setKeyboardFocusToWorkspace() {

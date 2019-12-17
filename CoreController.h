@@ -41,7 +41,7 @@ public:
      * @param qmlEngine is the QML engine to use to create the GUI
      * @param parent the QObject parent
      */
-    explicit CoreController(QQmlApplicationEngine& qmlEngine, QString templateFile = {}, QObject *parent = nullptr);
+    explicit CoreController(QQmlApplicationEngine* qmlEngine, QString templateFile = {}, QObject *parent = nullptr);
     void finishLoading(QUrl mainQmlFile);
     ~CoreController();
 

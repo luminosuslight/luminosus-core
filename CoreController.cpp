@@ -26,7 +26,7 @@
 #include <QtCore/private/qjnihelpers_p.h>
 #endif
 
-CoreController::CoreController(QQmlApplicationEngine& qmlEngine, QString templateFile, QObject* parent)
+CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templateFile, QObject* parent)
     : QObject(parent)
     , m_anchorManager(new AnchorManager(this))
     , m_blockManager(new BlockManager(this))
@@ -174,6 +174,7 @@ void CoreController::onExit() {
     saveAll();
     m_blockManager->deleteAllBlocks();
     m_dao->deleteFile("", "luminosus.lock");
+    m_guiManager->qmlEngine()->deleteLater();
     qInfo() << "Luminosus exited normally.";
 }
 

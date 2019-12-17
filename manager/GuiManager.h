@@ -29,7 +29,7 @@ class GuiManager : public QObject
 
 public:
 
-    explicit GuiManager(CoreController* controller, QQmlApplicationEngine& qmlEngine);
+    explicit GuiManager(CoreController* controller, QQmlApplicationEngine* qmlEngine);
 
     // ------------------- Persistence --------------------
 
@@ -58,7 +58,7 @@ public slots:
      * @brief qmlEngine is a Getter for the only QQmlApplicationEngine instance to use in this application
      * @return  the QQmlApplicationEngine object used to generate the GUI
      */
-    QQmlApplicationEngine* qmlEngine() { return &m_qmlEngine; }
+    QQmlApplicationEngine* qmlEngine() { return m_qmlEngine; }
 
     QString getBackgroundName() const { return m_backgroundName; }
     void setBackgroundName(QString value);
@@ -208,7 +208,7 @@ private slots:
 protected:
     CoreController* const m_controller;  //!< a pointer to the CoreController
 
-    QQmlApplicationEngine& m_qmlEngine;  //!< QQmlApplicationEngine object, created in main.cpp
+    QQmlApplicationEngine* m_qmlEngine;  //!< QQmlApplicationEngine object, created in main.cpp
 
     QString m_backgroundName;  //!< the file name of the background image
     bool m_overrideGuiScaling;  //!< true if GUI scaling is overriden by user
