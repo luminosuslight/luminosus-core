@@ -118,7 +118,9 @@ Item {
                 anchors.centerIn: parent
                 onTouchDown: {
                     numBlockItem.destroy()
-                    touch.accepted = false
+                    if (!root.contains(root.mapFromItem(this, touch.itemX, touch.itemY))) {
+                        touch.accepted = false
+                    }
                 }
             }
 
