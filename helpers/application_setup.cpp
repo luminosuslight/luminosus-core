@@ -11,6 +11,7 @@
 #include "core/qtquick_items/LineItem.h"
 #include "core/qtquick_items/CustomImagePainter.h"
 #include "core/qtquick_items/PointsItem.h"
+#include "core/qtquick_items/ColoredPointsItem.h"
 #include "core/qtquick_items/IrregularCircleItem.h"
 #include "core/qtquick_items/IrregularCircleOutline.h"
 #include "core/qtquick_items/IrregularCircleOutlineTwoColored.h"
@@ -58,6 +59,7 @@ void registerQtQuickItems() {
     qmlRegisterType<LineItem>("CustomElements", 1, 0, "LineItem");
     qmlRegisterType<CustomImagePainter>("CustomElements", 1, 0, "ImagePainter");
     qmlRegisterType<PointsItem>("CustomElements", 1, 0, "Points");
+    qmlRegisterType<ColoredPointsItem>("CustomElements", 1, 0, "ColoredPoints");
     qmlRegisterType<IrregularCircleItem>("CustomElements", 1, 0, "IrregularCircle");
     qmlRegisterType<IrregularCircleOutline>("CustomElements", 1, 0, "IrregularCircleOutline");
     qmlRegisterType<IrregularCircleOutlineTwoColored>("CustomElements", 1, 0, "IrregularCircleOutlineTwoColored");

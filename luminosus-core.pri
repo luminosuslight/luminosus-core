@@ -31,6 +31,7 @@ HEADERS += \
     $$PWD/helpers/utils.h \
     $$PWD/qtquick_items/BarGraphItem.h \
     $$PWD/qtquick_items/BezierCurve.h \
+    $$PWD/qtquick_items/ColoredPointsItem.h \
     $$PWD/qtquick_items/CustomImagePainter.h \
     $$PWD/qtquick_items/IrregularCircleItem.h \
     $$PWD/qtquick_items/IrregularCircleOutline.h \
@@ -80,6 +81,7 @@ SOURCES += \
     $$PWD/helpers/qstring_literal.cpp \
     $$PWD/qtquick_items/BarGraphItem.cpp \
     $$PWD/qtquick_items/BezierCurve.cpp \
+    $$PWD/qtquick_items/ColoredPointsItem.cpp \
     $$PWD/qtquick_items/CustomImagePainter.cpp \
     $$PWD/qtquick_items/IrregularCircleItem.cpp \
     $$PWD/qtquick_items/IrregularCircleOutline.cpp \
