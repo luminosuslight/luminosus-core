@@ -10,7 +10,7 @@ class IrregularCircleItem : public QQuickItem {
 
     Q_PROPERTY(QColor innerColor READ innerColor WRITE setInnerColor NOTIFY innerColorChanged)
     Q_PROPERTY(QColor outerColor READ outerColor WRITE setOuterColor NOTIFY outerColorChanged)
-    Q_PROPERTY(const QVector<float>& radii READ radii WRITE setRadii NOTIFY radiiChanged)
+    Q_PROPERTY(const QVector<double>& radii READ radii WRITE setRadii NOTIFY radiiChanged)
 
 public:
     explicit IrregularCircleItem(QQuickItem* parent = nullptr);
@@ -30,13 +30,13 @@ public slots:
     void setOuterColor(const QColor& color);
     QColor outerColor() const { return m_outerColor; }
 
-    void setRadii(const QVector<float>& radii);
-    const QVector<float>& radii() const { return m_radii; }
+    void setRadii(const QVector<double>& radii);
+    const QVector<double>& radii() const { return m_radii; }
 
 private:
     QColor m_innerColor;
     QColor m_outerColor;
-    QVector<float> m_radii;
+    QVector<double> m_radii;
 
     const double m_devicePixelRatio;
 };

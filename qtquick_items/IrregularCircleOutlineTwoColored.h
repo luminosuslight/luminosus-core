@@ -10,7 +10,7 @@ class IrregularCircleOutlineTwoColored : public QQuickItem {
 
     Q_PROPERTY(QColor firstColor READ firstColor WRITE setFirstColor NOTIFY innerColorChanged)
     Q_PROPERTY(QColor secondColor READ secondColor WRITE setSecondColor NOTIFY outerColorChanged)
-    Q_PROPERTY(const QVector<float>& radii READ radii WRITE setRadii NOTIFY radiiChanged)
+    Q_PROPERTY(const QVector<double>& radii READ radii WRITE setRadii NOTIFY radiiChanged)
     Q_PROPERTY(double lineWidth READ lineWidth WRITE setLineWidth NOTIFY lineWidthChanged)
 
 public:
@@ -32,8 +32,8 @@ public slots:
     void setSecondColor(const QColor& color);
     QColor secondColor() const { return m_secondColor; }
 
-    void setRadii(const QVector<float>& radii);
-    const QVector<float>& radii() const { return m_radii; }
+    void setRadii(const QVector<double>& radii);
+    const QVector<double>& radii() const { return m_radii; }
 
     void setLineWidth(const double width);
     double lineWidth() const { return m_lineWidth; }
@@ -41,7 +41,7 @@ public slots:
 private:
     QColor m_firstColor;
     QColor m_secondColor;
-    QVector<float> m_radii;
+    QVector<double> m_radii;
     double m_lineWidth;
 
     const double m_devicePixelRatio;

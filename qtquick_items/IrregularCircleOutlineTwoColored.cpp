@@ -39,7 +39,7 @@ void IrregularCircleOutlineTwoColored::setSecondColor(const QColor& color) {
     update();
 }
 
-void IrregularCircleOutlineTwoColored::setRadii(const QVector<float>& radii) {
+void IrregularCircleOutlineTwoColored::setRadii(const QVector<double>& radii) {
     m_radii = radii;
     emit radiiChanged();
     update();
