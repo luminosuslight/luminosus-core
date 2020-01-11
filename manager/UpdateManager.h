@@ -68,6 +68,12 @@ public:
      */
     void setState(QCborMap state);
 
+    /**
+     * @brief nam returns the QNetworkAccessmanager used by this object
+     * @return pointer to NAM
+     */
+    QNetworkAccessManager* nam() { return &m_networkManager; }
+
 signals:
     /**
      * @brief newestStableVersionNumberChanged is emitted when the stable version number changed
