@@ -31,7 +31,7 @@ FileSystemManager::FileSystemManager()
     qDebug() << "App data directory: " << m_dataRoot;
 }
 
-bool FileSystemManager::saveFile(QString dir, QString filename, QByteArray content) const {
+QString FileSystemManager::saveFile(QString dir, QString filename, QByteArray content) const {
     QString path = QString(m_dataRoot);
     if (dir.length()) {
         path += dir + "/";
@@ -40,23 +40,23 @@ bool FileSystemManager::saveFile(QString dir, QString filename, QByteArray conte
     return saveLocalFile(path + filename, content);
 }
 
-bool FileSystemManager::saveLocalFile(QString path, QByteArray content) const {
+QString FileSystemManager::saveLocalFile(QString path, QByteArray content) const {
     QFile saveFile(path);
     if (!saveFile.open(QIODevice::WriteOnly)) {
         qWarning() << "Couldn't write to file " + path + ": " << saveFile.errorString();
-        return false;
+        return {};
     }
     saveFile.write(content);
     saveFile.close();
-    return true;
+    return path;
 }
 
-bool FileSystemManager::saveFile(QString dir, QString filename, QCborMap content) const {
+QString FileSystemManager::saveFile(QString dir, QString filename, QCborMap content) const {
     QByteArray raw = content.toCborValue().toCbor();
     return saveFile(dir, filename, raw);
 }
 
-bool FileSystemManager::saveFile(QString dir, QString filename, QCborArray content) const {
+QString FileSystemManager::saveFile(QString dir, QString filename, QCborArray content) const {
     QByteArray raw = content.toCborValue().toCbor();
     return saveFile(dir, filename, raw);
 }
@@ -115,6 +115,10 @@ QStringList FileSystemManager::getFilenames(QString dir, QString filter) const {
 
 void FileSystemManager::deleteFile(QString dir, QString filename) const {
     QString path = getDataDir(dir) + filename;
+    deleteLocalFile(path);
+}
+
+void FileSystemManager::deleteLocalFile(QString path) const {
     if (!QDir().exists(path)) return;
     QFile::remove(path);
 }
@@ -188,4 +192,8 @@ QString FileSystemManager::getDataDir(QString dir) const {
         return m_dataRoot + dir + "/";
     }
     return m_dataRoot;
+}
+
+QString FileSystemManager::getDir(QString dir, QString filename) const {
+    return getDataDir(dir) + filename;
 }

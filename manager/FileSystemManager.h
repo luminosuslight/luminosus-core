@@ -30,36 +30,36 @@ public:
 	 * @param dir sub dir inside the app data dir
 	 * @param filename for the file that will be written
 	 * @param content to be written
-	 * @return true if the file was successfully written
+     * @return path of new file if the file was successfully written
 	 */
-    bool saveFile(QString dir, QString filename, QByteArray content) const;
+    QString saveFile(QString dir, QString filename, QByteArray content) const;
 
     /**
      * @brief saveFile saves a QByteArray to a file in the local file system
      * It overwrites the file if it already exists.
      * @param path target directory and filename in the local file system
      * @param content to be written
-     * @return true if the file was successfully written
+     * @return path of new file if the file was successfully written
      */
-    bool saveLocalFile(QString path, QByteArray content) const;
+    QString saveLocalFile(QString path, QByteArray content) const;
 	/**
 	 * @brief saveFile saves QCborMap object to a file in the data dir
 	 * It overwrites the file if it already exists.
 	 * @param dir sub dir inside the app data dir
 	 * @param filename for the file that will be written
 	 * @param content to be written
-	 * @return true if the file was successfully written
+     * @return path of new file if the file was successfully written
 	 */
-    bool saveFile(QString dir, QString filename, QCborMap content) const;
+    QString saveFile(QString dir, QString filename, QCborMap content) const;
 	/**
 	 * @brief saveFile saves QCborArray object to a file in the data dir
 	 * It overwrites the file if it already exists.
 	 * @param dir sub dir inside the app data dir
 	 * @param filename for the file that will be written
 	 * @param content to be written
-	 * @return true if the file was successfully written
+     * @return path of new file if the file was successfully written
 	 */
-    bool saveFile(QString dir, QString filename, QCborArray content) const;
+    QString saveFile(QString dir, QString filename, QCborArray content) const;
 
 	/**
 	 * @brief loadFile loads a QByteArray from a file.
@@ -112,11 +112,17 @@ public:
 	QStringList getFilenames(QString dir, QString filter) const;
 
 	/**
-	 * @brief deleteFile delets a file in the app data dir
+     * @brief deleteFile deletes a file in the app data dir
 	 * @param dir sub dir inside the app data dir
-	 * @param filename of the file to be deleted
+     * @param filename of the file to be deleted
 	 */
     void deleteFile(QString dir, QString filename) const;
+
+    /**
+     * @brief deleteLocalFile deletes a file
+     * @param path including directory and filename in the local file system
+     */
+    void deleteLocalFile(QString path) const;
 
     /**
      * @brief importFile imports a file from the filesystem to the app data directory
@@ -155,6 +161,13 @@ public slots:
 	 * @return full path to the dir
 	 */
     QString getDataDir(QString dir) const;  // used in GUI for projects list
+    /**
+     * @brief getDir returns the full path to a file inside the app data die
+     * @param dir sub dir inside the app data dir
+     * @param filename of the file
+     * @return full path to the file
+     */
+    QString getDir(QString dir, QString filename) const;
 
 protected:
 	/**
