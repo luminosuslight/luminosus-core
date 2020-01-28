@@ -82,6 +82,14 @@ signals:
 
     void impulseEnd();
 
+public:
+
+    template<typename T>
+    T* getConnectedBlock() {
+        if (!isConnected()) return nullptr;
+        return qobject_cast<T*>(getConnectedNodes().first()->getBlock());
+    }
+
 public slots:
 
     // -------------------------------- Logic -------------------------
@@ -155,7 +163,7 @@ public slots:
      * @brief getConnectedNodes returns the connected list
      * @return a list of all nodes this node is connected to
      */
-    const QVector<QPointer<NodeBase>>& getConnectedNodes() { return m_connectedNodes; }
+    const QVector<QPointer<NodeBase>>& getConnectedNodes() const { return m_connectedNodes; }
     /**
      * @brief focusExists return if a Node is focused
      * @return true if a Node is currently focused
