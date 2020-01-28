@@ -132,13 +132,20 @@ public slots:
 	 * @return a pointer to the created Block
 	 */
     BlockInterface* restoreBlock(const QCborMap& blockState, bool animated = true, bool connectOnAdd = false);
-	/**
-	 * @brief addNewBlock creates a new block of the given type
-	 * @param blockType type of the block
+
+public:
+    template<typename T>
+    T* addNewBlock(int randomOffset = -1) {
+        qobject_cast<T*>(addNewBlock(T::info().typeName, randomOffset));
+    }
+public slots:
+    /**
+     * @brief addNewBlock creates a new block of the given type
+     * @param blockType type of the block
      * @param randomOffset is the amount of pixel (dpi independent) to randomly offset
      * the position of this block
-	 * @return a pointer to the created block
-	 */
+     * @return a pointer to the created block
+     */
     BlockInterface* addNewBlock(QString blockType, int randomOffset=-1);
 	/**
 	 * @brief addBlockByNameQml calls addNewBlock() but doesn't return a pointer
