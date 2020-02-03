@@ -93,7 +93,7 @@ public slots:
      * @brief getBlockInstanceCount
      * @return number of block instances in this project
      */
-    int getBlockInstanceCount() const { return m_currentBlocks.size(); }
+    int getBlockInstanceCount() const { return int(m_currentBlocks.size()); }
 
     /**
      * @brief updateBlockVisibility sets "visible" property of blocks that are not in the
@@ -136,7 +136,8 @@ public slots:
 public:
     template<typename T>
     T* addNewBlock(int randomOffset = -1) {
-        qobject_cast<T*>(addNewBlock(T::info().typeName, randomOffset));
+        BlockInterface* block = addNewBlock(T::info().typeName, randomOffset);
+        return qobject_cast<T*>(block);
     }
 public slots:
     /**
