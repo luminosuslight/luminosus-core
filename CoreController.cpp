@@ -117,6 +117,16 @@ void CoreController::saveAll() {
     appState["developerMode"_q] = getDeveloperMode();
     appState["clickSounds"_q] = getClickSounds();
     appState["websocketConnection"_q] = m_websocketConnection->getState();
+
+    for (auto managerName: m_manager.keys()) {
+        const auto* objectWithAttributes = dynamic_cast<const ObjectWithAttributes*>(m_manager[managerName]);
+        if (objectWithAttributes) {
+            QCborMap managerState;
+            objectWithAttributes->writeAttributesTo(managerState);
+            appState[managerName] = managerState;
+        }
+    }
+
     m_dao->saveFile("", "autosave.ats", appState);
 
     m_projectManager->saveCurrentProject();
@@ -145,6 +155,15 @@ void CoreController::restoreApp() {
     setDeveloperMode(appState["developerMode"_q].toBool());
     setClickSounds(appState["clickSounds"_q].toBool());
     m_websocketConnection->setState(appState["websocketConnection"_q].toMap());
+
+    for (auto managerName: m_manager.keys()) {
+        auto* objectWithAttributes = dynamic_cast<ObjectWithAttributes*>(m_manager[managerName]);
+        if (objectWithAttributes) {
+            QCborMap managerState = appState[managerName].toMap();
+            objectWithAttributes->readAttributesFrom(managerState);
+        }
+    }
+
 #ifndef Q_OS_ANDROID
     if (lockExisted) {
 #else
