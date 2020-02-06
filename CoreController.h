@@ -46,6 +46,7 @@ public:
     ~CoreController();
 
 signals:
+    void managersInitialized();
     void developerModeChanged();
     void clickSoundsChanged();
     void templateFileToImportChanged();

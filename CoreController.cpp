@@ -163,6 +163,7 @@ void CoreController::restoreApp() {
             objectWithAttributes->readAttributesFrom(managerState);
         }
     }
+    emit managersInitialized();
 
 #ifndef Q_OS_ANDROID
     if (lockExisted) {
