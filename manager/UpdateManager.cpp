@@ -9,9 +9,13 @@
 
 #include <QSysInfo>
 #include <QLocale>
-#include <QSslSocket>
 #include <QLoggingCategory>
 #include <QVersionNumber>
+
+#ifdef SSL_ENABLED
+#include <QSslSocket>
+#endif
+
 
 
 UpdateManager::UpdateManager(CoreController* controller)
@@ -32,6 +36,7 @@ UpdateManager::UpdateManager(CoreController* controller)
 
 
     m_internetConnectionDisabled = false;
+#ifdef SSL_ENABLED
     if (!QSslSocket::supportsSsl()) {
         qInfo() << "SSL library is missing.";
 #ifdef Q_OS_WIN
@@ -50,6 +55,7 @@ UpdateManager::UpdateManager(CoreController* controller)
     if (m_internetConnectionDisabled) {
         qWarning() << "Update notify function is disabled.";
     }
+#endif
 }
 
 QCborMap UpdateManager::getState() const {
@@ -104,8 +110,10 @@ void UpdateManager::checkForNewVersion() {
     connect(m_versionCheckReply, SIGNAL(readyRead()), this, SLOT(onVersionCheckReply()));
     connect(m_versionCheckReply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(requestError(QNetworkReply::NetworkError)));
+#ifdef SSL_ENABLED
     connect(m_versionCheckReply, SIGNAL(sslErrors(QList<QSslError>)),
             this, SLOT(sslError(QList<QSslError>)));
+#endif
 }
 
 void UpdateManager::onVersionCheckReply() {
@@ -137,11 +145,13 @@ void UpdateManager::requestError(QNetworkReply::NetworkError error) {
     qInfo() << "Network Request Error:" << error;
 }
 
+#ifdef SSL_ENABLED
 void UpdateManager::sslError(QList<QSslError> errorList) {
     for (QSslError error: errorList) {
         qInfo() << "Network Request Error (SSL):" << error.errorString();
     }
 }
+#endif
 
 bool UpdateManager::getUpdateIsAvailable() const {
     QVersionNumber newestStable = QVersionNumber::fromString(m_newestStableVersion);

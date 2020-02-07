@@ -13,12 +13,19 @@
 #include <QImageReader>
 #include <QQueue>
 #include <QPair>
-#include <QtConcurrent>
-#include <QSslKey>
 #include <QGuiApplication>
 #include <QScreen>
-#include <QtConcurrent>
 #include <QNetworkReply>
+
+#ifdef SSL_ENABLED
+#include <QSslKey>
+#endif
+
+#ifdef THREADS_ENABLED
+#include <QtConcurrent>
+#endif
+
+
 
 #include <QDebug>
 
@@ -76,9 +83,11 @@ public:
                 // thread dispatching takes ~ 0.02 ms
                 // processing a thumbnail takes ~1.8ms
                 // threading has overhead of <0.2ms
+#ifdef THREADS_ENABLED
                 QtConcurrent::run([this, requestedSize, asyncResponse, cacheId, content]() mutable {
                     this->processImage(requestedSize, asyncResponse, cacheId, content);
                 });
+#endif
             } else {
                 // small thumbnails are processed in main thread
                 this->processImage(requestedSize, asyncResponse, cacheId, content);
@@ -148,10 +157,16 @@ WebsocketConnection::WebsocketConnection(CoreController* controller)
     , m_serverUrl(this, "serverUrl", "ws://localhost:55487")
     , m_dynv6Hostname(this, "dynv6Hostname", "")
     , m_dynv6Token(this, "dynv6Username", "")
+#ifdef SSL_ENABLED
     , m_websocketServer(new QWebSocketServer(QStringLiteral("Luminosus Websocket Server"),
                                              QWebSocketServer::SecureMode, this))
+#else
+    , m_websocketServer(new QWebSocketServer(QStringLiteral("Luminosus Websocket Server"),
+                                             QWebSocketServer::NonSecureMode, this))
+#endif
     , m_connectedToServer(this, "connectedToServer", false, /*persistent*/ false)
 {
+#ifdef SSL_ENABLED
     QSslConfiguration sslConfiguration;
     QFile certFile(QStringLiteral(":/core/data/luminosus_websocket.cert"));
     QFile keyFile(QStringLiteral(":/core/data/luminosus_websocket.key"));
@@ -174,6 +189,7 @@ WebsocketConnection::WebsocketConnection(CoreController* controller)
 #endif
     m_asyncWebsocketClient.socket().setSslConfiguration(clientSslConfiguration);
     m_asyncWebsocketClient.socket().ignoreSslErrors({QSslError(QSslError::HostNameMismatch, certificate)});
+#endif
 
     qRegisterMetaType<std::function<void (QCborMap)>>("std::function<void(QCborMap)>");
     connect(this, &WebsocketConnection::askServerMainthread,
@@ -378,6 +394,7 @@ void WebsocketConnection::processBinaryMessageFromClient(QByteArray data) {
 
     if (requestType == WsRequestTypes::FILE) {
         // loading and sending files is done in separate thread:
+#ifdef THREADS_ENABLED
         QtConcurrent::run([this, client, message]() mutable {
             QString path = message.value(QLatin1String("path")).toString();
             if (!QDir().exists(path)) {
@@ -397,6 +414,7 @@ void WebsocketConnection::processBinaryMessageFromClient(QByteArray data) {
             message[QString("content")] = content;
             emit sendToClientMainthread(client, message.toCborValue().toCbor());
         });
+#endif
 
     } else if (m_requestHandlers.contains(requestType)) {
         QCborMap result = m_requestHandlers[requestType](message);

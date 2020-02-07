@@ -6,6 +6,7 @@ AsyncWebSocket::AsyncWebSocket()
     , m_thread(nullptr)
 {
     qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
+#ifdef THREADS_ENABLED
     m_thread = new QThread();
     this->moveToThread(m_thread);
     m_socket.moveToThread(m_thread);
@@ -21,6 +22,7 @@ AsyncWebSocket::AsyncWebSocket()
             [this](QAbstractSocket::SocketError error){ qDebug() << error << m_socket.errorString(); });
 
     m_thread->start();
+#endif
 }
 
 qint64 AsyncWebSocket::sendBinaryMessage(const QByteArray& data) {

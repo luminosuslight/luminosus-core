@@ -1,6 +1,5 @@
 #include "KeyboardEmulator.h"
 
-#include <QThread>
 #include <QDebug>
 
 KeyboardEmulator::KeyboardEmulator(QObject* parent)

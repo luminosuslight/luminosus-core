@@ -1,6 +1,6 @@
 # ------------------ General configurations -----------------------
 
-QT += qml quick svg websockets concurrent
+QT += qml quick svg websockets
 
 CONFIG += c++14
 
@@ -144,6 +144,11 @@ linux_specific {
 
 mobile_platform {
 
+}
+
+!emscripten {
+    QT += concurrent
+    DEFINES += SSL_ENABLED THREADS_ENABLED
 }
 
 # --------------- Other -------------------

@@ -102,11 +102,13 @@ public slots:
      */
     void requestError(QNetworkReply::NetworkError error);
 
+#ifdef SSL_ENABLED
     /**
      * @brief sslError handles an SSL error
      * @param errorList list of SSL errors that occured
      */
     void sslError(QList<QSslError> errorList);
+#endif
 
     /**
      * @brief getUpdateIsAvailable returns if an update is available

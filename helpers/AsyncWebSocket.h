@@ -3,8 +3,10 @@
 
 #include <QObject>
 #include <QWebSocket>
-#include <QThread>
 
+#ifdef THREADS_ENABLED
+#include <QThread>
+#endif
 
 
 class AsyncWebSocket : public QObject {
@@ -31,7 +33,11 @@ private slots:
 
 protected:
     QWebSocket m_socket;
+#ifdef THREADS_ENABLED
     QThread* m_thread;
+#else
+    void* m_thread;
+#endif
 
 };
 
