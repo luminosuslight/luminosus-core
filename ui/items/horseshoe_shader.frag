@@ -1,4 +1,6 @@
+#ifdef GL_ES
 precision mediump float;
+#endif
 varying highp vec2 qt_TexCoord0;
 uniform lowp float qt_Opacity;
 uniform lowp float lineWidth;
