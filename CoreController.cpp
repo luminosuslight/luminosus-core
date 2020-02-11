@@ -78,7 +78,6 @@ CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templat
 
 void CoreController::finishLoading(QUrl mainQmlFile) {
     m_guiManager->createAndShowWindow(mainQmlFile);
-
     // restore app settings and last project:
     restoreApp();
 
@@ -147,6 +146,7 @@ void CoreController::restoreApp() {
     QCborMap appState = m_dao->loadCborMap("", "autosave.ats");
     if (appState.empty()) {
         // app state doesn't exist
+        emit managersInitialized();
         onFirstStart();
         return;
     }
