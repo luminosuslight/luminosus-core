@@ -146,9 +146,13 @@ mobile_platform {
 
 }
 
+# enable threads on all platforms:
+QT += concurrent
+DEFINES += THREADS_ENABLED
+
 !emscripten {
-    QT += concurrent
-    DEFINES += SSL_ENABLED THREADS_ENABLED
+    # enable SSL on all platforms but WebAssembly:
+    DEFINES += SSL_ENABLED
 }
 
 # --------------- Other -------------------
