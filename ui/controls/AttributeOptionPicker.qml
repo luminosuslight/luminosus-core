@@ -44,8 +44,8 @@ CustomTouchArea {
         height: 1*dp
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: 2*dp
-        anchors.rightMargin: 2*dp
+        anchors.leftMargin: 6*dp
+        anchors.rightMargin: 6*dp
         anchors.verticalCenter: root.verticalCenter
         anchors.verticalCenterOffset: 12*dp
     }
