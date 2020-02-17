@@ -68,5 +68,6 @@
         <file>ui/items/horseshoe_shader.frag</file>
         <file>ui/items/ring_shader.frag</file>
         <file>ui/items/DotProgressIndicator.qml</file>
+        <file>ui/controls/AttributeOptionPicker.qml</file>
     </qresource>
 </RCC>
