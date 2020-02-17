@@ -4,6 +4,8 @@ import CustomElements 1.0
 import "qrc:/core/ui/items"
 
 CustomTouchArea {
+    id: root
+    mouseOverEnabled: true
 	property bool active: false
     property bool light: false
 
@@ -18,10 +20,11 @@ CustomTouchArea {
 		Rectangle {
             color: Style.primaryActionColor
 			anchors.fill: parent
-			anchors.margins: active ? 3*dp : 10*dp
-			Behavior on anchors.margins {
-				NumberAnimation {
-					duration: 100
+            anchors.margins: 3*dp
+            scale: active ? (root.mouseOver ? 0.8 : 1) : 0
+            Behavior on scale {
+                ScaleAnimator {
+                    duration: 150
 				}
 			}
 		}

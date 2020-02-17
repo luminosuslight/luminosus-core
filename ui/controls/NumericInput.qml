@@ -8,10 +8,11 @@ import "qrc:/core/ui/items"
 // -------------- A QML Component For Numeric Input -------------
 // - Can be used as a drop-in replacement for SpinBox
 
-Item {
+CustomTouchArea {
 	id: root
 	height: 30*dp
 	implicitWidth: -1
+    mouseOverEnabled: true
 
 	// ------------------------- Public Properties ------------------
 	property real value: 0.0
@@ -35,6 +36,13 @@ Item {
 
 
 	// ------------------------ Label + Background -------------------
+
+    Rectangle {
+        anchors.fill: parent
+        color: "white"
+        opacity: 0.1
+        visible: parent.mouseOver
+    }
 
 	Text {
 		id: displayedText
@@ -77,47 +85,43 @@ Item {
 
     property Item numBlockItem
 
-    CustomTouchArea {
-		anchors.fill: parent
+    onClick: {
+        // check if NumBlock is open:
+        if (numBlockItem) {
+            controller.playClickUpSound()
+            // it is open -> destroy it:
+            numBlockItem.destroy()
+            return
+        }
+        // don't change anything if not enabled:
+        if (!root.enabled) return
 
-        onClick: {
-            // check if NumBlock is open:
-            if (numBlockItem) {
-                controller.playClickUpSound()
-                // it is open -> destroy it:
-                numBlockItem.destroy()
-                return
-            }
-            // don't change anything if not enabled:
-            if (!root.enabled) return
+        controller.playClickSound()
 
-            controller.playClickSound()
+        // ------------------ Set Preferred Local Coordinates -------------------
+        // preffered horizontal position is centered above the middle of the NumericInput:
+        var preferredLocalX = (root.width / 2) - (numBlockWidth / 2)
+        // if NumericInput is in the lower half of the window, show the input above
+        var prefferedLocalY = -numBlockHeight
+        // if NumericInput is in the upper half of the window, show the input below
+        if (root.mapToItem(null, 0, 0).y < (Window.height / 2)) {
+            prefferedLocalY = root.height
+        }
 
-			// ------------------ Set Preferred Local Coordinates -------------------
-			// preffered horizontal position is centered above the middle of the NumericInput:
-			var preferredLocalX = (root.width / 2) - (numBlockWidth / 2)
-			// if NumericInput is in the lower half of the window, show the input above
-			var prefferedLocalY = -numBlockHeight
-			// if NumericInput is in the upper half of the window, show the input below
-			if (root.mapToItem(null, 0, 0).y < (Window.height / 2)) {
-				prefferedLocalY = root.height
-			}
+        // ---------- Translate Local Coordinates to Window Coordiantes -----------
+        var windowCoords = root.mapToItem(null, preferredLocalX, prefferedLocalY)
+        var winX = windowCoords.x
+        var winY = windowCoords.y
 
-            // ---------- Translate Local Coordinates to Window Coordiantes -----------
-            var windowCoords = root.mapToItem(null, preferredLocalX, prefferedLocalY)
-            var winX = windowCoords.x
-            var winY = windowCoords.y
-
-            // --------------- Check bounds to be visible ----------------
-            var window = Window.contentItem
-            winX = Math.max(0, Math.min(window.width - numBlockWidth, winX))
-            winY = Math.max(0, Math.min(window.height - numBlockHeight, winY))
+        // --------------- Check bounds to be visible ----------------
+        var window = Window.contentItem
+        winX = Math.max(0, Math.min(window.width - numBlockWidth, winX))
+        winY = Math.max(0, Math.min(window.height - numBlockHeight, winY))
 
 
-            // -------------------- Show Component -------------------
-            numBlockItem = numBlockComponent.createObject(window, {x: winX, y: winY})
-            numBlockItem.forceActiveFocus()
-		}
+        // -------------------- Show Component -------------------
+        numBlockItem = numBlockComponent.createObject(window, {x: winX, y: winY})
+        numBlockItem.forceActiveFocus()
     }
 
 	// ------------------------ NumBlock Component ------------------------
