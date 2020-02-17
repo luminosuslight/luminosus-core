@@ -150,6 +150,18 @@ CustomTouchArea {
                 }
             }
 
+            CustomTouchArea {
+                width: 8000
+                height: 8000
+                anchors.centerIn: parent
+                onTouchDown: {
+                    numBlockItem.destroy()
+                    if (!root.contains(root.mapFromItem(this, touch.itemX, touch.itemY))) {
+                        touch.accepted = false
+                    }
+                }
+            }
+
             Column {
                 id: numBlock
                 anchors.fill: parent
@@ -172,59 +184,59 @@ CustomTouchArea {
                     columns: 3
 
                     NumBlockButton {
-                        width: 50*dp; height: 50*dp; onClicked: rawNumber += text
+                        width: 50*dp; height: 50*dp; onClick: rawNumber += text
                         text: "7"; id: digit7
                     }
                     NumBlockButton {
-                        width: 50*dp; height: 50*dp; onClicked: rawNumber += text
+                        width: 50*dp; height: 50*dp; onClick: rawNumber += text
                         text: "8"; id: digit8
                     }
                     NumBlockButton {
-                        width: 50*dp; height: 50*dp; onClicked: rawNumber += text
+                        width: 50*dp; height: 50*dp; onClick: rawNumber += text
                         text: "9"; id: digit9
                     }
                     NumBlockButton {
-                        width: 50*dp; height: 50*dp; onClicked: rawNumber += text
+                        width: 50*dp; height: 50*dp; onClick: rawNumber += text
                         text: "4"; id: digit4
                     }
                     NumBlockButton {
-                        width: 50*dp; height: 50*dp; onClicked: rawNumber += text
+                        width: 50*dp; height: 50*dp; onClick: rawNumber += text
                         text: "5"; id: digit5
                     }
                     NumBlockButton {
-                        width: 50*dp; height: 50*dp; onClicked: rawNumber += text
+                        width: 50*dp; height: 50*dp; onClick: rawNumber += text
                         text: "6"; id: digit6
                     }
                     NumBlockButton {
-                        width: 50*dp; height: 50*dp; onClicked: rawNumber += text
+                        width: 50*dp; height: 50*dp; onClick: rawNumber += text
                         text: "1"; id: digit1
                     }
                     NumBlockButton {
-                        width: 50*dp; height: 50*dp; onClicked: rawNumber += text
+                        width: 50*dp; height: 50*dp; onClick: rawNumber += text
                         text: "2"; id: digit2
                     }
                     NumBlockButton {
-                        width: 50*dp; height: 50*dp; onClicked: rawNumber += text
+                        width: 50*dp; height: 50*dp; onClick: rawNumber += text
                         text: "3"; id: digit3
                     }
                     NumBlockButton {
                         id: backspaceButton
                         width: 50*dp; height: 50*dp
-                        onClicked: {
+                        onClick: {
                             rawNumber = rawNumber.slice(0, rawNumber.length - 1)
                         }
                         bold: false
                         text: "<-"
                     }
                     NumBlockButton {
-                        width: 50*dp; height: 50*dp; onClicked: rawNumber += text
+                        width: 50*dp; height: 50*dp; onClick: rawNumber += text
                         text: "0"; id: digit0
                     }
                     NumBlockButton {  // only visible if decimals are allowed
                         id: dotButton
                         visible: root.decimals > 0
                         width: 50*dp; height: 50*dp
-                        onClicked: {
+                        onClick: {
                             if (rawNumber.indexOf(".") <= 0 && root.decimals > 0) rawNumber += "."
                         }
                         text: "."
@@ -246,7 +258,7 @@ CustomTouchArea {
                         bold: false
                         text: "Esc"
 
-                        onClicked: {
+                        onClick: {
                             numBlockItem.destroy()
                         }
                     }
@@ -257,7 +269,7 @@ CustomTouchArea {
                         bold: false
                         text: "Enter"
 
-                        onClicked: {
+                        onClick: {
                             if (rawNumber !== "") {
                                 root.setValueFromString(rawNumber)
                                 rawNumber = ""

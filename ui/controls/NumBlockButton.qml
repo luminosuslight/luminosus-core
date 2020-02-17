@@ -1,17 +1,17 @@
 import QtQuick 2.5
-import QtQuick.Controls 2.14
+import CustomElements 1.0
 
 import "qrc:/core/ui/items"
 
 // ------------- Button to use in a NumBlock -----------------
-Button {
+CustomTouchArea {
     id: control
-	property color highlightColor: "lightgreen"
     property bool bold: true
-    background: Rectangle {
+    property string text
+    Rectangle {
         anchors.fill: parent
         border.width: 1
-        border.color: highlighted ? highlightColor : "#444"
+        border.color: "#444"
 //			gradient: Gradient {
 //				GradientStop { position: 0 ; color: control.pressed ? "#444" : "#333" }
 //				GradientStop { position: 1 ; color: control.pressed ? "#555" : "#444" }
@@ -21,7 +21,8 @@ Button {
             GradientStop { position: 1 ; color: control.pressed ? "#555" : "#334754" }
         }
     }
-    contentItem: Text {
+    Text {
+        anchors.fill: parent
         text: control.text
         font.pixelSize: 18*dp
         font.bold: control.bold
@@ -55,7 +56,7 @@ Button {
     }
 
 	function simulatePress() {
-		clicked()
+        control.click(null)
 		triggerFeedback.restart()
 	}
 }
