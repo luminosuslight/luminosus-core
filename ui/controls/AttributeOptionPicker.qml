@@ -11,6 +11,9 @@ CustomTouchArea {
     mouseOverEnabled: true
     property QtObject attr
     property var optionListGetter: function () { return ["A", "B", "C"] }
+    property var optionToDisplayText: function (option) { return option }
+    property var onOptionSelected: function (option) { attr.val = option }
+    property var displayText: attr.val
     property alias align: displayedText.horizontalAlignment
     property bool openToLeft: false
 
@@ -36,7 +39,7 @@ CustomTouchArea {
         wrapMode: Text.Wrap
         elide: Text.ElideRight
         fontSizeMode: Text.Fit
-        text: attr.val
+        text: displayText
     }
 
     Rectangle {  // thin blue line under text
@@ -125,7 +128,7 @@ CustomTouchArea {
                     mouseOverEnabled: true
                     onClick: {
                         controller.playClickSound()
-                        attr.val = modelData
+                        onOptionSelected(modelData)
                         dropDown.destroy()
                     }
                     Rectangle {
@@ -145,7 +148,7 @@ CustomTouchArea {
                         horizontalAlignment: displayedText.horizontalAlignment
                         color: modelData === attr.val ? Style.primaryHighlightColor :  "#fff"
                         wrapMode: Text.Wrap
-                        text: modelData
+                        text: optionToDisplayText(modelData)
                     }
                 }
             }  // end option list
