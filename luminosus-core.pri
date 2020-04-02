@@ -41,6 +41,8 @@ HEADERS += \
     $$PWD/qtquick_items/LineItem.h \
     $$PWD/qtquick_items/NodeConnectionLines.h \
     $$PWD/qtquick_items/PointsItem.h \
+    $$PWD/qtquick_items/ShadowedRectangle.h \
+    $$PWD/qtquick_items/ShadowedTexture.h \
     $$PWD/qtquick_items/SpectrumItem.h \
     $$PWD/qtquick_items/StretchLayouts.h \
     $$PWD/qtquick_items/TouchArea.h \
@@ -69,6 +71,13 @@ HEADERS += \
     $$PWD/manager/ProjectManager.h \
     $$PWD/manager/UpdateManager.h \
     $$PWD/manager/WebsocketConnection.h \
+    $$PWD/qtquick_items/scenegraph/paintedrectangleitem.h \
+    $$PWD/qtquick_items/scenegraph/shadowedborderrectanglematerial.h \
+    $$PWD/qtquick_items/scenegraph/shadowedbordertexturematerial.h \
+    $$PWD/qtquick_items/scenegraph/shadowedrectanglematerial.h \
+    $$PWD/qtquick_items/scenegraph/shadowedrectanglenode.h \
+    $$PWD/qtquick_items/scenegraph/shadowedtexturematerial.h \
+    $$PWD/qtquick_items/scenegraph/shadowedtexturenode.h \
     $$PWD/version.h
 
 SOURCES += \
@@ -91,6 +100,8 @@ SOURCES += \
     $$PWD/qtquick_items/LineItem.cpp \
     $$PWD/qtquick_items/NodeConnectionLines.cpp \
     $$PWD/qtquick_items/PointsItem.cpp \
+    $$PWD/qtquick_items/ShadowedRectangle.cpp \
+    $$PWD/qtquick_items/ShadowedTexture.cpp \
     $$PWD/qtquick_items/SpectrumItem.cpp \
     $$PWD/qtquick_items/StretchLayouts.cpp \
     $$PWD/qtquick_items/TouchArea.cpp \
@@ -115,7 +126,14 @@ SOURCES += \
     $$PWD/manager/LogManager.cpp \
     $$PWD/manager/ProjectManager.cpp \
     $$PWD/manager/UpdateManager.cpp \
-    $$PWD/manager/WebsocketConnection.cpp
+    $$PWD/manager/WebsocketConnection.cpp \
+    $$PWD/qtquick_items/scenegraph/paintedrectangleitem.cpp \
+    $$PWD/qtquick_items/scenegraph/shadowedborderrectanglematerial.cpp \
+    $$PWD/qtquick_items/scenegraph/shadowedbordertexturematerial.cpp \
+    $$PWD/qtquick_items/scenegraph/shadowedrectanglematerial.cpp \
+    $$PWD/qtquick_items/scenegraph/shadowedrectanglenode.cpp \
+    $$PWD/qtquick_items/scenegraph/shadowedtexturematerial.cpp \
+    $$PWD/qtquick_items/scenegraph/shadowedtexturenode.cpp
 
 DISTFILES += \
     $$PWD/CREDITS.txt \

@@ -15,6 +15,8 @@
 #include "core/qtquick_items/IrregularCircleItem.h"
 #include "core/qtquick_items/IrregularCircleOutline.h"
 #include "core/qtquick_items/IrregularCircleOutlineTwoColored.h"
+#include "core/qtquick_items/ShadowedRectangle.h"
+#include "core/qtquick_items/ShadowedTexture.h"
 
 #include "core/CoreController.h"
 #include "core/manager/FileSystemManager.h"
@@ -47,6 +49,8 @@ void preQApplicationCreation() {
 }
 
 void registerQtQuickItems() {
+    const char* uri = "CustomElements";
+
     qmlRegisterSingletonType(QUrl("qrc:/core/ui/DefaultStyle.qml"), "CustomStyle", 1, 0, "Style");
     qmlRegisterType<BezierCurve>("CustomGeometry", 1, 0, "BezierCurve");
     qmlRegisterType<KineticEffect>("CustomElements", 1, 0, "KineticEffect");
@@ -63,6 +67,13 @@ void registerQtQuickItems() {
     qmlRegisterType<IrregularCircleItem>("CustomElements", 1, 0, "IrregularCircle");
     qmlRegisterType<IrregularCircleOutline>("CustomElements", 1, 0, "IrregularCircleOutline");
     qmlRegisterType<IrregularCircleOutlineTwoColored>("CustomElements", 1, 0, "IrregularCircleOutlineTwoColored");
+    qmlRegisterType<ShadowedRectangle>("CustomElements", 1, 0, "ShadowedRectangle");
+    qmlRegisterType<ShadowedTexture>("CustomElements", 1, 0, "ShadowedTexture");
+
+    qmlRegisterUncreatableType<BorderGroup>(uri, 2, 12, "BorderGroup", QStringLiteral("Used as grouped property"));
+    qmlRegisterUncreatableType<ShadowGroup>(uri, 2, 12, "ShadowGroup", QStringLiteral("Used as grouped property"));
+    qmlRegisterUncreatableType<CornersGroup>(uri, 2, 12, "CornersGroup", QStringLiteral("Used as grouped property"));
+
     qRegisterMetaType<TouchAreaEvent>();
     qmlRegisterType<TouchAreaEvent>();
     qmlRegisterType<TouchArea>("CustomElements", 1, 0, "CustomTouchArea");

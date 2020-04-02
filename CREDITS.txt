@@ -8,3 +8,5 @@ QML JSONListModel and jsonpath (MIT License) by:
 Snarkdown Markdown Parser by Jason Miller (MIT License)
     Copyright (c) 2017 Jason Miller
     https://github.com/developit/snarkdown
+
+ShadowedRectangle / ShadowedImage QML Item from Kirigami Project under LGPL 2 License
