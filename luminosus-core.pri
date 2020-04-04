@@ -51,7 +51,6 @@ HEADERS += \
     $$PWD/block_basics/InOutBlock.h \
     $$PWD/block_basics/OneInputBlock.h \
     $$PWD/block_basics/OneOutputBlock.h \
-    $$PWD/block_basics/SceneBlockInterface.h \
     $$PWD/connections/Matrix.h \
     $$PWD/connections/NodeData.h \
     $$PWD/connections/Nodes.h \
