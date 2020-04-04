@@ -227,7 +227,7 @@ QQuickItem* BlockBase::createQmlItem(QString qmlPath, QQuickItem* parent) {
 
 void BlockBase::setGuiItemCode(QString code) {
     QQmlComponent component(m_controller->guiManager()->qmlEngine());
-    component.setData(code.toLatin1(), QUrl(getBlockInfo().qmlFile));
+    component.setData(code.toUtf8(), QUrl(getBlockInfo().qmlFile));
     QQuickItem* newGuiItem = qobject_cast<QQuickItem*>(component.beginCreate(m_controller->guiManager()->qmlEngine()->rootContext()));
     if (!newGuiItem) {
         qCritical() << "Could not create GUI item: " << component.errorString();
