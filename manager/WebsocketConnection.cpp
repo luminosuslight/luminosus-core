@@ -315,7 +315,7 @@ void WebsocketConnection::updateClientState() {
 void WebsocketConnection::updateDynDNS() {
     if (m_serverEnabled && !m_dynv6Hostname.getValue().isEmpty() && !m_dynv6Token.getValue().isEmpty()) {
         QString url = "https://ipv6.dynv6.com/api/update?hostname=" + m_dynv6Hostname + "&ipv6=auto&token=" + m_dynv6Token;
-        QNetworkReply* reply = m_networkManager.get(QNetworkRequest(QUrl(url)));
+        QNetworkReply* reply = m_controller->networkAccessManager()->get(QNetworkRequest(QUrl(url)));
         connect(reply, &QNetworkReply::finished, [reply](){
             qDebug() << "WebsocketServer: Dynv6 response:" << reply->readAll();
         });

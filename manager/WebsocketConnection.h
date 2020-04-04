@@ -95,7 +95,6 @@ private:
     StringAttribute m_dynv6Token;
 
     QTimer m_dynDnsUpdateTimer;
-    QNetworkAccessManager m_networkManager;
 
     QWebSocketServer* m_websocketServer;
     QList<QWebSocket*> m_clients;
