@@ -47,16 +47,16 @@ CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templat
     qInfo() << "Runtime Qt Version:" << qVersion();
 
     // Register classes which slots should be accessible from QML:
-    qmlRegisterType<AnchorManager>();
-    qmlRegisterType<BlockManager>();
-    qmlRegisterType<Engine>();
-    qmlRegisterType<FileSystemManager>();
-    qmlRegisterType<GuiManager>();
-    qmlRegisterType<HandoffManager>();
-    qmlRegisterType<KeyboardEmulator>();
-    qmlRegisterType<LogManager>();
-    qmlRegisterType<ProjectManager>();
-    qmlRegisterType<WebsocketConnection>();
+    qmlRegisterAnonymousType<AnchorManager>("Luminosus", 1);
+    qmlRegisterAnonymousType<BlockManager>("Luminosus", 1);
+    qmlRegisterAnonymousType<Engine>("Luminosus", 1);
+    qmlRegisterAnonymousType<FileSystemManager>("Luminosus", 1);
+    qmlRegisterAnonymousType<GuiManager>("Luminosus", 1);
+    qmlRegisterAnonymousType<HandoffManager>("Luminosus", 1);
+    qmlRegisterAnonymousType<KeyboardEmulator>("Luminosus", 1);
+    qmlRegisterAnonymousType<LogManager>("Luminosus", 1);
+    qmlRegisterAnonymousType<ProjectManager>("Luminosus", 1);
+    qmlRegisterAnonymousType<WebsocketConnection>("Luminosus", 1);
 
     // Tell QML that these objects are owned by C++ and should not be deleted by the JS GC:
     // This is very important because otherwise SEGFAULTS will appear randomly!

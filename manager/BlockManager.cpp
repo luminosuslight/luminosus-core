@@ -26,8 +26,8 @@ BlockManager::BlockManager(CoreController* controller)
     m_randomConnectionTimer.setInterval(100);
     connect(&m_randomConnectionTimer, SIGNAL(timeout()), this, SLOT(makeRandomConnection()));
 	// Register classes which slots should be accessible from QML:
-	qmlRegisterType<BlockList>();
-	qmlRegisterType<BlockInterface>();
+    qmlRegisterAnonymousType<BlockList>("Luminosus", 1);
+    qmlRegisterAnonymousType<BlockInterface>("Luminosus", 1);
 	// Tell QML that these objects are owned by C++ and should not be deleted by the JS GC:
 	// This is very important because otherwise SEGFAULTS will appear randomly!
 	QQmlEngine::setObjectOwnership(&m_blockList, QQmlEngine::CppOwnership);

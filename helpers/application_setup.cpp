@@ -75,7 +75,7 @@ void registerQtQuickItems() {
     qmlRegisterUncreatableType<CornersGroup>(uri, 2, 12, "CornersGroup", QStringLiteral("Used as grouped property"));
 
     qRegisterMetaType<TouchAreaEvent>();
-    qmlRegisterType<TouchAreaEvent>();
+    qmlRegisterAnonymousType<TouchAreaEvent>("Luminosus", 1);
     qmlRegisterType<TouchArea>("CustomElements", 1, 0, "CustomTouchArea");
 }
 
