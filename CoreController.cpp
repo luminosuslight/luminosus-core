@@ -10,7 +10,6 @@
 #include "core/manager/KeyboardEmulator.h"
 #include "core/manager/LogManager.h"
 #include "core/manager/ProjectManager.h"
-#include "core/manager/UpdateManager.h"
 #include "core/manager/WebsocketConnection.h"
 
 #include "core/helpers/constants.h"
@@ -28,6 +27,7 @@
 
 CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templateFile, QObject* parent)
     : QObject(parent)
+    , m_networkAccessManager(new QNetworkAccessManager())
     , m_anchorManager(new AnchorManager(this))
     , m_blockManager(new BlockManager(this))
     , m_engine(new Engine(this))
@@ -37,7 +37,6 @@ CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templat
     , m_keyboardEmulator(new KeyboardEmulator(this))
     , m_logManager(new LogManager(this))
     , m_projectManager(new ProjectManager(this))
-    , m_updateManager(new UpdateManager(this))
     , m_websocketConnection(new WebsocketConnection(this))
     , m_developerMode(false)
     , m_clickSounds(false)
@@ -57,7 +56,6 @@ CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templat
     qmlRegisterType<KeyboardEmulator>();
     qmlRegisterType<LogManager>();
     qmlRegisterType<ProjectManager>();
-    qmlRegisterType<UpdateManager>();
     qmlRegisterType<WebsocketConnection>();
 
     // Tell QML that these objects are owned by C++ and should not be deleted by the JS GC:
@@ -72,7 +70,6 @@ CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templat
     QQmlEngine::setObjectOwnership(m_keyboardEmulator.get(), QQmlEngine::CppOwnership);
     QQmlEngine::setObjectOwnership(m_logManager.get(), QQmlEngine::CppOwnership);
     QQmlEngine::setObjectOwnership(m_projectManager.get(), QQmlEngine::CppOwnership);
-    QQmlEngine::setObjectOwnership(m_updateManager.get(), QQmlEngine::CppOwnership);
     QQmlEngine::setObjectOwnership(m_websocketConnection.get(), QQmlEngine::CppOwnership);
 }
 
@@ -105,6 +102,10 @@ void CoreController::registerManager(QString name, QObject* manager) {
     m_guiManager->setQmlContextProperty(name, QVariant::fromValue(manager));
 }
 
+QNetworkAccessManager* CoreController::networkAccessManager() const {
+    return m_networkAccessManager;
+}
+
 CoreController::~CoreController() = default;
 
 void CoreController::saveAll() {
@@ -112,7 +113,6 @@ void CoreController::saveAll() {
     appState["version"_q] = 0.3;
     m_guiManager->writeTo(appState);
     appState["currentProject"_q] = m_projectManager->getCurrentProjectName();
-    appState["updateManager"_q] = m_updateManager->getState();
     appState["developerMode"_q] = getDeveloperMode();
     appState["clickSounds"_q] = getClickSounds();
     appState["websocketConnection"_q] = m_websocketConnection->getState();
@@ -151,7 +151,6 @@ void CoreController::restoreApp() {
         return;
     }
     m_guiManager->readFrom(appState);
-    m_updateManager->setState(appState["updateManager"_q].toMap());
     setDeveloperMode(appState["developerMode"_q].toBool());
     setClickSounds(appState["clickSounds"_q].toBool());
     m_websocketConnection->setState(appState["websocketConnection"_q].toMap());

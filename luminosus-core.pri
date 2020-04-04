@@ -69,7 +69,6 @@ HEADERS += \
     $$PWD/manager/KeyboardEmulator.h \
     $$PWD/manager/LogManager.h \
     $$PWD/manager/ProjectManager.h \
-    $$PWD/manager/UpdateManager.h \
     $$PWD/manager/WebsocketConnection.h \
     $$PWD/qtquick_items/scenegraph/paintedrectangleitem.h \
     $$PWD/qtquick_items/scenegraph/shadowedborderrectanglematerial.h \
@@ -125,7 +124,6 @@ SOURCES += \
     $$PWD/manager/KeyboardEmulator.cpp \
     $$PWD/manager/LogManager.cpp \
     $$PWD/manager/ProjectManager.cpp \
-    $$PWD/manager/UpdateManager.cpp \
     $$PWD/manager/WebsocketConnection.cpp \
     $$PWD/qtquick_items/scenegraph/paintedrectangleitem.cpp \
     $$PWD/qtquick_items/scenegraph/shadowedborderrectanglematerial.cpp \

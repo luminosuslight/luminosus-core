@@ -17,7 +17,6 @@ class HandoffManager;
 class KeyboardEmulator;
 class LogManager;
 class ProjectManager;
-class UpdateManager;
 class WebsocketConnection;
 
 /**
@@ -62,6 +61,8 @@ public:
         return qobject_cast<T*>(m_manager.value(name));
     }
 
+    QNetworkAccessManager* networkAccessManager() const;
+
 public slots:
 
     QObject* managerQml(QString name) const { return m_manager.value(name); }
@@ -96,11 +97,6 @@ public slots:
      * @return a pointer to a ProjectManager instance
      */
     ProjectManager* projectManager() { return m_projectManager.get(); }
-    /**
-     * @brief updateManager is a Getter for the only UpdateManager instance to use in this application
-     * @return a pointer to an UpdateManager instance
-     */
-    UpdateManager* updateManager() { return m_updateManager.get(); }
     /**
      * @brief anchorManager is a Getter for the only AnchorManager instance to use in this application
      * @return  a pointer to an AnchorManager instance
@@ -215,6 +211,8 @@ public slots:
     void sendFeedback(QString, double) const {}
 
 protected:
+    QNetworkAccessManager* m_networkAccessManager = nullptr;
+
     // Managers:
     QScopedPointer<AnchorManager> m_anchorManager;  //!< AnchorManager instance
     QScopedPointer<BlockManager> m_blockManager;  //!< BlockManager instance
@@ -225,7 +223,6 @@ protected:
     QScopedPointer<KeyboardEmulator> m_keyboardEmulator;  //!< KeyboardEmulator instance
     QScopedPointer<LogManager> m_logManager;  //!< LogManager instance
     QScopedPointer<ProjectManager> m_projectManager;  //!< GlobalOscCommands instance
-    QScopedPointer<UpdateManager> m_updateManager;  //!< UpdateManager instance
     QScopedPointer<WebsocketConnection> m_websocketConnection;  //!< WebsocketConnection instance
 
     // Attributes:
