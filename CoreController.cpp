@@ -11,6 +11,7 @@
 #include "core/manager/LogManager.h"
 #include "core/manager/ProjectManager.h"
 #include "core/manager/WebsocketConnection.h"
+#include "core/manager/StatusManager.h"
 
 #include "core/helpers/constants.h"
 #include "core/helpers/utils.h"
@@ -71,6 +72,8 @@ CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templat
     QQmlEngine::setObjectOwnership(m_logManager.get(), QQmlEngine::CppOwnership);
     QQmlEngine::setObjectOwnership(m_projectManager.get(), QQmlEngine::CppOwnership);
     QQmlEngine::setObjectOwnership(m_websocketConnection.get(), QQmlEngine::CppOwnership);
+
+    registerManager("statusManager", new StatusManager(this));
 }
 
 void CoreController::finishLoading(QUrl mainQmlFile) {
@@ -99,6 +102,7 @@ void CoreController::finishLoading(QUrl mainQmlFile) {
 
 void CoreController::registerManager(QString name, QObject* manager) {
     m_manager[name] = manager;
+    QQmlEngine::setObjectOwnership(manager, QQmlEngine::CppOwnership);
     m_guiManager->setQmlContextProperty(name, QVariant::fromValue(manager));
 }
 

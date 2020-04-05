@@ -29,6 +29,7 @@ HEADERS += \
     $$PWD/helpers/constants.h \
     $$PWD/helpers/qstring_literal.h \
     $$PWD/helpers/utils.h \
+    $$PWD/manager/StatusManager.h \
     $$PWD/qtquick_items/BarGraphItem.h \
     $$PWD/qtquick_items/BezierCurve.h \
     $$PWD/qtquick_items/ColoredPointsItem.h \
@@ -86,6 +87,7 @@ SOURCES += \
     $$PWD/conversation/UserInput.cpp \
     $$PWD/helpers/ObjectWithAttributes.cpp \
     $$PWD/helpers/qstring_literal.cpp \
+    $$PWD/manager/StatusManager.cpp \
     $$PWD/qtquick_items/BarGraphItem.cpp \
     $$PWD/qtquick_items/BezierCurve.cpp \
     $$PWD/qtquick_items/ColoredPointsItem.cpp \

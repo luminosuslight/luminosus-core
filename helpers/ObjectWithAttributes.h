@@ -17,6 +17,17 @@ public:
     QObject* parent() { return m_parent; }
 
     QObject* attr(QString name);
+
+    template<typename T>
+    T* attribute(const QString& name) {
+        return qobject_cast<T*>(m_attributes.value(name));
+    }
+
+    template<typename T>
+    const T* attribute(const QString& name) const {
+        return qobject_cast<const T*>(m_attributes.value(name));
+    }
+
     /**
      * @brief registerAttribute registers an attribute to be available by attr()
      * and to be persisted if requested
