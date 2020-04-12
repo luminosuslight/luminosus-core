@@ -20,6 +20,7 @@ RESOURCES += \
 
 HEADERS += \
     $$PWD/CoreController.h \
+    $$PWD/block_basics/ConnectionCycleBlock.h \
     $$PWD/block_basics/GroupBlock.h \
     $$PWD/conversation/Command.h \
     $$PWD/conversation/ConversationActionInterface.h \
@@ -81,6 +82,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/CoreController.cpp \
+    $$PWD/block_basics/ConnectionCycleBlock.cpp \
     $$PWD/block_basics/GroupBlock.cpp \
     $$PWD/conversation/Command.cpp \
     $$PWD/conversation/SystemOutput.cpp \

@@ -1,6 +1,7 @@
 #include "core/connections/Nodes.h"
 
 #include "core/block_basics/BlockInterface.h"
+#include "core/block_basics/ConnectionCycleBlock.h"
 #include "core/helpers/constants.h"
 
 // ------------------------ NodeBase -----------------------------------------------------------
@@ -428,6 +429,7 @@ bool NodeBase::cycleCheckRecursive(QString uid, NodeBase* inputNode, int depth) 
     // check if the block of this input node is the block we are looking for:
     BlockInterface* block = inputNode->getBlock();
     if (!block) return false;
+    if (qobject_cast<ConnectionCycleBlock*>(block) != nullptr) return false;
     if (block->getUid() == uid) {
         // -> cycle detected!
         // cancel condition of recursion
