@@ -139,6 +139,7 @@ public slots:
     virtual void setGuiWidth(double value) override;
     virtual double getGuiHeight() const override;
     virtual void setGuiHeight(double value) override;
+    virtual void showFullscreen() override;
     virtual bool widthIsResizable() const override { return m_widthIsResizable; }
     virtual bool heightIsResizable() const override { return m_heightIsResizable; }
     virtual void hideGui() override;

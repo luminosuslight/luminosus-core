@@ -443,6 +443,12 @@ void BlockBase::setGuiHeight(double value) {
     }
 }
 
+void BlockBase::showFullscreen() {
+    if (m_guiItem) {
+        qvariant_cast<QObject*>(m_guiItem->property("anchors"))->setProperty("fill", m_guiItem->property("parent"));
+    }
+}
+
 void BlockBase::hideGui() {
     m_guiShouldBeHidden = true;
     QQuickItem* item = getGuiItem();

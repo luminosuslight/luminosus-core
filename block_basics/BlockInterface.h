@@ -396,6 +396,10 @@ public slots:
      */
     virtual void setGuiHeight(double value) = 0;
     /**
+     * @brief showFullscreen makes this block fill the whole window, usefull in one-block applications
+     */
+    virtual void showFullscreen() = 0;
+    /**
      * @brief widthIsResizable returns wether the width is user changable
      * @return true if changable
      */
