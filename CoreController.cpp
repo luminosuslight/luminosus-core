@@ -76,21 +76,25 @@ CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templat
     registerManager("statusManager", new StatusManager(this));
 }
 
-void CoreController::finishLoading(QUrl mainQmlFile) {
+void CoreController::finishLoading(QUrl mainQmlFile, bool restore, bool saveReguarly) {
     m_guiManager->createAndShowWindow(mainQmlFile);
-    // restore app settings and last project:
-    restoreApp();
+
+    if (restore) {
+        // restore app settings and last project:
+        restoreApp();
+    }
 
     // start App engine (for actions that should be run each frame):
     m_engine->start();
-
-    // start save timer (save each 5s):
-    connect(&m_saveTimer, SIGNAL(timeout()), this, SLOT(saveAll()));
-    if (qgetenv("ALARM_CLOCK_MODE") == "1") {
-        qDebug() << "Alarm clock mode: saving only each 2 minutes.";
-        m_saveTimer.start(2*60*1000);
-    } else {
-        m_saveTimer.start(5000);
+    if (saveReguarly) {
+        // start save timer (save each 5s):
+        connect(&m_saveTimer, SIGNAL(timeout()), this, SLOT(saveAll()));
+        if (qgetenv("ALARM_CLOCK_MODE") == "1") {
+            qDebug() << "Alarm clock mode: saving only each 2 minutes.";
+            m_saveTimer.start(2*60*1000);
+        } else {
+            m_saveTimer.start(5000);
+        }
     }
 
 #ifdef Q_OS_ANDROID

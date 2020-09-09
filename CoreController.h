@@ -41,7 +41,7 @@ public:
      * @param parent the QObject parent
      */
     explicit CoreController(QQmlApplicationEngine* qmlEngine, QString templateFile = {}, QObject *parent = nullptr);
-    void finishLoading(QUrl mainQmlFile);
+    void finishLoading(QUrl mainQmlFile, bool restore=true, bool saveReguarly=true);
     ~CoreController();
 
 signals:
