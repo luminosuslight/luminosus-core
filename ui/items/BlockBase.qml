@@ -9,6 +9,7 @@ Item {
     property bool showShadows: true
     property Component settingsComponent: noSettings
     property alias color: background.color
+    property bool ignoreKeyboardShortcuts: false
 
 	onXChanged: block.positionChanged()
 	onYChanged: block.positionChanged()
@@ -131,7 +132,7 @@ Item {
 
 	// Delete Key:
 	Keys.onDeletePressed: {
-        if (block.focused) {
+        if (block.focused && !ignoreKeyboardShortcuts) {
             block.deletedByUser()
 			event.accepted = true
 		}
@@ -139,7 +140,7 @@ Item {
 
     // Ctrl + D, Ctrl + C and Ctrl + X:
 	Keys.onPressed: {
-        if (!block.focused) return;
+        if (!block.focused || ignoreKeyboardShortcuts) return;
 		if (event.key === Qt.Key_D && (event.modifiers & Qt.ControlModifier)) {
 			controller.blockManager().duplicateFocusedBlock()
 			event.accepted = true
