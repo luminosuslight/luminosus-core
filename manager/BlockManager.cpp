@@ -10,6 +10,7 @@
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QQuickWindow>
+#include <QRandomGenerator>
 
 
 BlockManager::BlockManager(CoreController* controller)
@@ -557,7 +558,7 @@ void BlockManager::toggleRandomConnectionTest() {
 void BlockManager::makeRandomConnection() {
     NodeBase* output = nullptr;
     NodeBase* input = nullptr;
-    int randOffset = qrand();
+    int randOffset = QRandomGenerator::global()->generate();
     for (std::size_t i = 0; i < m_currentBlocks.size() && !output; ++i) {
         BlockInterface* block = m_currentBlocks.at((std::size_t(randOffset) + i) % m_currentBlocks.size());
         QList<QPointer<NodeBase>> nodes = block->getNodes();
@@ -574,7 +575,7 @@ void BlockManager::makeRandomConnection() {
         stopRandomConnectionTest();
         return;
     }
-    randOffset = qrand();
+    randOffset = QRandomGenerator::global()->generate();
     for (std::size_t i = 0; i < m_currentBlocks.size() && !input; ++i) {
         BlockInterface* block = m_currentBlocks.at((std::size_t(randOffset) + i) % m_currentBlocks.size());
         QList<QPointer<NodeBase>> nodes = block->getNodes();
