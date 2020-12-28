@@ -1,6 +1,6 @@
 # ------------------ General configurations -----------------------
 
-QT += qml quick svg websockets
+QT += qml quick svg network
 
 CONFIG += c++17
 
@@ -70,7 +70,6 @@ HEADERS += \
     $$PWD/manager/KeyboardEmulator.h \
     $$PWD/manager/LogManager.h \
     $$PWD/manager/ProjectManager.h \
-    $$PWD/manager/WebsocketConnection.h \
     $$PWD/qtquick_items/scenegraph/paintedrectangleitem.h \
     $$PWD/qtquick_items/scenegraph/shadowedborderrectanglematerial.h \
     $$PWD/qtquick_items/scenegraph/shadowedbordertexturematerial.h \
@@ -127,7 +126,6 @@ SOURCES += \
     $$PWD/manager/KeyboardEmulator.cpp \
     $$PWD/manager/LogManager.cpp \
     $$PWD/manager/ProjectManager.cpp \
-    $$PWD/manager/WebsocketConnection.cpp \
     $$PWD/qtquick_items/scenegraph/paintedrectangleitem.cpp \
     $$PWD/qtquick_items/scenegraph/shadowedborderrectanglematerial.cpp \
     $$PWD/qtquick_items/scenegraph/shadowedbordertexturematerial.cpp \
