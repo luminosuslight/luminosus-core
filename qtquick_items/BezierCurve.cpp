@@ -160,7 +160,7 @@ QSGNode* BezierCurve::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*)
     if (!oldNode) {
         node = new QSGGeometryNode;
         geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), verticesCount);
-        geometry->setDrawingMode(GL_TRIANGLE_STRIP);
+        geometry->setDrawingMode(QSGGeometry::DrawTriangleStrip);
         node->setGeometry(geometry);
         node->setFlag(QSGNode::OwnsGeometry);
         QSGFlatColorMaterial* material = new QSGFlatColorMaterial;

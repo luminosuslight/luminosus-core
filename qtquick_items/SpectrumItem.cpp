@@ -69,7 +69,7 @@ QSGNode* SpectrumItem::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*) {
         parentNode->removeAllChildNodes();
         QSGGeometryNode* node = new QSGGeometryNode;
         QSGGeometry* geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 3);
-        geometry->setDrawingMode(GL_TRIANGLE_STRIP);
+        geometry->setDrawingMode(QSGGeometry::DrawTriangleStrip);
         node->setGeometry(geometry);
         node->setFlag(QSGNode::OwnsGeometry);
         QSGFlatColorMaterial* material = new QSGFlatColorMaterial;
@@ -80,7 +80,7 @@ QSGNode* SpectrumItem::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*) {
 
         node = new QSGGeometryNode;
         geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 3);
-        geometry->setDrawingMode(GL_TRIANGLE_STRIP);
+        geometry->setDrawingMode(QSGGeometry::DrawTriangleStrip);
         node->setGeometry(geometry);
         node->setFlag(QSGNode::OwnsGeometry);
         material = new QSGFlatColorMaterial;
