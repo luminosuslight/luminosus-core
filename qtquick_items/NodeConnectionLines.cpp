@@ -104,7 +104,7 @@ QSGNode* NodeConnectionLines::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeD
         for (int i=0; i<(connectionCount - childCount); ++i) {
             QSGGeometryNode* node = new QSGGeometryNode;
             QSGGeometry* geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 3);
-            geometry->setDrawingMode(GL_TRIANGLE_STRIP);
+            geometry->setDrawingMode(QSGGeometry::DrawTriangleStrip);
             node->setGeometry(geometry);
             node->setFlag(QSGNode::OwnsGeometry);
             QSGFlatColorMaterial* material = new QSGFlatColorMaterial;
