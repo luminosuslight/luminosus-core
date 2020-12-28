@@ -10,7 +10,6 @@
 #include "core/manager/KeyboardEmulator.h"
 #include "core/manager/LogManager.h"
 #include "core/manager/ProjectManager.h"
-#include "core/manager/WebsocketConnection.h"
 #include "core/manager/StatusManager.h"
 
 #include "core/helpers/constants.h"
@@ -38,7 +37,6 @@ CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templat
     , m_keyboardEmulator(new KeyboardEmulator(this))
     , m_logManager(new LogManager(this))
     , m_projectManager(new ProjectManager(this))
-    , m_websocketConnection(new WebsocketConnection(this))
     , m_developerMode(false)
     , m_clickSounds(false)
     , m_templateFileToImport(templateFile)
@@ -57,7 +55,6 @@ CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templat
     qmlRegisterAnonymousType<KeyboardEmulator>("Luminosus", 1);
     qmlRegisterAnonymousType<LogManager>("Luminosus", 1);
     qmlRegisterAnonymousType<ProjectManager>("Luminosus", 1);
-    qmlRegisterAnonymousType<WebsocketConnection>("Luminosus", 1);
 
     // Tell QML that these objects are owned by C++ and should not be deleted by the JS GC:
     // This is very important because otherwise SEGFAULTS will appear randomly!
@@ -71,7 +68,6 @@ CoreController::CoreController(QQmlApplicationEngine* qmlEngine, QString templat
     QQmlEngine::setObjectOwnership(m_keyboardEmulator.get(), QQmlEngine::CppOwnership);
     QQmlEngine::setObjectOwnership(m_logManager.get(), QQmlEngine::CppOwnership);
     QQmlEngine::setObjectOwnership(m_projectManager.get(), QQmlEngine::CppOwnership);
-    QQmlEngine::setObjectOwnership(m_websocketConnection.get(), QQmlEngine::CppOwnership);
 
     registerManager("statusManager", new StatusManager(this));
 }
@@ -123,7 +119,6 @@ void CoreController::saveAll() {
     appState["currentProject"_q] = m_projectManager->getCurrentProjectName();
     appState["developerMode"_q] = getDeveloperMode();
     appState["clickSounds"_q] = getClickSounds();
-    appState["websocketConnection"_q] = m_websocketConnection->getState();
 
     for (auto managerName: m_manager.keys()) {
         const auto* objectWithAttributes = dynamic_cast<const ObjectWithAttributes*>(m_manager[managerName]);
@@ -161,7 +156,6 @@ void CoreController::restoreApp() {
     m_guiManager->readFrom(appState);
     setDeveloperMode(appState["developerMode"_q].toBool());
     setClickSounds(appState["clickSounds"_q].toBool());
-    m_websocketConnection->setState(appState["websocketConnection"_q].toMap());
 
     for (auto managerName: m_manager.keys()) {
         auto* objectWithAttributes = dynamic_cast<ObjectWithAttributes*>(m_manager[managerName]);
