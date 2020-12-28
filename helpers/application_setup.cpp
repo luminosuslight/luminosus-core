@@ -15,8 +15,6 @@
 #include "core/qtquick_items/IrregularCircleItem.h"
 #include "core/qtquick_items/IrregularCircleOutline.h"
 #include "core/qtquick_items/IrregularCircleOutlineTwoColored.h"
-#include "core/qtquick_items/ShadowedRectangle.h"
-#include "core/qtquick_items/ShadowedTexture.h"
 
 #include "core/CoreController.h"
 #include "core/manager/FileSystemManager.h"
@@ -67,10 +65,6 @@ void registerQtQuickItems() {
     qmlRegisterType<IrregularCircleItem>("CustomElements", 1, 0, "IrregularCircle");
     qmlRegisterType<IrregularCircleOutline>("CustomElements", 1, 0, "IrregularCircleOutline");
     qmlRegisterType<IrregularCircleOutlineTwoColored>("CustomElements", 1, 0, "IrregularCircleOutlineTwoColored");
-
-    qmlRegisterUncreatableType<BorderGroup>(uri, 2, 12, "BorderGroup", QStringLiteral("Used as grouped property"));
-    qmlRegisterUncreatableType<ShadowGroup>(uri, 2, 12, "ShadowGroup", QStringLiteral("Used as grouped property"));
-    qmlRegisterUncreatableType<CornersGroup>(uri, 2, 12, "CornersGroup", QStringLiteral("Used as grouped property"));
 
     qRegisterMetaType<TouchAreaEvent>();
     qmlRegisterAnonymousType<TouchAreaEvent>("Luminosus", 1);
