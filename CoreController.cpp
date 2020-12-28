@@ -19,6 +19,7 @@
 
 #include <QCborMap>
 #include <QFileInfo>
+#include <QNetworkAccessManager>
 
 #ifdef Q_OS_ANDROID
 #include <QAndroidJniEnvironment>

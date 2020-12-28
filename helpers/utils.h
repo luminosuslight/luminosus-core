@@ -5,6 +5,7 @@
 #include <QDataStream>
 #include <QByteArray>
 #include <QCborMap>
+#include <QIODevice>
 
 #include <algorithm>
 #include <chrono>
