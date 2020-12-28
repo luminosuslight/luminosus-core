@@ -69,15 +69,6 @@
         <file>ui/items/ring_shader.frag</file>
         <file>ui/items/DotProgressIndicator.qml</file>
         <file>ui/controls/AttributeOptionPicker.qml</file>
-        <file>qtquick_items/scenegraph/shaders/header_desktop_core.glsl</file>
-        <file>qtquick_items/scenegraph/shaders/header_desktop.glsl</file>
-        <file>qtquick_items/scenegraph/shaders/header_es.glsl</file>
-        <file>qtquick_items/scenegraph/shaders/sdf.glsl</file>
-        <file>qtquick_items/scenegraph/shaders/shadowedborderrectangle.frag</file>
-        <file>qtquick_items/scenegraph/shaders/shadowedbordertexture.frag</file>
-        <file>qtquick_items/scenegraph/shaders/shadowedrectangle.frag</file>
-        <file>qtquick_items/scenegraph/shaders/shadowedrectangle.vert</file>
-        <file>qtquick_items/scenegraph/shaders/shadowedtexture.frag</file>
         <file>ui/items/ShadowedImage.qml</file>
         <file>ui/blocks/ConnectionCycleBlock.qml</file>
     </qresource>
