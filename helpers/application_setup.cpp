@@ -67,8 +67,6 @@ void registerQtQuickItems() {
     qmlRegisterType<IrregularCircleItem>("CustomElements", 1, 0, "IrregularCircle");
     qmlRegisterType<IrregularCircleOutline>("CustomElements", 1, 0, "IrregularCircleOutline");
     qmlRegisterType<IrregularCircleOutlineTwoColored>("CustomElements", 1, 0, "IrregularCircleOutlineTwoColored");
-    qmlRegisterType<ShadowedRectangle>("CustomElements", 1, 0, "ShadowedRectangle");
-    qmlRegisterType<ShadowedTexture>("CustomElements", 1, 0, "ShadowedTexture");
 
     qmlRegisterUncreatableType<BorderGroup>(uri, 2, 12, "BorderGroup", QStringLiteral("Used as grouped property"));
     qmlRegisterUncreatableType<ShadowGroup>(uri, 2, 12, "ShadowGroup", QStringLiteral("Used as grouped property"));
