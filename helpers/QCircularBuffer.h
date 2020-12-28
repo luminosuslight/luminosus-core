@@ -111,7 +111,7 @@ protected:
 	}
 
 	void *allocate(int count, size_t sizeOfT)
-	{ return operator new[](count * sizeOfT); }
+    { return operator new[](size_t(count) * sizeOfT); }
 	void deallocate(void *p)
 	{ operator delete[](p); }
 
@@ -594,13 +594,11 @@ public:
 
 	QCircularBuffer<T> &operator+=(const T &other) { append(other); return *this; }
 	QCircularBuffer<T> &operator+=(const QCircularBuffer<T> &other);
-	QCircularBuffer<T> &operator+=(const QVector<T> &other);
-	QCircularBuffer<T> &operator+=(const QList<T> &other);
+    QCircularBuffer<T> &operator+=(const QVector<T> &other);
 
 	QCircularBuffer<T> &operator<<(const T &other) { append(other); return *this; }
 	QCircularBuffer<T> &operator<<(const QCircularBuffer<T> &other) { *this += other; return *this; }
-	QCircularBuffer<T> &operator<<(const QVector<T> &other) { *this += other; return *this; }
-	QCircularBuffer<T> &operator<<(const QList<T> &other) { *this += other; return *this; }
+    QCircularBuffer<T> &operator<<(const QVector<T> &other) { *this += other; return *this; }
 
 	inline bool isSharedWith(const QCircularBuffer &other) const { return d == other.d; }
 
@@ -1276,19 +1274,6 @@ QCircularBuffer<T> &QCircularBuffer<T>::operator+=(const QCircularBuffer<T> &oth
 
 template <typename T>
 QCircularBuffer<T> &QCircularBuffer<T>::operator+=(const QVector<T> &other)
-{
-	d.detach();
-	// How many items do we need to copy? No point in ever copying across a number
-	// greater than capacity
-	int numToCopy = qMin(other.size(), d->capacity);
-	int offset = other.size() - numToCopy;
-	for (int i = 0; i < numToCopy; ++i)
-		append(other.at(offset + i));
-	return *this;
-}
-
-template <typename T>
-QCircularBuffer<T> &QCircularBuffer<T>::operator+=(const QList<T> &other)
 {
 	d.detach();
 	// How many items do we need to copy? No point in ever copying across a number
