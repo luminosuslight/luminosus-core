@@ -54,7 +54,6 @@ HEADERS += \
     $$PWD/connections/Matrix.h \
     $$PWD/connections/NodeData.h \
     $$PWD/connections/Nodes.h \
-    $$PWD/helpers/AsyncWebSocket.h \
     $$PWD/helpers/QCircularBuffer.h \
     $$PWD/helpers/SmartAttribute.h \
     $$PWD/helpers/application_setup.h \
@@ -102,7 +101,6 @@ SOURCES += \
     $$PWD/connections/Matrix.cpp \
     $$PWD/connections/NodeData.cpp \
     $$PWD/connections/Nodes.cpp \
-    $$PWD/helpers/AsyncWebSocket.cpp \
     $$PWD/helpers/SmartAttribute.cpp \
     $$PWD/helpers/application_setup.cpp \
     $$PWD/manager/AnchorManager.cpp \
