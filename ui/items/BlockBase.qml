@@ -191,7 +191,7 @@ Item {
 
         Connections {
             target: root.block
-            onPositionChangedExternal: {
+            function onPositionChangedExternal() {
                 kineticEffect.setValue(root.x, root.y)
             }
         }
