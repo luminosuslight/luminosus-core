@@ -34,7 +34,7 @@ Rectangle {
 
     Connections {
         target: block
-        onFocusedChanged: if (!block.focused) active = false
+        function onFocusedChanged()  { if (!block.focused) active = false; }
     }
 
     CustomTouchArea {

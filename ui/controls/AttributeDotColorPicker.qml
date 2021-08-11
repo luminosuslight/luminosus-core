@@ -265,7 +265,7 @@ Item {
         }
         Connections {
             target: attr
-            onValueChanged: controller.midiMapping().sendFeedback(extInputH.mappingID, attr.hue)
+            function onValueChanged() { controller.midiMapping().sendFeedback(extInputH.mappingID, attr.hue); }
         }
     }
     Item {
@@ -279,7 +279,7 @@ Item {
         }
         Connections {
             target: attr
-            onValueChanged: controller.midiMapping().sendFeedback(extInputS.mappingID, attr.sat)
+            function onValueChanged() { controller.midiMapping().sendFeedback(extInputS.mappingID, attr.sat); }
         }
     }
     Item {
@@ -293,7 +293,7 @@ Item {
         }
         Connections {
             target: attr
-            onValueChanged: controller.midiMapping().sendFeedback(extInputV.mappingID, attr.val)
+            function onValueChanged() { controller.midiMapping().sendFeedback(extInputV.mappingID, attr.val); }
         }
     }
     Component.onCompleted: {
