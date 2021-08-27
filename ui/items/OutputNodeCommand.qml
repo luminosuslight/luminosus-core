@@ -73,7 +73,7 @@ Item {
             Component.onCompleted: opacity = (node.focused && !node.isConnected) ? 1.0 : 0.0
             Connections {
                 target: node
-                onFocusedChanged: suggestionsColumn.opacity = (node.focused && !node.isConnected) ? 1.0 : 0.0
+                function onFocusedChanged() { suggestionsColumn.opacity = (node.focused && !node.isConnected) ? 1.0 : 0.0; }
             }
 
             Repeater {

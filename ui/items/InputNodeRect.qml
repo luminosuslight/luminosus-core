@@ -44,7 +44,7 @@ Item {
 
     Connections {
         target: node
-        onFocusedChanged: if (node.focused) suggestionsLoader.active = true
+        function onFocusedChanged() { if (node.focused) suggestionsLoader.active = true; }
     }
 
     Loader {
@@ -70,7 +70,7 @@ Item {
             Component.onCompleted: opacity = (node.focused && !node.isConnected) ? 1.0 : 0.0
             Connections {
                 target: node
-                onFocusedChanged: suggestionsColumn.opacity = (node.focused && !node.isConnected) ? 1.0 : 0.0
+                function onFocusedChanged() { suggestionsColumn.opacity = (node.focused && !node.isConnected) ? 1.0 : 0.0; }
             }
 
             Repeater {

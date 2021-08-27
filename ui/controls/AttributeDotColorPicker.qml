@@ -200,7 +200,7 @@ Item {
 
                         Connections {
                             target: attr
-                            onValueChanged: touchArea.setCursorPosition(attr.hue)
+                            function onValueChanged() { touchArea.setCursorPosition(attr.hue); }
                         }
                         Component.onCompleted: {
                             touchArea.setCursorPosition(attr.hue)

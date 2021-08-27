@@ -44,7 +44,7 @@ Item {
 
     Connections {
         target: node
-        onFocusedChanged: if (node.focused) suggestionsLoader.active = true
+        function onFocusedChanged() { if (node.focused) suggestionsLoader.active = true; }
     }
 
     Loader {
