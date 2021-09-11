@@ -11,6 +11,7 @@ class ColoredPointsItem : public QQuickItem {
     Q_PROPERTY(QColor color1 READ color1 WRITE setColor1 NOTIFY color1Changed)
     Q_PROPERTY(QColor color2 READ color2 WRITE setColor2 NOTIFY color2Changed)
     Q_PROPERTY(double pointSize READ pointSize WRITE setPointSize NOTIFY pointSizeChanged)
+    Q_PROPERTY(double gamma READ gamma WRITE setGamma NOTIFY gammaChanged)
     Q_PROPERTY(const QVector<double>& xPositions READ xPositions WRITE setXPositions NOTIFY positionsChanged)
     Q_PROPERTY(const QVector<double>& yPositions READ yPositions WRITE setYPositions NOTIFY positionsChanged)
     Q_PROPERTY(const QVector<double>& colorValues READ colorValues WRITE setColorValues NOTIFY colorValuesChanged)
@@ -25,6 +26,7 @@ signals:
     void color1Changed(const QColor& color);
     void color2Changed(const QColor& color);
     void pointSizeChanged(double width);
+    void gammaChanged(double value);
     void positionsChanged();
     void colorValuesChanged();
 
@@ -36,11 +38,13 @@ public slots:
     QColor color2() const { return m_color2; }
 
     double pointSize() const { return m_pointSize; }
+    double gamma() const { return m_gamma; }
     const QVector<double>& xPositions() const { return m_xPositions; }
     const QVector<double>& yPositions() const { return m_yPositions; }
     const QVector<double>& colorValues() const { return m_colorValues; }
 
     void setPointSize(double width);
+    void setGamma(double value);
     void setXPositions(const QVector<double>& values);
     void setYPositions(const QVector<double>& values);
     void setColorValues(const QVector<double>& values);
@@ -49,6 +53,7 @@ private:
     QColor m_color1;
     QColor m_color2;
     double m_pointSize;
+    double m_gamma;
     QVector<double> m_xPositions;
     QVector<double> m_yPositions;
     QVector<double> m_colorValues;

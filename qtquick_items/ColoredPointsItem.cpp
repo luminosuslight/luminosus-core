@@ -45,6 +45,14 @@ void ColoredPointsItem::setPointSize(double width) {
     update();
 }
 
+void ColoredPointsItem::setGamma(double value) {
+    if (m_gamma == value) return;
+
+    m_gamma = value;
+    emit gammaChanged(value);
+    update();
+}
+
 void ColoredPointsItem::setXPositions(const QVector<double>& values) {
     m_xPositions = values;
     emit positionsChanged();
@@ -134,7 +142,7 @@ QSGNode* ColoredPointsItem::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeDat
         // c is a ratio between 0-1 to define the position between the two colors
         // c == 0.0 means color1, 1.0 means color2 and 0.5 means exactly in the middle
         // of a HSV fade between both
-        const double c = m_colorValues[i];
+        const double c = std::pow(m_colorValues[i], m_gamma);
         const double cInv = 1.0 - c;
 
         QColor pointColor = QColor::fromHsvF(h1 * cInv + h2 * c,
