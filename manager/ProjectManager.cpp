@@ -351,7 +351,7 @@ void ProjectManager::loadProjectState(QString name, bool animated) {
 
 	// restore project related settings:
     const double dp = m_controller->guiManager()->getGuiScaling();
-    m_controller->guiManager()->setWorkspacePosition(projectState["planeX"_q].toDouble() * dp, projectState["planeY"_q].toDouble() * dp);
+    //m_controller->guiManager()->setWorkspacePosition(projectState["planeX"_q].toDouble() * dp, projectState["planeY"_q].toDouble() * dp);
     // TODO: restore plane scale
     m_controller->blockManager()->setDisplayedGroup(projectState["displayedGroup"_q].toString());
     m_controller->anchorManager()->setState(projectState["anchors"_q].toMap());
