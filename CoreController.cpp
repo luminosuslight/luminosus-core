@@ -144,7 +144,7 @@ void CoreController::restoreApp() {
     m_dao->saveFile("", "luminosus.lock", QByteArray());
 
     // TODO: move this to other controller
-    QStringList combinations{"PowerPoint Fixture.lbc"};
+    QStringList combinations;//{"PowerPoint Fixture.lbc"};
     for (QString filename: combinations) {
         if (!m_dao->fileExists("combinations", filename)) {
             m_dao->importFile(":/core/data/" + filename, "combinations", true);
@@ -173,7 +173,7 @@ void CoreController::restoreApp() {
     emit managersInitialized();
 
 #ifndef Q_OS_ANDROID
-    if (lockExisted) {
+    if (false) {
 #else
     if (false) {
 #endif
@@ -188,7 +188,7 @@ void CoreController::restoreApp() {
     } else if (appState["version"_q].toDouble() < 0.3) {
         onFirstStart();
     } else {
-        m_projectManager->setCurrentProject(appState["currentProject"_q].toString());
+        m_projectManager->setCurrentProject(appState["currentProject"_q].toString(), true, /*animated=*/ false);
     }
 }
 

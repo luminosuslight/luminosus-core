@@ -35,7 +35,7 @@ TextInput {
         text: hintText
         visible: parent.displayText === ""
         color: "#aaa"
-        font.pixelSize: 18*dp
+        font.pixelSize: root.font.pixelSize
         font.family: root.font.family
 		verticalAlignment:  Text.AlignVCenter
         horizontalAlignment: root.horizontalAlignment
