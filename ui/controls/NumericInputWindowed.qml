@@ -309,7 +309,7 @@ Item {
             Keys.onEscapePressed: escButton.simulatePress()
             Keys.onEnterPressed: enterButton.simulatePress()
             Keys.onReturnPressed: enterButton.simulatePress()
-            Keys.onPressed: {
+            Keys.onPressed: (event) => {
                 if (event.key === Qt.Key_Backspace) {
                     backspaceButton.simulatePress()
                 } else if (event.key === Qt.Key_Period || event.key === Qt.Key_Comma) {

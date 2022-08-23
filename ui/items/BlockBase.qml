@@ -1,5 +1,5 @@
 import QtQuick 2.5
-import QtGraphicalEffects 1.12
+import Qt5Compat.GraphicalEffects
 import CustomElements 1.0
 
 Item {
@@ -131,7 +131,7 @@ Item {
 	// ------------------ Keyboard Handling ----------------------
 
 	// Delete Key:
-	Keys.onDeletePressed: {
+    Keys.onDeletePressed: (event) => {
         if (block.focused && !ignoreKeyboardShortcuts) {
             block.deletedByUser()
 			event.accepted = true
@@ -139,7 +139,7 @@ Item {
 	}
 
     // Ctrl + D, Ctrl + C and Ctrl + X:
-	Keys.onPressed: {
+    Keys.onPressed: (event) => {
         if (!block.focused || ignoreKeyboardShortcuts) return;
 		if (event.key === Qt.Key_D && (event.modifiers & Qt.ControlModifier)) {
 			controller.blockManager().duplicateFocusedBlock()

@@ -39,10 +39,10 @@ void preQApplicationCreation() {
 //    qputenv("QML_DISABLE_DISK_CACHE", "1");
 //#endif
     //setenv("QSG_INFO", "1", /*overwrite=*/ 1);
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QApplication::setAttribute(Qt::AA_SynthesizeTouchForUnhandledMouseEvents, false);
+    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    QGuiApplication::setAttribute(Qt::AA_SynthesizeTouchForUnhandledMouseEvents, false);
 #if !defined Q_OS_ANDROID && !defined Q_OS_IOS
-    QApplication::setAttribute(Qt::AA_SynthesizeMouseForUnhandledTouchEvents, false);
+    QGuiApplication::setAttribute(Qt::AA_SynthesizeMouseForUnhandledTouchEvents, false);
 #endif
 }
 
@@ -107,11 +107,11 @@ void setupDpProperty(QQmlApplicationEngine& engine) {
     qInfo() << "Custom GUI scale factor (dp unit): " << scaleFactor;
 }
 
-void preparePauseAndShutdown(QApplication& app, QQmlApplicationEngine& engine, CoreController& controller) {
+void preparePauseAndShutdown(QGuiApplication& app, QQmlApplicationEngine& engine, CoreController& controller) {
     QObject::connect(&app, SIGNAL(aboutToQuit()), &controller, SLOT(onExit()));
     QObject::connect(&engine, SIGNAL(quit()), &app, SLOT(quit())); // to make Qt.quit() to work
 
-    QObject::connect(&app, &QApplication::applicationStateChanged, [&controller](Qt::ApplicationState state){
+    QObject::connect(&app, &QGuiApplication::applicationStateChanged, [&controller](Qt::ApplicationState state){
         if (state == Qt::ApplicationState::ApplicationSuspended) {
             controller.saveAll();
             controller.dao()->deleteFile("", "luminosus.lock");
