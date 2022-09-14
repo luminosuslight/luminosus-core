@@ -3,6 +3,7 @@ import QtQuick 2.5
 import "./."  // to import custom Text
 
 Item {
+    property alias textItem: label
 	property alias text: label.text
 	property alias font: label.font
     property alias color: label.color
