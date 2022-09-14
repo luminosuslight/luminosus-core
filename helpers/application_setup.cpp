@@ -31,7 +31,7 @@ void preQApplicationCreation() {
     // (using QApplication instead of smaller QGuiApplication to support QWidget based
     // FileDialogs on Linux)
 #ifdef Q_OS_LINUX
-    setenv("QSG_RENDER_LOOP", "windows", /*overwrite=*/ 1);
+    //setenv("QSG_RENDER_LOOP", "windows", /*overwrite=*/ 1);
 #endif
 //#ifdef Q_OS_IOS
 //    // disable QML cache on iOS for now because it doesn't work with Qt 5.10 and iOS 11.2 beta
