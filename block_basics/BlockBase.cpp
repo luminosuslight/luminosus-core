@@ -453,14 +453,20 @@ void BlockBase::hideGui() {
     m_guiShouldBeHidden = true;
     QQuickItem* item = getGuiItem();
     if (!item) return;
-    m_guiItemParent = item->parentItem();
-    item->setParentItem(nullptr);
+    if (item->parentItem()) {
+        m_guiItemParent = item->parentItem();
+        item->setParentItem(nullptr);
+    }
 }
 
 void BlockBase::unhideGui() {
     m_guiShouldBeHidden = false;
     QQuickItem* item = getGuiItem();
-    if (!item) return;
+    if (!item) {
+        createGuiItem();
+        item = getGuiItem();
+        if (!item) return;
+    }
     item->setParentItem(m_guiItemParent);
 }
 
