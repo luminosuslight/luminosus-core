@@ -1,5 +1,5 @@
 #include <QtGui>
-#include <QApplication>
+#include <QGuiApplication>
 #include <QtQuick>
 
 class CoreController;
@@ -14,6 +14,6 @@ void setupDpProperty(QQmlApplicationEngine& engine);
 
 void registerQtQuickItems();
 
-void preparePauseAndShutdown(QApplication& app, QQmlApplicationEngine& engine, CoreController& controller);
+void preparePauseAndShutdown(QGuiApplication& app, QQmlApplicationEngine& engine, CoreController& controller);
 
 }
