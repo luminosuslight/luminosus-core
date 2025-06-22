@@ -1,0 +1,107 @@
+
+set(PROJECT_HEADERS
+    ${PROJECT_HEADERS}
+    core/CoreController.h
+    core/block_basics/ConnectionCycleBlock.h
+    core/block_basics/GroupBlock.h
+    core/conversation/Command.h
+    core/conversation/ConversationActionInterface.h
+    core/conversation/SystemOutput.h
+    core/conversation/UserInput.h
+    core/helpers/ObjectWithAttributes.h
+    core/helpers/constants.h
+    core/helpers/qstring_literal.h
+    core/helpers/utils.h
+    core/manager/StatusManager.h
+    core/qtquick_items/BarGraphItem.h
+    core/qtquick_items/BezierCurve.h
+    core/qtquick_items/ColoredPointsItem.h
+    core/qtquick_items/CustomImagePainter.h
+    core/qtquick_items/IrregularCircleItem.h
+    core/qtquick_items/IrregularCircleOutline.h
+    core/qtquick_items/IrregularCircleOutlineTwoColored.h
+    core/qtquick_items/KineticEffect.h
+    core/qtquick_items/KineticEffect2D.h
+    core/qtquick_items/LineItem.h
+    core/qtquick_items/NodeConnectionLines.h
+    core/qtquick_items/PointsItem.h
+    core/qtquick_items/SpectrumItem.h
+    core/qtquick_items/StretchLayouts.h
+    core/qtquick_items/TouchArea.h
+    core/block_basics/BlockBase.h
+    core/block_basics/BlockInterface.h
+    core/block_basics/InOutBlock.h
+    core/block_basics/OneInputBlock.h
+    core/block_basics/OneOutputBlock.h
+    core/connections/Matrix.h
+    core/connections/NodeData.h
+    core/connections/Nodes.h
+    core/helpers/QCircularBuffer.h
+    core/helpers/SmartAttribute.h
+    core/helpers/application_setup.h
+    core/manager/AnchorManager.h
+    core/manager/BlockList.h
+    core/manager/BlockManager.h
+    core/manager/Engine.h
+    core/manager/FileSystemManager.h
+    core/manager/GuiManager.h
+    core/manager/HandoffManager.h
+    core/manager/KeyboardEmulator.h
+    core/manager/LogManager.h
+    core/manager/ProjectManager.h
+    core/version.h
+)
+
+set(PROJECT_SOURCES
+    ${PROJECT_SOURCES}
+    core/CoreController.cpp
+    core/block_basics/ConnectionCycleBlock.cpp
+    core/block_basics/GroupBlock.cpp
+    core/conversation/Command.cpp
+    core/conversation/SystemOutput.cpp
+    core/conversation/UserInput.cpp
+    core/helpers/ObjectWithAttributes.cpp
+    core/helpers/qstring_literal.cpp
+    core/manager/StatusManager.cpp
+    core/qtquick_items/BarGraphItem.cpp
+    core/qtquick_items/BezierCurve.cpp
+    core/qtquick_items/ColoredPointsItem.cpp
+    core/qtquick_items/CustomImagePainter.cpp
+    core/qtquick_items/IrregularCircleItem.cpp
+    core/qtquick_items/IrregularCircleOutline.cpp
+    core/qtquick_items/IrregularCircleOutlineTwoColored.cpp
+    core/qtquick_items/KineticEffect.cpp
+    core/qtquick_items/KineticEffect2D.cpp
+    core/qtquick_items/LineItem.cpp
+    core/qtquick_items/NodeConnectionLines.cpp
+    core/qtquick_items/PointsItem.cpp
+    core/qtquick_items/SpectrumItem.cpp
+    core/qtquick_items/StretchLayouts.cpp
+    core/qtquick_items/TouchArea.cpp
+    core/block_basics/BlockBase.cpp
+    core/block_basics/InOutBlock.cpp
+    core/block_basics/OneInputBlock.cpp
+    core/block_basics/OneOutputBlock.cpp
+    core/connections/Matrix.cpp
+    core/connections/NodeData.cpp
+    core/connections/Nodes.cpp
+    core/helpers/SmartAttribute.cpp
+    core/helpers/application_setup.cpp
+    core/manager/AnchorManager.cpp
+    core/manager/BlockList.cpp
+    core/manager/BlockManager.cpp
+    core/manager/Engine.cpp
+    core/manager/FileSystemManager.cpp
+    core/manager/GuiManager.cpp
+    core/manager/HandoffManager.cpp
+    core/manager/KeyboardEmulator.cpp
+    core/manager/LogManager.cpp
+    core/manager/ProjectManager.cpp
+)
+
+set(PROJECT_RESOURCES
+    ${PROJECT_RESOURCES}
+    core/data-core.qrc
+    core/ui-core.qrc
+    core/ui-images-core.qrc
+)
