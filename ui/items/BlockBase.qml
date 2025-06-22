@@ -1,5 +1,5 @@
 import QtQuick 2.5
-import QtGraphicalEffects 1.12
+import Qt5Compat.GraphicalEffects
 import CustomElements 1.0
 
 Item {

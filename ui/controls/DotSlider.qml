@@ -1,5 +1,5 @@
 import QtQuick 2.5
-import QtGraphicalEffects 1.12  // for canonical gradient
+import Qt5Compat.GraphicalEffects  // for canonical gradient
 import CustomStyle 1.0
 import CustomElements 1.0
 import "qrc:/core/ui/items"

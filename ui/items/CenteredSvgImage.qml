@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Window 2.0  // for Screen and HighDPI scaling
-import QtGraphicalEffects 1.12
+import Qt5Compat.GraphicalEffects
 
 Item {
     property real imageSize: Math.min(width, height)
