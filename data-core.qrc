@@ -2,6 +2,7 @@
     <qresource prefix="/core">
         <file>data/No Project (Crashed).lpr</file>
         <file>data/No Project.lpr</file>
+        <file>data/luminosus_websocket.cert</file>
     </qresource>
     <qresource prefix="/">
         <file>sounds/click.wav</file>
