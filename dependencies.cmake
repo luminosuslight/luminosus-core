@@ -105,3 +105,9 @@ set(PROJECT_RESOURCES
     core/ui-core.qrc
     core/ui-images-core.qrc
 )
+
+set(SHADERS_CORE
+    "core/ui/items/ring_shader.frag"
+    "core/ui/items/circle_shader.frag"
+    "core/ui/items/horseshoe_shader.frag"
+)
