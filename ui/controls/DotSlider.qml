@@ -33,10 +33,10 @@ CustomTouchArea {
         anchors.margins: 1*dp
         property variant lineWidth: (2.5*dp) / width
         property variant smoothness: 1.0 / width
-        property variant color: Style.primaryActionColor
-        property variant backgroundColor: "#333"
+        property color color: Style.primaryActionColor
+        property color backgroundColor: "#333"
         property variant value: root.value
-        fragmentShader: "qrc:/core/ui/items/ring_shader.frag"
+        fragmentShader: "qrc:/core/ui/items/ring_shader.frag.qsb"
     }
 
     Text {

@@ -64,9 +64,9 @@
         <file>ui/items/VerticalScrollView.qml</file>
         <file>ui/items/FallbackBlockGui.qml</file>
         <file>ui/blocks/GroupBlock.qml</file>
-        <file>ui/items/circle_shader.frag</file>
-        <file>ui/items/horseshoe_shader.frag</file>
-        <file>ui/items/ring_shader.frag</file>
+        <file>ui/items/circle_shader.frag.qsb</file>
+        <file>ui/items/horseshoe_shader.frag.qsb</file>
+        <file>ui/items/ring_shader.frag.qsb</file>
         <file>ui/items/DotProgressIndicator.qml</file>
         <file>ui/controls/AttributeOptionPicker.qml</file>
         <file>ui/items/ShadowedImage.qml</file>

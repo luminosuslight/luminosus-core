@@ -1,15 +1,21 @@
-#ifdef GL_ES
+#version 310 es
 precision mediump float;
-#endif
-varying highp vec2 qt_TexCoord0;
-uniform lowp float qt_Opacity;
-uniform lowp float lineWidth;
-uniform lowp float smoothness;
-uniform lowp vec4 color;
-uniform lowp vec4 backgroundColor;
-uniform lowp float value;
 
-// draws a horeshoe shaped ring in backgroundColor and a partial ring starting
+layout(location = 0) in highp vec2 qt_TexCoord0;
+
+layout(std140, binding = 0) uniform Params {
+    mat4 qt_Matrix;
+    float qt_Opacity;
+    lowp float lineWidth;
+    lowp float smoothness;
+    lowp vec4 color;
+    lowp vec4 backgroundColor;
+    lowp float value;
+};
+
+layout(location = 0) out lowp vec4 fragColor;
+
+// draws a horseshoe shaped ring in backgroundColor and a partial ring starting
 // from bottom left in clockwise direction with [value] percent in [color]
 
 void main() {
@@ -19,7 +25,7 @@ void main() {
     float outerBound = 1.0 - smoothstep(0.5 - smoothness, 0.5, r);
     float M_PI = 3.1415926535897932384626433832795;
     float angle = mod(atan(pos.y, pos.x) - M_PI * 0.7, M_PI * 2.0);
-    float active = step(angle / (2.0 * M_PI), value * 0.8);
+    float isActive = step(angle / (2.0 * M_PI), value * 0.8);
     float ringBackground = step(angle / (2.0 * M_PI), 0.8);
-    gl_FragColor = innerBound * outerBound * ((active*color) + (ringBackground*(1.0-active)*backgroundColor)) * qt_Opacity;
+    fragColor = innerBound * outerBound * ((isActive*color) + (ringBackground*(1.0-isActive)*backgroundColor)) * qt_Opacity;
 }

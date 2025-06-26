@@ -20,9 +20,9 @@ Item {
         height: 26*dp
         property variant lineWidth: (2.5*dp) / width
         property variant smoothness: 1.0 / width
-        property variant color: root.color
-        property variant backgroundColor: "#333"
+        property color color: root.color
+        property color backgroundColor: "#333"
         property variant value: progress
-        fragmentShader: "qrc:/core/ui/items/ring_shader.frag"
+        fragmentShader: "qrc:/core/ui/items/ring_shader.frag.qsb"
     }
 }
