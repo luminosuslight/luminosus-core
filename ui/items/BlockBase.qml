@@ -183,7 +183,7 @@ Item {
         KineticEffect2D {
             id: kineticEffect
             friction: 0.1
-            onMoving: {
+            onMoving: (position) => {
                 root.x = position.x
                 root.y = position.y
             }
@@ -196,16 +196,16 @@ Item {
             }
         }
 
-        onTouchDown: {
+        onTouchDown: (touch) => {
             positionAnimation.stop()
             kineticEffect.start(touch.x, touch.y)
         }
 
-        onTouchMove: {
+        onTouchMove: (touch) => {
             kineticEffect.update(touch.x, touch.y)
         }
 
-        onTouchUp: {
+        onTouchUp: (touch) => {
             kineticEffect.stop(touch.x, touch.y)
 
             // check if it is released in trash area:

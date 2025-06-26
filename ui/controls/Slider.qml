@@ -61,21 +61,21 @@ CustomTouchArea {
         friction: 0.18
         minValue: padding
         maxValue: parent.height - padding
-		onMoving: setValueByPosition(position)
+		onMoving: (position) => setValueByPosition(position)
     }
 
-    onTouchDown: {
+    onTouchDown: (touch) => {
         if (midiMappingEnabled) controller.midiMapping().guiControlHasBeenTouched(mappingID)
         kineticEffect.setValue(touch.itemY)
         kineticEffect.start(touch.itemY)
         setValueByPosition(touch.itemY)
     }
 
-	onTouchMove: {
+	onTouchMove: (touch) => {
         kineticEffect.update(Math.max(kineticEffect.minValue, Math.min(touch.itemY, kineticEffect.maxValue)))
     }
 
-	onTouchUp: {
+	onTouchUp: (touch) => {
         kineticEffect.stop(Math.max(kineticEffect.minValue, Math.min(touch.itemY, kineticEffect.maxValue)))
 	}
 
