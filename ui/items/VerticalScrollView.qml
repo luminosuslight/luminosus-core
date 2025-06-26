@@ -4,7 +4,6 @@ import CustomElements 1.0
 
 CustomTouchArea {
 	id: scrollArea
-	anchors.fill: parent
     clip: contentItem.y < 0
 	property Item contentItem
 
