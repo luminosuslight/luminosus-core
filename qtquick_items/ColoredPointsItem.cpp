@@ -5,6 +5,8 @@
 #include <QGuiApplication>
 #include <QScreen>
 
+#include <cmath>
+
 
 ColoredPointsItem::ColoredPointsItem(QQuickItem *parent)
     : QQuickItem(parent)
