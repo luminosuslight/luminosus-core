@@ -271,8 +271,10 @@ signals:
      * @brief scrollEvent is emitted when the scroll wheel was moved or a scroll gesture performed
      * @param deltaX in pixel
      * @param deltaY in pixel
+     * @param mouseX mouse cursor X position within the item, in pixels
+     * @param mouseY mouse cursor Y position within the item, in pixels
      */
-    void scrollEvent(int deltaX, int deltaY);
+    void scrollEvent(int deltaX, int deltaY, int mouseX, int mouseY);
 
     /**
      * @brief pressedChanged is emitted when the pressed state changed

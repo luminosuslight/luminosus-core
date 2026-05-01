@@ -402,14 +402,16 @@ void TouchArea::mouseDoubleClickEvent(QMouseEvent* event) {
 
 void TouchArea::wheelEvent(QWheelEvent* event) {
     m_scrollEventAccepted = false;
+    const int mx = static_cast<int>(event->position().x());
+    const int my = static_cast<int>(event->position().y());
     if (!event->pixelDelta().isNull()) {
         QPoint px = event->pixelDelta();
-        emit scrollEvent(px.x(), px.y());
+        emit scrollEvent(px.x(), px.y(), mx, my);
     } else {
         QPoint dg = event->angleDelta();
         // one "step" is 120 units or 15 degree
         dg *= (TouchAreaConstants::pixelPerWheelStep / 120.0);
-        emit scrollEvent(dg.x(), dg.y());
+        emit scrollEvent(dg.x(), dg.y(), mx, my);
     }
     event->setAccepted(m_scrollEventAccepted);
 }
